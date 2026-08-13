@@ -1,0 +1,12 @@
+PerseusDL/canonical-greekLit:
+  ref: local
+  sha: local
+  tarball_url: local
+PerseusDL/canonical-latinLit:
+  ref: local
+  sha: local
+  tarball_url: local
+PerseusDL/canonical-pdlrefwk:
+  ref: local
+  sha: local
+  tarball_url: local

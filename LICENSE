@@ -1,0 +1,132 @@
+This snapshot is a modified redistribution of the Perseus Digital Library's
+Scaife Viewer plus a set of upstream open-source components. The overwhelming
+majority of the code, text, and data is NOT authored by Dan Meany and is
+NOT covered by the copyright notice below — see the "Upstream components"
+section at the end of this file and /licenses/ in the running app for the
+authoritative attribution and license of each upstream piece.
+
+================================================================================
+MIT License — applies ONLY to modifications and new files authored for
+this local, offline build (enumerated below).
+================================================================================
+
+Copyright (c) 2026 Dan Meany
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+Scope of the MIT grant above
+--------------------------------------------------------------------------------
+
+The MIT license above applies ONLY to files newly authored by Dan Meany
+for this local build, and to specific small modifications listed below.
+Everything else — the vast majority of the codebase, the text corpora,
+the dictionaries, and the commentaries — remains under its original
+upstream license and copyright and is NOT relicensed by this file.
+
+Newly authored files covered by the MIT grant above:
+  - LICENSE                                        (this file)
+  - README.md
+  - .gitignore
+  - bootstrap.sh
+  - scripts/fetch-data.sh
+  - deps/morpheus-combined/Dockerfile
+  - scaife/scaife-viewer-2026-03-27-001/Dockerfile-local
+  - scaife/scaife-viewer-2026-03-27-001/deploy/entrypoint-locked.sh
+  - scaife/scaife-viewer-2026-03-27-001/deploy/docker-compose.override.local.yml
+  - scaife/scaife-viewer-2026-03-27-001/data/content-manifests/local.yaml
+  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/localdict/**   (whole app)
+  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/localcomm/**   (whole app)
+  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/openapi_spec.py
+  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/templates/swagger.html
+  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/templates/licenses.html
+  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/templates/reader/reader.html
+
+Small modifications (still Perseus-derived; the MIT grant covers only the
+lines actually added or changed by Dan Meany, not the surrounding code):
+  - sv_pdl/settings.py                    (added STATICFILES_DIRS entry,
+                                           localdict + localcomm apps)
+  - sv_pdl/urls.py                        (URL routes for new views)
+  - sv_pdl/views.py                       (morpheus_local, openapi_json,
+                                           swagger_ui, licenses views;
+                                           removed dead-code proxies)
+  - sv_pdl/templates/site_base.html       (swapped 2 CDN <script> tags
+                                           for local static; added
+                                           {% load static %})
+  - sv_pdl/templates/app.html             (swapped polyfill.io for local)
+  - sv_pdl/templates/homepage.html        (added footer link block)
+  - deploy/docker-compose.yml             (SCAIFE_BIND env for ports)
+  - static/src/js/reader/widgets/WidgetPerseusDictionary.vue
+  - static/src/js/reader/widgets/WidgetTokenList.vue
+  - static/src/js/reader/widgets/WidgetWordList.vue
+  - static/src/js/reader/widgets/NewAlexandriaWidget.vue
+
+Downloaded third-party assets under `static/vendor/`:
+  - jquery.min.js                                       (jQuery — MIT)
+  - polyfill.min.js                                     (Financial Times — MIT)
+  - swagger-ui/*                                        (Apache 2.0)
+NOT covered by the MIT grant above — see each upstream project.
+
+================================================================================
+Upstream components (not owned or relicensed by Dan Meany)
+================================================================================
+
+  Scaife Viewer (the main Django+Vue application at
+    scaife/scaife-viewer-2026-03-27-001/, including sv_pdl/**, deploy/**,
+    static/**, sv_pdl/reading/**, sv_pdl/atlas/**, sv_pdl/stats/**,
+    sv_pdl/changelog/**, requirements*.txt, package*.json, migrations/**,
+    fixtures/**, and every file inside the app not enumerated above)
+                                                        MIT
+                                                        © 2017–2020 Perseus Digital Library
+
+  scaife-viewer-core, scaife-viewer-atlas (Python packages
+    installed as dependencies)                          MIT
+                                                        © 2017–2020 Perseus Digital Library
+
+  @scaife-viewer/* frontend packages                    MIT
+                                                        © 2017–2020 Perseus Digital Library
+
+  MyCapytain (jacobwegner fork)                         MPL 2.0
+
+  Perseids Morpheus (C engine)                          MPL 2.0
+  Perseids Morpheus API (Ruby Sinatra wrapper)          MIT
+                                                        © 2018 The Perseids Project
+
+  Text corpora — PerseusDL/canonical-greekLit,
+    canonical-latinLit, canonical-pdlrefwk              CC BY-SA 4.0
+                                                        © Perseus Digital Library
+
+  Dictionary TEI XML — PerseusDL/lexica
+    (full LSJ + Lewis & Short)                          CC BY-SA 4.0
+
+  Open Commentaries markdown content
+    (homer/pausanias/pindar.opencommentaries.org)       MIT
+                                                        © 2025–2026 New Alexandria Foundation
+
+  Swagger UI static assets                              Apache 2.0
+
+  Django, Vue 2, Apollo Client, axios, Bootstrap 4,
+  Font Awesome (free), jQuery, and other build-time
+  dependencies                                          MIT (mostly) / see each package
+
+For the authoritative license of each upstream project, consult the
+LICENSE / license.md file inside the corresponding directory under
+`deps/`, `data-sources/`, or the app's installed Python site-packages.
+The /licenses/ page in the running app renders the same summary as a
+browsable HTML table.

@@ -1,0 +1,117 @@
+body.reader {
+
+  .wrapper {
+    display: flex;
+    height: calc(100vh - 65px);
+    background: $gray-100;
+    position: relative;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    background: $white;
+    z-index: 900;
+
+    &#left-sidebar {
+      border-right: 1px solid $gray-300;
+      > div {
+        padding: 0px 5px 5px;
+        margin-top: -3px;
+      }
+    }
+    &#right-sidebar {
+      border-left: 1px solid $gray-300;
+      > div {
+        padding: 0px 5px 5px;
+        margin-top: -3px;
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm) {  // pusher
+    .sidebar {
+      max-width: 33%;
+      transition: max-width .2s;
+      position: relative;
+
+      &#left-sidebar {
+        flex: 1;
+      }
+      &#right-sidebar {
+        flex: 1;
+      }
+
+      &.collapsed {
+        flex: 1;
+        max-width: 0;
+        overflow: hidden;
+        opacity: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {  // pusher
+    .sidebar {
+      max-width: 600px;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {  // overlay
+    .sidebar {
+      height: 100%;
+      position: absolute;
+      max-width: 90%;
+      transition: max-width .2s;
+
+      &.both-opened {
+        max-width: 50%;
+      }
+
+      &#left-sidebar {
+        transition: left .2s;
+        left: 0;
+        &.collapsed {
+          left: -100%;
+        }
+      }
+      &#right-sidebar {
+        transition: right .2s;
+        right: 0;
+        &.collapsed {
+          right: -100%;
+        }
+      }
+    }
+  }
+
+  .open-left, .close-left, .open-right, .close-right {
+    @extend .btn;
+    @extend .btn-link;
+    color: $gray-500;
+  }
+
+  .open-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .close-right {
+    text-align: left;
+  }
+  .open-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .close-left {
+    text-align: right;
+  }
+
+  #content_body {
+    background: $white;
+    overflow-y: auto;
+    flex: 2;  // not needed for overlay case? (but doesn't hurt)
+  }
+}

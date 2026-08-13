@@ -1,0 +1,12 @@
+{% if ga_code %}
+{# @@@ add support for head scripts in pinax-web-analytics #}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga_code }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', '{{ ga_code }}');
+</script>
+{% endif %}

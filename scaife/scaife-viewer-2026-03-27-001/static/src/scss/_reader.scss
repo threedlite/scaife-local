@@ -1,0 +1,229 @@
+body.reader {
+
+  .passage-heading {
+    margin-bottom: 20px;
+    font-family: 'Noto Serif';
+    color: $gray-600;
+    h1 {
+      margin: 0;
+      font-weight: normal;
+      a {
+        color: inherit;
+      }
+    }
+    h2 {
+      margin: 0;
+      font-weight: normal;
+      font-style: italic;
+    }
+    h3 {
+      color: $gray-500;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    h1 {
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    h3 {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    h1 {
+      font-size: 18px;
+    }
+    h2 {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    h3 {
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
+  .overall {
+    .upper-lower {
+      display: flex;
+      justify-content: center;
+    }
+    .upper {
+      max-height: 40vh;
+      display: flex;
+      justify-content: center;
+      overflow-y: auto;
+    }
+    .lower {
+      border-top: 1px solid $gray-300;
+      padding-top: 10px;
+      max-height: 40vh;
+      display: flex;
+      justify-content: center;
+      overflow-y: auto;
+    }
+  }
+
+  .single {
+    flex: 4;
+  }
+  .pg-left, .pg-right {
+    flex: 1;
+    max-width: 100px;
+    min-height: calc(100vh - 250px);
+    a {
+      display: block;
+      color: transparent;
+      padding: 10px;
+      height: 100%;
+      text-align: center;
+      &:hover {
+        color: $gray-300;
+      }
+      span {
+        display: block;
+        position: sticky;
+        top: 38%;
+      }
+      font-size: 32px;
+      @include media-breakpoint-up(lg) {
+        font-size: 48px;
+      }
+    }
+  }
+  .pg-left {
+    margin-right: 5px;
+  }
+  .pg-right {
+    margin-left: 5px;
+  }
+
+  .left, .right {
+    padding: 0 0.5em;
+    flex: 10;
+  }
+
+  .overall[dir=rtl] {
+    .left {
+      border-left: 1px solid $gray-300;
+    }
+  }
+  .overall[dir=ltr] {
+    .right {
+      border-left: 1px solid $gray-300;
+    }
+  }
+
+  .side-delete {
+    float: right;
+  }
+
+  .btn-group.btn-group-left {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .btn-group.btn-group-left .dropdown-toggle {
+    padding: 0.2rem 0.5rem 0.2rem 0.3rem !important;
+    color: $gray-600;
+    background: $white;
+    border: none;
+    flex: 0 1 auto;
+    &:hover {
+      color: $black;
+    }
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .version-select {
+    // width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    text-align: left;
+    white-space: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: $gray-600;
+    font-family: 'Noto Serif';
+    .metadata {
+      font-family: 'Noto Sans';
+      color: $gray-500;
+      font-style: italic;
+      margin-top: 4px;
+      font-size: 12px;
+      line-height: 12px;
+    }
+  }
+  .version-option {
+    width: 100%;
+    max-width: 500px;
+    a {
+      white-space: normal;
+      padding: 0.25rem 1rem;
+      &:active {
+        .metadata {
+          color: $perseus-red-lighter;
+        }
+      }
+      &:hover {
+      }
+      &.remove {
+        padding: 0 1rem;
+        font-size: 14px;
+        color: $red;
+        &:active {
+          color: $white;
+        }
+      }
+      display: flex;
+      .side {
+        @extend .badge;
+        font-family: 'Noto Sans';
+        color: $gray-600;
+        background: $gray-200;
+        margin-right: 0.5em;
+      }
+    }
+    .label {
+      font-family: 'Noto Serif';
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    .description {
+      font-family: 'Noto Sans';
+      color: $gray-600;
+      font-size: 12px;
+      line-height: 14px;
+    }
+    .metadata {
+      font-family: 'Noto Serif';
+      color: $gray-800;
+      font-style: italic;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+  .text-loading:not(.partial-loader) {
+    transform: translate3d(0, 0, 0);  // to avoid flicker
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .text-loaded:not(.partial-loader) {
+    transform: translate3d(0, 0, 0);  // to avoid flicker
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+}
+
+.passage-redirect-alert {
+  @extend .alert;
+  @extend .alert-info;
+  @extend .text-info;
+  background: none;  // might consider doing this for all alerts
+}

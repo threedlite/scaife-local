@@ -1,0 +1,119 @@
+<template>
+  <div :class="['text', `text-${textSize}`, `text-width-${textWidth}`  ]" @mousedown="handleMouseDown">
+    <component
+      :class="{'text-loading': text === null, 'text-loaded': text !== null}"
+      :is="renderedText"
+    />
+  </div>
+</template>
+
+<script>
+/* FIXME: (charles) l. 301 in tei.xsl outputs what looks like
+a JSON object, which Vue tries and fails to parse. This error
+throws an "Error compiling template" warning. First noticed at
+https://scaife-dev.perseus.org/reader/urn:cts:greekLit:tlg0011.tlg003.1st1K-grc2:31-60/
+I'm not sure what the original intent behind this XSL output was -- maybe it was
+to be read and turned into a note dynamically? -- so I'm not sure how to go about
+fixing it. */
+import constants from '../constants';
+import TextLoader from '../components/TextLoader.vue';
+import TextPart from './TextPart.vue';
+import InlineToken from './InlineToken.vue';
+import RefLower from './RefLower.vue';
+
+import WIDGETS_NS from '@scaife-viewer/scaife-widgets';
+
+export default {
+  name: 'passage-render-text',
+  props: ['text', 'highlighting'],
+  watch: {
+    text: 'prepareText',
+  },
+  data() {
+    return {
+      renderedText: null,
+    };
+  },
+  computed: {
+    textSize() {
+      return this.$store.state[WIDGETS_NS].readerTextSize;
+    },
+    textWidth() {
+      return this.$store.state[WIDGETS_NS].readerTextWidth;
+    },
+  },
+  provide() {
+    return {
+      highlighting: this.highlighting,
+    };
+  },
+  created() {
+    this.prepareText();
+  },
+  methods: {
+    handleMouseDown(e) {
+      if (this.highlighting && this.$store.state.reader.textMode === 'clickable') {
+        e.preventDefault();
+      }
+    },
+    prepareText() {
+      if (this.text === null) {
+        // give the text fade out animation time to complete before
+        // we show the loader.
+        const delay = 250;
+        setTimeout(() => {
+          // check text before setting loader because it may have been
+          // loaded faster than our delay.
+          if (this.text === null) {
+            this.renderedText = TextLoader;
+          }
+        }, delay);
+      } else {
+        this.$nextTick(this.renderText);
+      }
+    },
+    renderText() {
+      let observer = null;
+      this.renderedText = {
+        template: this.text,
+        created() {
+          const opts = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0,
+          };
+          observer = new IntersectionObserver(this.ioCallback, opts);
+        },
+        mounted() {
+          this.$nextTick(() => {
+            this.$el.querySelectorAll('.textpart.o').forEach((e) => {
+              observer.observe(e);
+            });
+          });
+        },
+        destroy() {
+          observer.disconnect();
+          observer = null;
+        },
+        methods: {
+          ioCallback(entries) {
+            entries.forEach((entry) => {
+              if (entry) {
+                const vm = entry.target.__vue__; // eslint-disable-line no-underscore-dangle
+                if (vm) {
+                  vm.visible = entry.isIntersecting;
+                }
+              }
+            });
+          },
+        },
+        components: {
+          RefLower,
+          TextPart,
+          t: InlineToken,
+        },
+      };
+    },
+  },
+};
+</script>

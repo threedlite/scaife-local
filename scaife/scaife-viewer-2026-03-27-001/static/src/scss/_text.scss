@@ -1,0 +1,200 @@
+div.text {
+  font-family: 'Noto Serif', 'Noto Sans Coptic';
+}
+
+
+// from Nemo
+div.text {
+  .pb {
+    font-size: 80%;  // 0.5em;
+    // display: inline;
+    font-style: italic;
+    text-align: center;  // not originally in Nemo
+    color: $gray-500;  // grey;
+    &::before {
+      content: 'p.';
+    }
+  }
+  .milestone {
+    font-size: 80%;
+    font-style: italic;
+    text-align: center;
+    color: $gray-500;
+  }
+
+  .ex, .supplied, .unclear {
+    color: $gray-600;
+  }
+
+  .unclear {
+    text-decoration: underline dotted;
+  }
+
+  .lang_heb, .lang_ara, .lang_far {
+    text-align: right;
+  }
+
+  .lang_heb span.w::before {
+    content:" ";
+  }
+  .lang_cop span.phr::before {
+    content:" ";
+  }
+
+  .note {
+    color: $gray-600;
+    cursor: pointer;
+  }
+
+  .lang_far .poem > .b {
+    display: block;
+    > .textpart {
+      > .b {
+        display: block;
+        margin-bottom: 0.8em;
+        .seg {
+          display: block;
+          text-align: center;
+          &:nth-child(1) {
+          }
+          &:nth-child(2) {
+          }
+        }
+      }
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    .lang_far .poem > .b {
+      display: table;
+      > .textpart {
+        > .b {
+          display: table-row;
+          .seg {
+            display: table-cell;
+            white-space: nowrap;
+            &:nth-child(1) {
+              padding-left: 1em;
+              text-align: left;
+            }
+            &:nth-child(2) {
+              padding-right: 1em;
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// extras not from Nemo
+div.text {
+  .card {
+    /* reset bootstrap .card properties because of clash with class from xml */
+    border: none;
+    flex-direction: row;
+  }
+  blockquote {
+    margin: 1em 0 0 1em;
+    font-style: italic;
+  }
+  .lg {
+    margin: 1em 0;
+  }
+  .head {
+    margin: 2em 0;
+    text-align: center;
+    font-weight: bold;
+  }
+  .placeName {
+    color: $gray-600;
+    cursor: pointer;
+  }
+  .said .label, .speaker {
+    font-weight: bold;
+  }
+  blockquote + cite {
+    display: block;
+    text-align: right;
+    margin-bottom: 1em;
+  }
+
+  span.w.c:hover {
+    cursor: pointer;
+  }
+  span.w.selected, span.w.highlighted {
+    border-style: solid;
+    border-width: 0 0.1em 0.1em 0.15em;
+    margin: 0 -0.1em -0.1em -0.15em;
+  }
+  span.w.selected {
+    background-color: $selected-color;
+    border-color: $selected-color;
+  }
+  span.w.highlighted {
+    background-color: $highlight-color;
+    border-color: $highlight-color;
+  }
+  span.w.selected.highlighted {
+    background-color: mix($highlight-color, $selected-color);
+  }
+  .textpart {
+    display: flex;
+    & > .a {
+      &:hover {
+        text-decoration: none;
+      }
+      display: block;
+      color: transparent;
+      div:first-of-type {
+        top: 0px;
+      }
+      div {
+        position: sticky;
+        top: 20px;
+        text-align: center;
+        font-family: 'Noto Sans';
+        font-size: 12px;
+        transform: translate3d(0px, 0px, 0px);
+        padding-top: 4px;
+        user-select: none;
+      }
+      min-width: 24px;
+    }
+    &:hover > .a {
+      background: $gray-100;
+      &:hover {
+        background: $gray-400;
+        color: $black;
+        cursor: pointer;
+      }
+    }
+    & > .b {
+      padding: 0px 4px;
+    }
+    &.leaf > .b {
+      padding: 0px 12px;
+    }
+  }
+  &:hover {
+    .textpart {
+      > .a {
+        color: $gray-600;
+      }
+    }
+  }
+  .cRef {
+    color: purple;
+    &:hover {
+      color: lighten(purple, 20%);
+      cursor: pointer;
+    }
+  }
+  .ref-lower {
+    color: lighten(purple, 10%);
+    &:hover {
+      color: lighten(purple, 30%);
+      cursor: pointer;
+    }
+  }
+}

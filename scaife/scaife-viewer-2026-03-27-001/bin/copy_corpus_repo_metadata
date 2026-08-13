@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+# NOTE: This script should be ran before ingesting data into ATLAS
+
+DATA_DIR=${ATLAS_DATA_DIR:-atlas_data}
+REPO_METADATA_DIR=${DATA_DIR}/annotations/repo-metadata
+
+mkdir -p ${REPO_METADATA_DIR}
+
+cp ${SCAIFE_VIEWER_JSON:-data/cts/.scaife-viewer.json} ${REPO_METADATA_DIR}/corpus-metadata.json

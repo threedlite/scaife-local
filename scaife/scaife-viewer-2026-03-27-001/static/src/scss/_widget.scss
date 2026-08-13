@@ -1,0 +1,412 @@
+.widget {
+  padding: 0 8px 8px 8px;
+  border-bottom: 1px solid $gray-200;
+  &:first-of-type {
+    border-top: 1px solid $gray-200;
+  }
+  .sticky-block {
+    position: sticky;
+    // NOTE: This _shouldn't_ be necessary, but setting to -1px
+    //  prevents "bleed" when scrolling the sidebars
+    top: -1px;
+    z-index: 1000;
+  }
+  h2 {
+    background: $white;
+    padding: 15px 0 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 0;
+    color: $gray-600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    > span:first-of-type {
+      display: flex;
+      .open-toggle {
+        min-width: 1.5em;
+        color: $gray-400;
+      }
+      &:hover .open-toggle {
+        color: $gray-600;
+      }
+    }
+    .fixed-toggle {
+      opacity: 0;
+      max-width: 2em;
+      color: $gray-400;
+      text-align: right;
+      &:hover {
+        color: $gray-600;
+      }
+    }
+  }
+  h3 {
+    background: $white;
+    padding: 15px 0 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin: 0 0 0 22px !important;
+    color: $gray-600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+  &:hover .fixed-toggle {
+    opacity: 1;
+  }
+  div.sticky-body {
+    background: $white;
+  }
+  div.body {
+    position: relative;
+    margin: 0;
+    &.fixed {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  }
+}
+
+.widget.children,
+.widget.ancestors {
+  div.body {
+    font-family: "Noto Serif";
+    font-size: 12px;
+    line-height: 16px;
+    a {
+      padding-right: 0.2em;
+    }
+  }
+}
+
+.widget.children {
+  div.body {
+    a:not(:last-child):after {
+      content: " ";
+    }
+  }
+}
+
+.widget.passage-links {
+  div.body {
+    font-size: 13px;
+    line-height: 15px;
+    p {
+      display: flex;
+      .side {
+        @extend .badge;
+        color: $gray-600;
+        background: $gray-100;
+        margin-right: 0.5em;
+      }
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.widget.passage-exports {
+  div.body {
+    font-size: 14px;
+    line-height: 16px;
+    p {
+      margin-left: 22px;
+      display: flex;
+      .side {
+        @extend .badge;
+        color: $gray-600;
+        background: $gray-100;
+        margin-right: 0.5em;
+      }
+      margin-bottom: 0.5rem;
+      .links {
+        font-style: italic;
+        color: $gray-600;
+        a {
+          font-style: normal;
+        }
+      }
+    }
+  }
+}
+
+.widget.perseus-commentary {
+  div.body {
+    font-size: 12px;
+    font-family: "Noto Serif";
+    color: $gray-700;
+
+    .comment-body {
+      padding-right: 4px;
+    }
+  }
+}
+
+.widget.perseus-dictionary {
+  div.body {
+    font-size: 12px;
+    font-family: "Noto Serif";
+    color: $gray-700;
+
+    .senses {
+      padding-left: 1rem;
+    }
+  }
+}
+
+.widget.selected-word {
+  div.body {
+    font-family: "Noto Serif";
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.widget.word-list {
+  div.body {
+    font-size: 12px;
+    font-family: "Noto Serif";
+    color: $gray-700;
+  }
+  p.legend {
+    padding: 4px 0 8px;
+    font-size: 12px;
+    font-family: "Noto Serif";
+    font-style: italic;
+    line-height: 12px;
+    color: $gray-600;
+  }
+  p {
+    margin: 0;
+  }
+  span.w {
+    font-weight: bold;
+  }
+  span.df {
+    color: $gray-600;
+  }
+}
+
+.widget.token-list {
+  div.body {
+    color: $gray-700;
+    font-size: 12px;
+    td {
+      padding-left: 1em;
+    }
+    .text {
+      font-family: "Noto Serif";
+    }
+    .parse {
+      font-family: monospace;
+      color: $gray-600;
+    }
+  }
+}
+
+.widget.text-mode {
+  .mode a {
+    padding: 3px 6px;
+    font-family: "Noto Serif";
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: $gray-500;
+    &.active {
+      color: $black;
+      &:hover {
+        color: $black;
+      }
+    }
+    &:hover {
+      color: $gray-700;
+      background: $gray-200;
+    }
+  }
+  .help {
+    margin-left: 6px;
+    font-size: 11px;
+    color: $gray-600;
+  }
+}
+
+.widget.passage-reference {
+  div.body {
+    padding: 3px;
+  }
+}
+
+.widget.highlight {
+  div.body {
+    padding: 3px;
+  }
+}
+
+.widget.search {
+  .search-input {
+    padding: 4px 0 0;
+    label {
+      color: $gray-600;
+      font-size: 12px;
+      padding: 4px 8px 0 4px;
+      vertical-align: middle;
+    }
+  }
+  div.body {
+    padding: 3px;
+
+    .search-hits {
+      margin: 0;
+
+      p.instructions,
+      p.no-results {
+        font-size: 12px;
+        color: $gray-600;
+        margin: 0;
+      }
+      ul {
+        list-style: none;
+        padding: 0 4px;
+        li {
+          font-family: "Noto Serif";
+          font-size: 12px;
+          line-height: 14px;
+          margin-top: 4px;
+          &:first-of-type {
+            margin-top: 0;
+          }
+          a {
+            padding-left: 14px;
+            color: $gray-600;
+            &.active {
+              padding-left: 4px;
+              color: $black;
+              &::before {
+                content: "> ";
+              }
+            }
+            &:hover {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.widget.new-alexandria-commentary {
+  div.body {
+    font-size: 12px;
+    font-family: "Noto Serif";
+    color: $gray-700;
+  }
+  p.no-comment {
+    margin: 0 0 0 22px;
+    color: $gray-600;
+  }
+  .comment {
+    margin: 2em 0;
+    h6,
+    h4 {
+      font-family: "Noto Serif";
+      font-size: 1rem;
+      margin-bottom: 0;
+      font-weight: normal;
+    }
+    .commenter-name {
+      font-size: 12px;
+      color: $gray-600;
+      font-weight: bold;
+    }
+    .comment-text p {
+      margin-top: 1em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.widget.morpheus {
+  div.body {
+    font-size: 12px;
+    font-family: "Noto Serif";
+    color: $gray-700;
+  }
+  p.no-results {
+    margin: 0 0 0 22px;
+    color: $gray-600;
+  }
+  p.instructions {
+    font-family: "Noto Sans";
+    font-size: 12px;
+    color: $gray-600;
+    margin: 0 0 0 22px;
+    span.mode {
+      color: $black;
+      font-family: "Noto Serif";
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+  }
+  .group {
+    margin-top: 1em;
+    &:first-of-type {
+      margin-top: 0;
+    }
+    .head {
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .hdwd {
+        font-weight: bold;
+      }
+      .pofs-decl {
+        margin-left: 1em;
+        font-size: 14px;
+        font-family: "Noto Sans";
+        color: $gray-600;
+      }
+    }
+    .entries {
+      margin-left: 1em;
+      .entry {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        .form {
+          font-weight: bold;
+        }
+        .props {
+          margin-left: 1em;
+          font-family: "Noto Sans";
+          color: $gray-600;
+        }
+        .dial {
+          font-style: italic;
+          font-family: "Noto Sans";
+          color: $gray-600;
+        }
+      }
+    }
+  }
+}
+
+/*
+START scaife-widgets style overrides
+*/
+.text-width-widget,
+.text-size-widget {
+  margin: 0 0 0 22px !important;
+}
+/*
+END scaife-widgets style overrides
+*/
+
+:root {
+  // TODO: Remove once we bump @scaife-viewer/widget-repo-metadata
+  // to the latest release
+  --sv-widget-repo-metadata-sha-font-family: monospace;
+}

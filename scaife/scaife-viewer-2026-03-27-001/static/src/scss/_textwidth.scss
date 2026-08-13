@@ -1,0 +1,26 @@
+.text-width-narrow {
+  max-width: 30em;
+}
+
+.text-width-normal {
+  max-width: 40em;
+}
+
+.text-width-wide {
+  max-width: 50em;
+}
+
+.text-width-full {
+  max-width: 100%;
+}
+
+.text-width-control {
+  font-family: 'Noto Serif';
+  cursor: pointer;
+  color: $gray-500;
+  font-size: 14px;
+}
+
+.text-width-control.active {
+  color: $black;
+}

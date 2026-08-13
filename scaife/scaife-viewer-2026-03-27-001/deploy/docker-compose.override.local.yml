@@ -1,0 +1,99 @@
+# Local override for docker-compose.yml — uses your local Perseus corpora
+# instead of fetching tarballs from GitHub.
+#
+# NOTE ON NETWORK ISOLATION: `networks.default.internal: true` blocks all
+# egress, which is the strongest offline guarantee, BUT on Docker Desktop
+# for Mac it also breaks host->container port publishing (localhost:8000
+# becomes unreachable from your browser). We rely instead on:
+#   1. Frontend patches (`enabled = false` + `if (!this.enabled) return;`
+#      in each widget's fetch method) so no code path reaches out.
+#   2. `extra_hosts` below — a DNS layer that maps every known Perseus /
+#      Alpheios hostname to 127.0.0.1. If some future code path tries
+#      one of these, connect() fails immediately.
+#
+# Portability:
+# All host paths come from environment variables that bootstrap.sh exports:
+#   SCAIFE_REPO_ROOT     — this repo's root on the host (auto-derived from
+#                          bootstrap.sh's location).
+#   SCAIFE_DATA_SOURCES  — where PerseusDL/canonical-{greekLit,latinLit,
+#                          pdlrefwk} are cloned on the host. Defaults to
+#                          $HOME/git/classicsviewer/data-sources.
+# You can also run `docker compose` directly if you export those two vars
+# yourself first — nothing here is hardcoded to a specific home directory.
+#
+# Usage:
+#   docker compose \
+#     -f deploy/docker-compose.yml \
+#     -f deploy/docker-compose.override.local.yml \
+#     up --build
+services:
+  morpheus:
+    # Local Perseids Morpheus (C, MPL-2.0) + Ruby wrapper (MIT).
+    # Built for arm64 natively; no calls to services.perseids.org.
+    build:
+      context: ${SCAIFE_REPO_ROOT}/deps
+      dockerfile: morpheus-combined/Dockerfile
+    container_name: morpheus
+    ports:
+      - "${SCAIFE_BIND:-127.0.0.1}:1500:1500"
+    healthcheck:
+      test: ["CMD-SHELL", "ruby -e 'require \"net/http\"; Net::HTTP.get(URI(\"http://localhost:1500/analysis/word?word=arma&lang=lat&engine=morpheuslat\")); exit 0' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  scaife-viewer:
+    # Build the thin hardening layer (non-root user + chown + iptables +
+    # su-exec) that sits on top of the untouched upstream Dockerfile.
+    # bootstrap.sh builds the upstream image as `scaife-viewer-base:latest`.
+    build:
+      context: ../
+      dockerfile: Dockerfile-local
+    # Start as root with NET_ADMIN so the launcher can install iptables
+    # OUTPUT rules that reject non-Docker traffic. Immediately after,
+    # entrypoint-locked.sh drops privileges to the `scaife` user (UID 1000)
+    # and execs the standard entrypoint. gunicorn itself runs as scaife.
+    user: "0"
+    cap_add:
+      - NET_ADMIN
+    entrypoint: /entrypoint-locked.sh
+    command: gunicorn --bind 0.0.0.0:8000 sv_pdl.wsgi:application
+    # Defense-in-depth: even if some legacy code path tries to reach a Perseus
+    # remote, the DNS entry resolves to loopback and the call fails fast.
+    extra_hosts:
+      - "atlas.perseus.tufts.edu:127.0.0.1"
+      - "services.perseids.org:127.0.0.1"
+      - "morph.perseus.org:127.0.0.1"
+      - "vocab.perseus.org:127.0.0.1"
+      - "chs-homer-proxy.herokuapp.com:127.0.0.1"
+      - "scaife-cts-dev.perseus.org:127.0.0.1"
+    depends_on:
+      morpheus:
+        condition: service_started
+      sv-postgres:
+        condition: service_healthy
+      sv-elasticsearch:
+        condition: service_healthy
+    environment:
+      CTS_RESOLVER: local
+      CTS_LOCAL_DATA_PATH: /sv-data/cts
+      CONTENT_MANIFEST_PATH: /opt/scaife-viewer/src/data/content-manifests/local.yaml
+      ATLAS_DATA_DIR: /sv-data/atlas
+      # Point the local /morpheus/ view at our in-cluster Perseids service
+      # instead of services.perseids.org. See sv_pdl/views.py override.
+      MORPHEUS_LOCAL_URL: http://morpheus:1500
+    volumes:
+      # Writable working dir for sentinels, atlas DB, and the CTS parent
+      # (contains the .scaife-viewer.json stubs staged by bootstrap.sh).
+      - ${SCAIFE_REPO_ROOT}/sv-data:/sv-data
+
+      # Local Perseus corpora, mounted read-only at the sub-paths the
+      # CTS resolver expects (each corpus's own `data/` directory).
+      - ${SCAIFE_DATA_SOURCES}/canonical-greekLit/data:/sv-data/cts/PerseusDL-canonical-greekLit-local/data:ro
+      - ${SCAIFE_DATA_SOURCES}/canonical-latinLit/data:/sv-data/cts/PerseusDL-canonical-latinLit-local/data:ro
+      - ${SCAIFE_DATA_SOURCES}/canonical-pdlrefwk/data:/sv-data/cts/PerseusDL-canonical-pdlrefwk-local/data:ro
+      # Lexica repo (LSJ + Lewis & Short TEI, CC BY-SA 4.0) for dictionary ingest.
+      - ${SCAIFE_REPO_ROOT}/deps/lexica:/host-lexica:ro
+      # Open-Commentaries markdown sources (MIT) for commentary ingest.
+      - ${SCAIFE_REPO_ROOT}/deps:/host-commentaries:ro

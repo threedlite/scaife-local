@@ -1,0 +1,9 @@
+# prod
+-r requirements.txt
+
+# dev
+flake8-quotes
+flake8
+ipdb
+ipython
+isort
