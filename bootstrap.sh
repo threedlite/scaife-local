@@ -68,6 +68,32 @@ EOF
   exit 1
 fi
 
+# Compose v2 is only needed at the very LAST step of this script, so check it
+# now rather than after a 30-45 min build.
+if ! docker compose version >/dev/null 2>&1; then
+  cat <<EOF >&2
+ERROR: the Docker Compose v2 plugin is missing ('docker compose' not found).
+
+macOS (Homebrew): the 'docker' formula ships only the CLI, and the separate
+  'docker-compose' formula installs the plugin somewhere the CLI does not
+  look. Install it and link it:
+    brew install docker-compose
+    mkdir -p ~/.docker/cli-plugins
+    ln -sfn \$(brew --prefix)/lib/docker/cli-plugins/docker-compose \\
+            ~/.docker/cli-plugins/docker-compose
+  (Docker Desktop — 'brew install --cask docker' — bundles it already.)
+
+Linux (Debian/Ubuntu):
+  sudo apt-get install docker-compose-plugin
+Linux (Fedora/RHEL):
+  sudo dnf install docker-compose-plugin
+
+Note: the standalone 'docker-compose' v1 binary is NOT sufficient — this
+project uses 'docker compose' (v2) subcommand syntax.
+EOF
+  exit 1
+fi
+
 # --- deps + data fetch (idempotent) ---
 # On a fresh checkout, deps/ and data-sources/ are empty because they're
 # in .gitignore. Auto-fetch if anything critical is missing.

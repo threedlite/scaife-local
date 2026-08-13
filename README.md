@@ -19,13 +19,21 @@ downloaded at runtime, and the tree is fully self-contained.
 
 ## Requirements
 
-- **macOS** (Intel or Apple Silicon), **Linux** (x86_64 or arm64), or any
-  other Docker-capable OS. Only tested end-to-end on macOS + Linux.
+- **macOS** (Intel or Apple Silicon) or **Linux** (x86_64 or arm64) —
+  the two platforms tested end to end. **Windows** should work via WSL2 but
+  is **untested**; see "Windows notes" below before trying. Any other
+  Docker-capable OS is fair game on the same terms.
 - **Docker** (Engine 20.10+ with the Compose v2 plugin — comes bundled
   with Docker Desktop; on Linux it's `docker-compose-plugin` or newer).
-- **Disk**: ~4 GB free for images + data + build cache.
+- **Disk**: budget **~10 GB** free. Measured on a completed arm64 install:
+  ~4.1 GB of images (the app image layers over the base, so they share
+  most of their size), ~1.3 GB of Docker volumes once Postgres is
+  populated, and ~1.4 GB of cloned corpora and deps in the working tree —
+  call it 7 GB at rest, plus headroom for intermediate build layers.
 - **RAM allocated to Docker**: 4 GB minimum, 6 GB comfortable.
-  Docker Desktop users: Settings → Resources → Memory.
+  Docker Desktop users: Settings → Resources → Memory. On the WSL2 backend
+  that slider does nothing — use `.wslconfig` (see "Windows notes"); under
+  Colima, size the VM at `colima start` (see "macOS notes").
 - **Internet during the first build only.** Everything is downloaded then
   and baked into images. Runtime is fully offline.
 
@@ -36,6 +44,10 @@ downloaded at runtime, and the tree is fully self-contained.
 brew install --cask docker            # then launch Docker Desktop once
 # or: https://www.docker.com/products/docker-desktop/
 ```
+
+Note the `--cask` — that's Docker Desktop, which bundles Compose. The
+similarly-named `brew install docker` formula is the bare CLI and needs
+extra wiring; see "macOS notes" below.
 
 **Linux (Debian/Ubuntu):**
 ```
@@ -50,6 +62,14 @@ sudo dnf install -y docker docker-compose-plugin
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"       # log out + back in
 ```
+
+**Windows (untested — see "Windows notes"):**
+```
+wsl --install                         # then reboot
+winget install Docker.DockerDesktop   # or https://www.docker.com/products/docker-desktop/
+# Docker Desktop → Settings → Resources → WSL Integration → enable your distro
+```
+Run everything from inside the WSL2 distro, not PowerShell.
 
 ## Running it (fresh machine)
 
@@ -87,9 +107,42 @@ Optional environment overrides:
 - `SCAIFE_BIND=0.0.0.0` — expose ports to your LAN. Defaults to `127.0.0.1`
   (loopback only). See "Security hardening applied" below.
 
+### macOS notes
+
+Docker Desktop works out of the box. Two gotchas if you installed Docker
+via Homebrew instead:
+
+- **`docker: unknown command: docker compose`.** The `docker` formula ships
+  only the CLI; the Compose v2 plugin comes from the separate
+  `docker-compose` formula, which Homebrew installs to
+  `/opt/homebrew/lib/docker/cli-plugins/` — a directory the Docker CLI does
+  not search. `bootstrap.sh` preflights this and stops immediately with the
+  fix, but the link is worth doing up front:
+  ```
+  brew install docker-compose
+  mkdir -p ~/.docker/cli-plugins
+  ln -sfn /opt/homebrew/lib/docker/cli-plugins/docker-compose ~/.docker/cli-plugins/docker-compose
+  docker compose version     # should print v2.x or later
+  ```
+  (On Intel Macs the Homebrew prefix is `/usr/local` rather than
+  `/opt/homebrew`.)
+- **[Colima](https://github.com/abiosoft/colima) as the daemon.** Works
+  fully, including the `NET_ADMIN` firewall layer. The VM's memory *is* the
+  "RAM allocated to Docker" figure under Requirements above, and Colima's
+  default is well under the 4 GB minimum, so size it explicitly:
+  ```
+  colima start --cpu 4 --memory 6 --disk 60
+  colima list      # verify MEMORY before running bootstrap
+  ```
+  (Verified on a 6-CPU / 12 GiB / 100 GiB aarch64 Colima VM.)
+  Both Linux gotchas below are moot under Colima: virtiofs maps bind-mount
+  ownership so the UID-1000 mismatch never appears (your macOS UID is
+  typically 501), and Colima's in-VM daemon is rootful so `cap_add:
+  NET_ADMIN` is granted normally.
+
 ### Linux notes
 
-Most Linux distros work out of the box. Two occasional gotchas:
+Most Linux distros work out of the box. Three occasional gotchas:
 
 - **SELinux (Fedora / RHEL / Rocky):** bind mounts may be blocked with
   "Permission denied". Fix by adding `:z` to each host-side bind mount in
@@ -108,10 +161,84 @@ Most Linux distros work out of the box. Two occasional gotchas:
   `cap_add`, `user: "0"`, and `entrypoint:` lines in the override — you
   still have the widget patches + DNS block as defenses).
 
+### Windows notes (UNTESTED)
+
+**Nobody has run this stack on Windows end to end.** Everything below is
+reasoned from how the pieces work, not from a successful run — treat it as
+a starting point, and please correct this section once you've done it.
+
+The intended path is **WSL2 + Docker Desktop with the WSL2 backend**, with
+`bootstrap.sh` run from inside the WSL2 distro. Four things are worth
+getting right before you start:
+
+- **Run it from WSL2, not PowerShell / CMD / Git Bash.** `bootstrap.sh` is
+  bash, and it exports `SCAIFE_REPO_ROOT` as a POSIX path that the compose
+  file interpolates directly into bind-mount sources. Git Bash's MSYS path
+  translation mangles those into Windows paths, and the mounts will not
+  resolve. In Docker Desktop, enable Settings → Resources → WSL Integration
+  for your distro so `docker` works inside it.
+- **Clone into the WSL2 filesystem, not `/mnt/c/`.** Put it at something
+  like `~/git/scaife-local`. The corpora bind mounts see heavy small-file
+  I/O (~1.4 GB across the three CTS repos), and mounts served out of
+  `/mnt/c` cross the drvfs boundary — the usual result is a drastic
+  slowdown, and Linux ownership/permission semantics there differ from the
+  native ext4 the containers expect.
+- **Line endings.** `deploy/entrypoint.sh` is read by `/bin/sh` inside a
+  Linux container, so a CRLF checkout breaks it with
+  `$'\r': command not found`. The `.gitattributes` in this repo pins `*.sh`
+  (and Dockerfiles / compose YAML) to `eol=lf`, so a default
+  `core.autocrlf=true` checkout is already safe. If you obtained this tree
+  some other way — a zip, a file copy off a Windows share — verify before
+  building: `file deploy/entrypoint.sh` should say `ASCII text`, *not*
+  `with CRLF line terminators`.
+- **Memory is set in `.wslconfig`, not the Docker Desktop slider.** On the
+  WSL2 backend, Docker Desktop's Settings → Resources → Memory control is
+  inactive; the limit comes from `%UserProfile%\.wslconfig`. To meet the
+  4 GB minimum from Requirements:
+  ```ini
+  [wsl2]
+  memory=6GB
+  processors=4
+  ```
+  Then `wsl --shutdown` from PowerShell and restart Docker Desktop.
+
+Two further notes, both unverified:
+
+- The WSL2 default user is normally UID 1000, which happens to match the
+  container's `scaife` user — so the "Host UID mismatch" gotcha above
+  likely does *not* apply.
+- The `cap_add: NET_ADMIN` firewall layer needs the WSL2 kernel to honour
+  the container's `iptables` calls. If `entrypoint-locked.sh` fails there,
+  fall back exactly as described in the rootless-Docker bullet above.
+
+Browsing works normally: `SCAIFE_BIND` defaults to `127.0.0.1`, and WSL2
+forwards localhost, so <http://localhost:8000/library/> resolves from a
+Windows browser.
+
 The bootstrap script derives its own root from `$(dirname "$0")` and
 exports `SCAIFE_REPO_ROOT` for the compose file, so nothing here is
 pinned to a specific home directory. The whole tree can be moved or
 renamed freely.
+
+### Expected first-boot log noise
+
+Two things scroll past that look like failures and are not:
+
+- **`toc error: urn:cts:latinLit:phi0474.phi051.perseus-eng1 has an invalid
+  refsDecl`** — a handful of Perseus texts (mostly Cicero, `phi0474`) ship
+  malformed `refsDecl` metadata upstream. The affected editions are skipped;
+  every other text loads. Not caused by anything local.
+- **Elasticsearch JSON at `log.level: INFO`** — ES 8 logs its whole plugin
+  and index-template startup as structured JSON. Only `log.level` of `WARN`
+  or `ERROR` is worth reading.
+
+A genuinely failed boot looks different: a Python `Traceback`, a
+`CommandError`, or the `scaife-viewer` container exiting non-zero. The
+success line to wait for is:
+
+```
+scaife-viewer | [INFO] Listening at: http://0.0.0.0:8000
+```
 
 ### Stopping / restarting
 
@@ -156,7 +283,7 @@ pulls from Docker Hub at runtime.
 | `scaife-viewer` | Django + Gunicorn + built Vue bundle | `scaife/scaife-viewer-2026-03-27-001/Dockerfile` |
 | `morpheus` | Perseids Morpheus (C) + Ruby Sinatra JSON API | `deps/morpheus-combined/Dockerfile` |
 | `sv-postgres` | Postgres 9.6 (Perseus data + ATLAS DB + local dictionaries + local commentaries) | official image |
-| `sv-elasticsearch` | ES 7.10 (text search index) | `Dockerfile-elasticsearch` in the app |
+| `sv-elasticsearch` | ES 8.19.11 (text search index), `analysis-icu` plugin added | `Dockerfile-elasticsearch` in the app |
 
 ### Features and what backs each
 
@@ -164,10 +291,33 @@ pulls from Docker Hub at runtime.
 |---|---|---|---|
 | Read Greek/Latin texts | `/reader/…`, `/library/passage/…` | CTS resolver → mounted `canonical-greekLit`/`-latinLit`/`-pdlrefwk` | ✓ |
 | Library browse | `/library/`, `/library/json/` | CTS resolver | ✓ |
-| Text search | `/search/` | Elasticsearch (indexed at first boot) | ✓ |
+| Text search | `/search/` | Elasticsearch (indexed at first boot — **sampled, see below**) | ✓ |
 | **Morphology** (form → lemma) | `/morpheus/?word=…&lang=…` | `morpheus` container | ✓ |
 | **Dictionaries** (LSJ, Middle Liddell, Lewis & Short) | `/library/dictionaries/…` | Postgres via `sv_pdl/localdict` app | ✓ |
 | **Commentaries** (Nagy et al. on Homer/Pausanias/Pindar) | `/library/commentaries/…/json/` | Postgres via `sv_pdl/localcomm` app | ✓ |
+
+### Search index coverage (important)
+
+First boot runs the indexer with `--limit=1000`, so **only the first 1,000
+passages are searchable** — a fast-boot sample, not the corpus. Everything
+else (reading, library browse, dictionaries, commentaries, morphology) is
+complete regardless; only `/search/` is affected. Verify what you have:
+
+```
+curl -s localhost:9200/scaife-viewer/_count
+```
+
+To index the whole corpus, set `SV_INDEXER_LIMIT=0` and clear the sentinel
+so the entrypoint re-runs the indexer. Expect this to take hours and to
+grow the ES volume substantially:
+
+```
+rm sv-data/sentinels/.es_indexed
+echo 'SV_INDEXER_LIMIT=0' >> scaife/scaife-viewer-2026-03-27-001/deploy/.env
+bash ./bootstrap.sh
+```
+
+`SV_INDEXER_MAX_WORKERS` (default 1) parallelizes it if you have the RAM.
 
 ### Data volumes
 
@@ -257,24 +407,64 @@ with a Django app backed by Open-Commentaries markdown files:
 `bootstrap.sh` stages `sv-data/`, pre-creates the `.text_repos_loaded`
 sentinel (so the container's `entrypoint.sh` skips the network fetch of
 tarballs from GitHub), writes `deploy/.env` with sane defaults, then runs
-`docker compose up --build`.
+`docker compose up --build`. It preflights Docker, the Compose v2 plugin,
+and the presence of `deps/` + `data-sources/` (auto-fetching if absent).
+
+### 7. Entrypoint runs the local ingests
+
+`deploy/entrypoint.sh` gained two sentinel-gated steps so a fresh install
+comes up with dictionaries and commentaries already populated:
+
+```sh
+if [ ! -f ${SENTINEL_DIR}/.dictionaries_ingested ] && [ -d /host-lexica ]; then
+    python manage.py ingest_dictionaries && touch ${SENTINEL_DIR}/.dictionaries_ingested
+fi
+```
+
+...and the same for `.commentaries_ingested` / `/host-commentaries`. The
+`-d` guard matters: those bind mounts exist only under the local override,
+so the steps skip cleanly when the same entrypoint runs under the upstream
+or CI compose files. Both commands are idempotent (`get_or_create` on the
+parent row, then entries replaced), so re-running never duplicates.
+
+The same section makes the indexer's passage cap configurable via
+`SV_INDEXER_LIMIT` / `SV_INDEXER_MAX_WORKERS` instead of hard-coding
+`--limit=1000`; the default is unchanged.
 
 ## Re-ingesting data
 
 Corpora are mounted read-only, so nothing to re-run for text updates.
-Dictionaries and commentaries are Postgres-backed; the ingest commands can
-be re-run at any time inside the container:
+Dictionaries and commentaries are Postgres-backed and are ingested
+automatically on first boot (see "Entrypoint runs the local ingests"). To
+force a rebuild of those tables:
 
 ```
-docker exec scaife-viewer python manage.py ingest_dictionaries --reset
-docker exec scaife-viewer python manage.py ingest_commentaries --reset
+docker exec -u scaife scaife-viewer python manage.py ingest_dictionaries --reset
+docker exec -u scaife scaife-viewer python manage.py ingest_commentaries --reset
+```
+
+Use `-u scaife` so the command runs as the same user the app itself runs
+as. Without it `docker exec` lands as root, because the container starts as
+UID 0 to install firewall rules before `su-exec`ing down to `scaife` — any
+file it then creates under the writable `/sv-data` mount is root-owned,
+which the unprivileged app cannot later rewrite.
+
+Expected output on success — if you see fewer dictionaries or zero
+commentary entries, the `deps/` clones are incomplete:
+
+```
+  lsj                                         116497 entries
+  lewis-and-short-latin-dictionary            103232 entries
+  middle-liddell                               36491 entries
 ```
 
 ## Remaining external network use
 
 None at *runtime*. During initial `docker compose up --build`:
-- Base OS images are pulled once from Docker Hub (`ubuntu:22.04`, `postgres:9.6-alpine`, `node:12.13-alpine`, `python:3.8-alpine`).
-- `pip install` and `npm ci` fetch language deps.
+- Base OS images are pulled once from Docker Hub (`ubuntu:22.04`, `postgres:9.6-alpine`, `node:12.13-alpine`, `python:3.8-alpine`) and the
+  Elasticsearch image from `docker.elastic.co`.
+- `pip install`, `npm ci`, and `elasticsearch-plugin install analysis-icu`
+  fetch language deps and the ES plugin.
 
 Once the images are built, a fully offline host can run the stack with
 `docker compose up` (no `--build`) and no network access.
@@ -290,7 +480,8 @@ run on a workstation, some defaults were tightened.
 Upstream `deploy/docker-compose.yml` exposed ports on `0.0.0.0`, meaning any
 peer on the same LAN could talk to Django, Postgres, and Elasticsearch
 without authentication (Postgres has a trivial `scaife/scaife` password;
-ES 7.10 has no auth at all). Changed to bind on `127.0.0.1` for all four
+ES runs with `xpack.security.enabled=false`, so it has no auth at
+all). Changed to bind on `127.0.0.1` for all four
 services (Django 8000, Postgres 5433, ES 9200, Morpheus 1500):
 
 ```yaml

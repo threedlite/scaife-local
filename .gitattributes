@@ -1,0 +1,13 @@
+# Shell scripts here are executed by /bin/sh inside Linux containers
+# (deploy/entrypoint*.sh) and by bash on the host (bootstrap.sh,
+# scripts/fetch-data.sh). A Windows checkout with the default
+# core.autocrlf=true would rewrite them with CRLF endings, and the
+# container's shell then fails on the stray \r:
+#
+#   /bin/sh: deploy/entrypoint.sh: not found
+#   deploy/entrypoint.sh: line 2: $'\r': command not found
+#
+# Pin them to LF so the platform's git config cannot break the build.
+*.sh text eol=lf
+Dockerfile* text eol=lf
+*.yml text eol=lf
