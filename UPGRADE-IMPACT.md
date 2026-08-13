@@ -32,10 +32,16 @@ scaife_viewer_core:   Django <3.0,>=2.2      elasticsearch <8,>=7
 scaife_viewer_atlas:  Django <3,>=2.2.15     graphene-django ==2.6.0
 ```
 
-Those same packages contain `ugettext` (6 files),
-`from django.conf.urls import url` (3 files) and `force_text` (5 files) —
-**all removed in Django 4.0** — so they will not merely warn under a modern
-Django, they will fail at import.
+The packages themselves are cleaner than that pin suggests: a per-package
+scan finds `ugettext` in exactly **3** files (`core/apps.py`,
+`atlas/apps.py`, `atlas/importers/versions.py`) and no `force_text`,
+`smart_text`, `is_ajax`, `providing_args` or `conf.urls.url` at all. The
+concentration of Django-4.0 breakage is in **`graphene-django` 2.6.0**, a
+third-party dependency atlas exact-pins — which is replaced wholesale by
+graphene-django 3.x rather than ported.
+
+See [`DJANGO-UPGRADE.md`](DJANGO-UPGRADE.md) for the full breakdown of what
+that work actually involves.
 
 ### Confirmed against upstream's current HEAD
 
@@ -68,18 +74,43 @@ would fail at import if that constraint were bypassed.
 
 | | Approach | Rough effort | Risk | Ends up where |
 |---|---|---|---|---|
-| **A** | **Stay put; harden.** Accept EOL, track upstream `dev`, keep dependency CVEs patched (all currently fixed), keep the firewall + loopback binding, treat the box as an appliance. | days, then ongoing | low now, rising | Still EOL Django, but no known unfixed CVEs. Defensible because this is a single-user offline reader. |
+| **A** | **Stay put; harden.** Accept EOL, track upstream `dev`, keep dependency CVEs patched (all currently fixed), keep the firewall + loopback binding. | days, then ongoing | low today, **rising automatically** | No known unfixed CVEs, but the whole dependency tree stays capped and every future CVE in it is unfixable in place. |
 | **B** | **Fork the upstream packages.** Vendor `scaife-viewer-core` + `atlas`, port them to Django 5.2, maintain them yourself. | **months** | high | Modern stack, but you now own two libraries you did not write. |
 | **C** | **Re-platform.** Keep the corpora, dictionaries, commentaries and Morpheus; replace the Django/GraphQL/Vue-2 application layer. | **quarters** | very high | A different product. |
 
-**Recommendation: A, with the targeted fixes in "Do these regardless"
-below.** This is an offline, loopback-bound, single-user reading tool with
-no untrusted input and no network egress. The realistic threat model does
-not justify B, and B's cost is severe and open-ended — you would be taking
-on long-term maintenance of two libraries you did not write, against a
-Django line their authors have not targeted. Revisit only if the deployment
-model changes
-(multi-user, LAN- or internet-exposed, or handling untrusted uploads).
+**Recommendation: A now, but with B's first step scheduled — not deferred
+indefinitely.**
+
+The reason is not today's CVE list, which is clean. It is that the Django
+2.2 pin is what **caps the rest of the dependency tree**, and that
+constraint tightens on its own:
+
+- `core`/`atlas` cap `graphene`/`graphene-django`, `django-filter<3`,
+  `django-treebeard<5`, `django-extensions<3`, `django-sortedm2m<3`,
+  `certifi`, `requests` and `elasticsearch<8`. Several of those are ~5 years
+  behind current and unmaintained at the pinned major.
+- Django 2.2 receives **no** security patches, so any future Django CVE is
+  permanently unfixed here — 2.2.28 is the last release on that line. The
+  same holds for every capped package.
+- Python 3.9 (the ceiling Django 2.2 allows) in turn caps `urllib3` at
+  1.26.x and `gunicorn` at 23.0.0. Those versions were not chosen; they are
+  the newest permitted.
+- The CVE fixes we *did* apply to `certifi` and `requests` are installed in
+  violation of `core`'s exact pins — pip reports a conflict and proceeds.
+  That works for leaf packages; it is not a general mechanism.
+
+So "no known unfixed CVEs" is a statement about the CVE database on
+2026-08-13, not a property of the system. What genuinely mitigates is the
+deployment posture — loopback-bound, single-user, no untrusted input, egress
+blocked — and that is *configuration*, one `SCAIFE_BIND=0.0.0.0` from
+evaporating.
+
+**Practical reading:** stay on A for now, and schedule **step 0 of B**
+(vendor `core` + `atlas`, ~1 week) rather than treating B as all-or-nothing.
+That single step fixes no CVE by itself but converts the pin cascade from an
+external constraint into code in this repo, after which each later step is
+schedulable on evidence. Full detail and sequencing in
+[`DJANGO-UPGRADE.md`](DJANGO-UPGRADE.md).
 
 Note that **A is not "do nothing"**: it now explicitly includes tracking
 upstream `dev`, which is where the app's actual bug fixes and features come
@@ -103,10 +134,11 @@ its cost is now measured rather than guessed:
   fetch; and a new `copy_corpus_repo_metadata` step stages a file that makes
   ATLAS call `api.github.com` once per repo.
 
-That last category is the real lesson: **the risk in tracking upstream is
-behavioural, not textual.** Budget for reading their diff, not just merging
-it, and re-run `bash scripts/run-tests.sh` afterwards — the offline-wiring
-tests exist precisely to catch a re-introduced external call.
+The third category is the significant one: these were behavioural changes
+rather than textual conflicts, and none appeared in the file diff. Reviewing
+upstream's changes is therefore part of the cost, not just merging them.
+Re-run `bash scripts/run-tests.sh` afterwards; the offline-wiring tests
+cover re-introduced external calls.
 
 #### New runtime behaviour this resync brought in
 
@@ -245,9 +277,9 @@ python:3.14-alpine  -> alpine 3.24.1   Python 3.14.7
 
 ### Alpine currency is a side effect, not a lever
 
-This is the part worth internalising: **we do not choose the Alpine version
-at all.** It comes from whichever `python:X-alpine` tag we build on. There
-is no way to pull Alpine 3.24 while staying on Python 3.9.
+The Alpine version is not selected directly. It comes from whichever
+`python:X-alpine` tag the image builds on, so Alpine 3.24 is not reachable
+while the interpreter is Python 3.9.
 
 That also makes the current win **temporary**. The `python:3.8-alpine` tag
 froze at Alpine 3.20.3 once Python 3.8 went EOL and the image stopped being
@@ -257,10 +289,10 @@ the same path: at some point it stops being rebuilt, Alpine freezes at
 Alpine 3.22 itself has support runway (Alpine keeps releases ~2 years, so
 into 2027), but the *image* is the constraint, not the distro.
 
-**Practical consequence:** "keep the base image patched" is not an
-independent maintenance task. It is downstream of the Django work. Until
-then the honest position is that we are on the last Python the framework
-supports, and the base image will age out on a timer we do not control.
+Consequence: keeping the base image patched is not an independent
+maintenance task; it depends on the Django work. Until that happens the
+interpreter is the last one the framework supports, and the base image will
+stop receiving updates when the `python:3.9-alpine` tag is retired.
 
 ### When the interpreter does move (3.12 / 3.13 as part of the fork)
 

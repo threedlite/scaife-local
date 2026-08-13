@@ -161,6 +161,7 @@ Documents covered by the CC BY 4.0 grant above:
   - CLAUDE.md
   - SBOM-2026-08-13.md          (and any later dated SBOM revisions)
   - UPGRADE-IMPACT.md
+  - DJANGO-UPGRADE.md
   - scaife/scaife-viewer-2026-08-10-001/.github/workflows/README.md
   - the prose content of
     scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/licenses.html

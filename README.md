@@ -122,8 +122,11 @@ The bootstrap script:
 3. Stages a writable `sv-data/` tree with sentinels so the container
    entrypoint skips its own tarball downloads.
 4. Writes `deploy/.env` (mode 0600) if missing.
-5. Builds `scaife-viewer-base:latest` from the upstream Dockerfile (modified
-   only to make lint opt-in — see "Lint is not part of the build").
+5. Builds `scaife-viewer-base:latest` from the upstream Dockerfile, using
+   `--target webapp`. Four local changes to that file are documented in
+   sections 9–12 below: lint made opt-in, `urllib3`/`gunicorn`/`certifi`
+   pinned to patched releases, the base image moved to Python 3.9, and
+   upstream's `setuptools==81.0` pin adopted.
 6. Runs `docker compose up --build` which builds the hardened + morpheus
    images on top and starts everything.
 
@@ -279,10 +282,9 @@ real, known defect and the test is a deliberate standing marker.
 
 ### Lint is not part of the build
 
-Upstream's Dockerfile ran `npm run lint`, `flake8 sv_pdl` and `isort -c`
-as build steps, so a stray unused import would fail the **entire image
-build** — 15 minutes of work lost to a formatting error. Those three steps
-are now opt-in:
+Upstream's Dockerfile ran `npm run lint`, `flake8 sv_pdl` and `isort -c` as
+build steps, so an unused import failed the entire image build. Those three
+steps are now opt-in:
 
 ```
 bash scripts/lint.sh          # flake8 + isort (seconds, no rebuild)
@@ -296,8 +298,8 @@ To restore the old behaviour and gate the image on lint again:
 docker build --build-arg RUN_LINT=1 -t scaife-viewer-base:latest -f Dockerfile .
 ```
 
-`npm run unit` (the frontend unit tests) deliberately still runs in the
-build — those catch broken behaviour, not formatting.
+`npm run unit` (the frontend unit tests) still runs in the build; only the
+style checks were made optional.
 
 ### Dependency and upgrade documentation
 
@@ -306,6 +308,9 @@ build — those catch broken behaviour, not formatting.
   version data with `bash scripts/sbom-refresh.sh`.
 - [`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md) — what it would take to move to
   current Django/Python/Postgres, and to swap Elasticsearch for OpenSearch.
+- [`DJANGO-UPGRADE.md`](DJANGO-UPGRADE.md) — a deeper, measured analysis of
+  the Django 2.2 → 5.2 LTS path specifically: what has to be forked, what
+  actually breaks, and a phased sequence with effort estimates.
 
 Short version: five of six platform components are past end of life, and
 `scaife-viewer-core` hard-pins `Django<3.0`, so there is no incremental
@@ -411,11 +416,11 @@ set a passage cap in `deploy/.env` **before** the first `bootstrap.sh`:
 echo 'SV_INDEXER_LIMIT=1000' >> scaife/scaife-viewer-2026-08-10-001/deploy/.env
 ```
 
-Be aware of what this costs. The capped passages are simply whichever ones
-the indexer walks first — not a curated or representative selection — so
-coverage is arbitrary from a reader's point of view. In practice you search
-a word you are certain appears in the text in front of you and get nothing
-back; that is the index missing the passage, not search being broken.
+The trade-off: the capped passages are whichever ones the indexer walks
+first, not a curated or representative selection, so coverage is arbitrary
+with respect to what a reader is likely to look up. The observable symptom
+is a search for a word that appears in the open text returning nothing —
+the passage was not indexed, rather than search failing.
 Reading, browse, dictionaries, commentaries, and morphology are unaffected
 either way.
 
@@ -434,7 +439,7 @@ nothing to an existing install.** Either re-run the indexer directly
 re-running the indexer overwrites rather than duplicates — verified by
 re-running at `--limit=1200` against an existing 1,000-doc index and
 getting exactly 1,200 documents, not 2,200. You never need to delete the
-index first, and a run that dies partway can simply be run again.
+index first, and a run that terminates partway can be repeated.
 
 Run it directly against the already-running stack — nothing to restart,
 and you see progress as it goes:
@@ -486,9 +491,9 @@ indexing the entire corpus at `--max-workers=4`:
 | Resulting index | ~1 GB (`deploy_sv-elasticsearch-data` volume ~1.2 GB) |
 | Words indexed | grc 10,837,549 · eng 21,070,271 · lat 6,748,008, plus deu/fre/ita/ara |
 
-Worker count matters a lot: the same indexer at `--max-workers=1` ran at
-roughly a tenth of that throughput. Don't extrapolate a single-worker rate
-to estimate a parallel run.
+Worker count dominates: the same indexer at `--max-workers=1` ran at
+roughly a tenth of that throughput. A single-worker rate does not
+extrapolate to a parallel run.
 
 A handful of `toc error: … has an invalid refsDecl` lines during the run
 are the same benign upstream Perseus defects described under "Expected
@@ -497,8 +502,8 @@ first-boot log noise" — four of them, all Cicero and one other Latin text.
 **What you cannot do:** index a single work or author. The indexer accepts
 a `--urn-prefix` flag, but it is unimplemented upstream and raises
 `NotImplementedError: URN prefix is not currently supported`. The only
-lever is *how many* passages, not *which*. Given the full run takes under
-six minutes, just index everything rather than looking for a subset.
+parameter is *how many* passages, not *which*. Since a full run completes
+in under six minutes, indexing everything is the simpler option.
 
 ### Data volumes
 
@@ -634,8 +639,9 @@ choice is discoverable without reading this file.
 
 ### 9. Lint made opt-in in the upstream Dockerfile
 
-This is the **only** change to the upstream `Dockerfile`, which is otherwise
-kept pristine so `Dockerfile-local` can layer on top of it.
+The first of four local changes to the upstream `Dockerfile` (see also
+sections 10-12). The file is otherwise unmodified, so `Dockerfile-local`
+can layer on top of it.
 
 Upstream gated the image build on three style checks — `npm run lint` in the
 static-build stage, then `flake8 sv_pdl` and `isort -c **/*.py` in the final
@@ -649,9 +655,9 @@ RUN if [ "$RUN_LINT" = "1" ]; then flake8 sv_pdl && isort -c **/*.py; \
     else echo "skipping flake8 + isort (build with --build-arg RUN_LINT=1 to enable)"; fi
 ```
 
-`scripts/lint.sh` runs the same checks in seconds against the built image,
-without a rebuild. `npm run unit` was left mandatory — behavioural tests
-earn their place in a build in a way that formatting checks do not.
+`scripts/lint.sh` runs the same checks against the built image without a
+rebuild. `npm run unit` was left mandatory: it tests behaviour rather than
+formatting.
 
 Note that upstream's current `dev` no longer runs `flake8`/`isort` in the
 build at all — they removed both. Only the `npm run lint` guard is still a
@@ -659,10 +665,9 @@ local change.
 
 ### 10. `urllib3` pinned forward to a patched release
 
-The second (and only other) local change to the upstream `Dockerfile`.
-Upstream deliberately uninstalls whatever `pip` resolved and pins
-`urllib3==1.26.15` "to avoid conflicts". That release is vulnerable to three
-disclosure issues:
+The second of four local changes to the upstream `Dockerfile`. Upstream
+uninstalls whatever `pip` resolved and pins `urllib3==1.26.15` "to avoid
+conflicts". That release is affected by three disclosure issues:
 
 | CVE | Leak | Fixed in |
 |---|---|---|
@@ -677,8 +682,9 @@ is Python 3.9. Worth revisiting only if the interpreter is upgraded.
 
 ### 11. `gunicorn` and `certifi` upgraded off vulnerable pins
 
-The other two confirmed CVEs in the dependency set, fixed with the same
-post-install pattern in the `Dockerfile`:
+The third of four local changes to the upstream `Dockerfile`. It closes the
+other two confirmed CVEs in the dependency set, using the same post-install
+pattern:
 
 | Package | Upstream pin | Ours | Closed |
 |---|---|---|---|
@@ -695,6 +701,9 @@ dependency set. Re-check after any upstream resync — these are overrides on
 top of upstream pins.
 
 ### 12. Base image moved to Python 3.9 / Alpine 3.22
+
+The fourth local change to the upstream `Dockerfile` (with the
+`setuptools==81.0` pin it requires).
 
 `python:3.8-alpine` is frozen at Alpine **3.20.3**: the tag stopped being
 rebuilt when Python 3.8 reached end of life, so it no longer receives OS
@@ -784,9 +793,9 @@ bootstrap re-chmods any existing file for safety.
 Upstream `Dockerfile` runs gunicorn as UID 0. Added `Dockerfile-local` that
 `FROM`s the upstream image (built and tagged as
 `scaife-viewer-base:latest` by `bootstrap.sh`) and adds a `scaife` user
-(UID 1000) plus a locked-down launcher. The upstream Dockerfile is otherwise
-unmodified; its only local change is making the lint steps opt-in (see
-"Lint is not part of the build").
+(UID 1000) plus a locked-down launcher. The upstream Dockerfile carries four
+local changes of its own, documented in sections 9-12; none affects the
+non-root layering described here.
 
 ### 4. In-container outbound firewall (`entrypoint-locked.sh`)
 
