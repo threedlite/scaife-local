@@ -17,6 +17,31 @@ Text corpora (Perseus/CTS content) live inside this tree at
 bind-mounted read-only into the container. Nothing in the corpora is
 downloaded at runtime, and the tree is fully self-contained.
 
+> ### ⚠️ Known limitation: full-text search is a 1,000-passage sample
+>
+> Out of the box, **`/search/` covers only a tiny fraction of the corpus.**
+> First boot runs the indexer with `--limit=1000`, so all but 1,000 passages
+> — across 154 authors of Greek and Latin — are invisible to search. A query
+> returning nothing usually means the text was never indexed, not that the
+> phrase is absent.
+>
+> Everything else is complete and unaffected: reading, library browse, all
+> 256,220 dictionary entries, all 7,656 commentary entries, and morphology.
+>
+> This is a deliberate trade for a fast first boot. To fix it, re-run the
+> indexer with a higher cap — safe to repeat, and it overwrites rather than
+> duplicates. Against a running stack, no restart needed:
+>
+> ```
+> curl -s localhost:9200/scaife-viewer/_count      # what you have now
+> docker exec -u scaife scaife-viewer \
+>     python manage.py indexer --max-workers=1 --limit=25000
+> ```
+>
+> Drop `--limit` entirely for the whole corpus — budget hours. To make it
+> the default for future boots instead, see
+> [How to fix it](#how-to-fix-it) under Search index coverage.
+
 ## Requirements
 
 - **macOS** (Intel or Apple Silicon) or **Linux** (x86_64 or arm64) —
@@ -86,6 +111,11 @@ bash ./bootstrap.sh
 
 That's it. When it prints `Listening at: http://0.0.0.0:8000`, open
 <http://localhost:8000/library/> in your browser.
+
+Reading, browsing, dictionaries, and morphology are fully populated at this
+point. **Search is not** — it holds a 1,000-passage sample until you index
+the full corpus. See the callout at the top and
+[Search index coverage](#search-index-coverage).
 
 The bootstrap script:
 
@@ -291,33 +321,79 @@ pulls from Docker Hub at runtime.
 |---|---|---|---|
 | Read Greek/Latin texts | `/reader/…`, `/library/passage/…` | CTS resolver → mounted `canonical-greekLit`/`-latinLit`/`-pdlrefwk` | ✓ |
 | Library browse | `/library/`, `/library/json/` | CTS resolver | ✓ |
-| Text search | `/search/` | Elasticsearch (indexed at first boot — **sampled, see below**) | ✓ |
+| Text search | `/search/` | Elasticsearch — **⚠ only 1,000 passages indexed by default; see below** | ✓ (partial) |
 | **Morphology** (form → lemma) | `/morpheus/?word=…&lang=…` | `morpheus` container | ✓ |
 | **Dictionaries** (LSJ, Middle Liddell, Lewis & Short) | `/library/dictionaries/…` | Postgres via `sv_pdl/localdict` app | ✓ |
 | **Commentaries** (Nagy et al. on Homer/Pausanias/Pindar) | `/library/commentaries/…/json/` | Postgres via `sv_pdl/localcomm` app | ✓ |
 
-### Search index coverage (important)
+### Search index coverage
 
-First boot runs the indexer with `--limit=1000`, so **only the first 1,000
-passages are searchable** — a fast-boot sample, not the corpus. Everything
-else (reading, library browse, dictionaries, commentaries, morphology) is
-complete regardless; only `/search/` is affected. Verify what you have:
+First boot runs the indexer with `--limit=1000`, so **only 1,000 passages
+are searchable** — a fast-boot sample, not the corpus. Those 1,000 are
+simply whichever passages the indexer walked first; they are not a curated
+or representative selection, so coverage is effectively arbitrary from a
+reader's point of view.
+
+**What this looks like in practice:** you search a word you are certain
+appears in the text open in front of you, and get nothing back. That is
+the index missing the passage, not the search being broken.
+
+Everything else is complete regardless — reading, library browse,
+dictionaries, commentaries, morphology. Only `/search/` is affected.
+Verify what you currently have indexed:
+
+```
+curl -s localhost:9200/scaife-viewer/_count
+# {"count":1000,...}  <- the default sample
+```
+
+#### How to fix it
+
+**Re-indexing is safe to repeat.** Documents are keyed by passage URN, so
+re-running the indexer overwrites rather than duplicates — verified by
+re-running at `--limit=1200` against an existing 1,000-doc index and
+getting exactly 1,200 documents, not 2,200. You never need to delete the
+index first, and a run that dies partway can simply be run again.
+
+There are two ways to do it. **Option A — run it directly**, against the
+already-running stack. Nothing to restart, and you see progress as it goes:
+
+```
+# raise the cap (any number), or drop --limit entirely for the full corpus
+docker exec -u scaife scaife-viewer \
+    python manage.py indexer --max-workers=1 --limit=25000
+```
+
+It prints `Committing N doc(s) to scaife-viewer` as it works and
+`Finished in Ns` at the end. Check progress at any time from another shell:
 
 ```
 curl -s localhost:9200/scaife-viewer/_count
 ```
 
-To index the whole corpus, set `SV_INDEXER_LIMIT=0` and clear the sentinel
-so the entrypoint re-runs the indexer. Expect this to take hours and to
-grow the ES volume substantially:
+**Option B — make it the permanent default**, so future boots index fully.
+`SV_INDEXER_LIMIT=0` means "no limit"; the sentinel must be cleared or the
+entrypoint skips indexing entirely:
 
 ```
-rm sv-data/sentinels/.es_indexed
 echo 'SV_INDEXER_LIMIT=0' >> scaife/scaife-viewer-2026-03-27-001/deploy/.env
+rm sv-data/sentinels/.es_indexed
 bash ./bootstrap.sh
 ```
 
 `SV_INDEXER_MAX_WORKERS` (default 1) parallelizes it if you have the RAM.
+
+**How long?** Budget hours for the full corpus. As a rough rate to
+extrapolate from: 1,200 passages indexed in ~19 s at `--max-workers=1` on
+an arm64 laptop. Treat that as indicative only — it is measured over the
+cheapest passages the indexer walks first, and the ES volume grows roughly
+in proportion to what you index.
+
+**What you cannot do:** index a single work or author. The indexer accepts
+a `--urn-prefix` flag, but it is unimplemented upstream and raises
+`NotImplementedError: URN prefix is not currently supported`. The only
+lever is *how many* passages, not *which* — so the practical middle ground
+is a raised `--limit` (say 25,000) rather than a targeted subset.
 
 ### Data volumes
 
@@ -481,8 +557,10 @@ Upstream `deploy/docker-compose.yml` exposed ports on `0.0.0.0`, meaning any
 peer on the same LAN could talk to Django, Postgres, and Elasticsearch
 without authentication (Postgres has a trivial `scaife/scaife` password;
 ES runs with `xpack.security.enabled=false`, so it has no auth at
-all). Changed to bind on `127.0.0.1` for all four
-services (Django 8000, Postgres 5433, ES 9200, Morpheus 1500):
+all). Changed to bind on `127.0.0.1` for all four services — Django 8000,
+Postgres 5432, ES 9200, Morpheus 1500. (The compose default for Postgres is
+5433, but the `.env` that `bootstrap.sh` writes sets `SV_POSTGRES_PORT=5432`
+and that wins; check with `docker ps` rather than assuming.)
 
 ```yaml
 ports:
