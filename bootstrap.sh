@@ -24,7 +24,7 @@ set -euo pipefail
 # Repo root = directory containing this script. All internal paths derive
 # from it so the tree stays portable if you move or rename it.
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCAIFE_ROOT="$REPO_ROOT/scaife/scaife-viewer-2026-03-27-001"
+SCAIFE_ROOT="$REPO_ROOT/scaife/scaife-viewer-2026-08-10-001"
 SV_DATA="$REPO_ROOT/sv-data"
 
 # Perseus CTS data. Bundled inside this repo at ./data-sources/. Override with:
@@ -124,7 +124,11 @@ for d in canonical-greekLit canonical-latinLit canonical-pdlrefwk; do
 done
 
 # --- host-side staging ---
-mkdir -p "$SV_DATA/cts" "$SV_DATA/sentinels" "$SV_DATA/atlas"
+# Sentinels live under the ATLAS data dir, which the local compose override
+# sets to /sv-data/atlas — i.e. $SV_DATA/atlas/sentinels on the host. This
+# follows upstream's `SENTINEL_DIR=${ATLAS_DATA_DIR:-atlas_data}/sentinels`.
+SENTINEL_DIR="$SV_DATA/atlas/sentinels"
+mkdir -p "$SV_DATA/cts" "$SV_DATA/atlas" "$SENTINEL_DIR"
 
 stub_metadata() {
   local repo_slug="$1"  # e.g. PerseusDL/canonical-greekLit
@@ -146,7 +150,25 @@ stub_metadata PerseusDL/canonical-pdlrefwk
 
 # Tell the container's entrypoint the corpora are already in place —
 # skips `load_text_repos` and `slim_text_repos`.
-touch "$SV_DATA/sentinels/.text_repos_loaded"
+touch "$SENTINEL_DIR/.text_repos_loaded"
+
+# Upstream re-runs load_text_repos whenever the content manifest's sha256
+# differs from the stored one. Our corpora are bind-mounted and the manifest
+# never changes, but an ABSENT hash also counts as a mismatch — which would
+# send the entrypoint off to download tarballs from the URL "local" and fail.
+# Pre-store the hash of the manifest the container will actually read.
+MANIFEST="$SCAIFE_ROOT/data/content-manifests/local.yaml"
+if [ -f "$MANIFEST" ]; then
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$MANIFEST" | cut -d' ' -f1 > "$SENTINEL_DIR/.manifest_hash"
+  else
+    # macOS has shasum, not sha256sum; the container uses sha256sum and both
+    # produce the same digest for the same bytes.
+    shasum -a 256 "$MANIFEST" | cut -d' ' -f1 > "$SENTINEL_DIR/.manifest_hash"
+  fi
+else
+  echo "WARNING: $MANIFEST missing; entrypoint may attempt a text-repo reload" >&2
+fi
 
 # --- .env ---
 if [ ! -f "$SCAIFE_ROOT/deploy/.env" ]; then
@@ -164,6 +186,15 @@ ELASTICSEARCH_HOSTS=sv-elasticsearch
 ELASTICSEARCH_SNIFF_ON_START=0
 ELASTICSEARCH_SNIFF_ON_CONNECTION_FAIL=0
 GUNICORN_CMD_ARGS=--log-file=- --timeout=120 -w 2
+
+# Search indexing (first boot only, gated by sv-data/atlas/sentinels/.es_indexed).
+# Default indexes the FULL corpus so /search/ works everywhere: ~779k
+# passages, measured under 6 min with 4 workers, ~1 GB Elasticsearch index.
+# For the quickest possible first boot instead, uncomment a sample size —
+# search will then only cover that many passages.
+#SV_INDEXER_LIMIT=1000
+# Lower this on a small machine; 1 worker is roughly 10x slower.
+#SV_INDEXER_MAX_WORKERS=4
 EOF
   chmod 600 "$SCAIFE_ROOT/deploy/.env"
   echo "wrote $SCAIFE_ROOT/deploy/.env"
@@ -172,10 +203,18 @@ fi
 # Tighten .env perms even if it existed already (contains DB creds).
 chmod 600 "$SCAIFE_ROOT/deploy/.env" 2>/dev/null || true
 
-# --- build the untouched upstream image once, tag as base ---
+# --- build the upstream image once, tag as base ---
+# (upstream file, with two local changes: lint is opt-in behind RUN_LINT, and
+#  urllib3 is pinned forward to a patched release)
 # Our Dockerfile-local `FROM`s this tag and adds a non-root user.
+#
+# --target webapp matters. The Dockerfile's LAST stage is `search-index`, so
+# an untargeted build would produce that instead: it downloads an *unpinned*
+# `main` tarball from github.com/scaife-viewer/ogl-pdl-annotations at build
+# time and sets LEMMA_CONTENT / TOKEN_ANNOTATIONS_PATH, changing what the
+# indexer emits. We want the plain application image.
 cd "$SCAIFE_ROOT"
-docker build -t scaife-viewer-base:latest -f Dockerfile .
+docker build --target webapp -t scaife-viewer-base:latest -f Dockerfile .
 
 # --- bring it up ---
 exec docker compose \

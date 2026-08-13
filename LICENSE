@@ -1,13 +1,28 @@
 This snapshot is a modified redistribution of the Perseus Digital Library's
 Scaife Viewer plus a set of upstream open-source components. The overwhelming
 majority of the code, text, and data is NOT authored by Dan Meany and is
-NOT covered by the copyright notice below — see the "Upstream components"
+NOT covered by the copyright notices below — see the "Upstream components"
 section at the end of this file and /licenses/ in the running app for the
 authoritative attribution and license of each upstream piece.
 
+Dan Meany's own contributions are covered by TWO grants, split by kind:
+
+  * SOFTWARE  (scripts, Django apps, tests, Dockerfiles, config)
+      -> MIT License, section 1 below
+
+  * DOCUMENTATION  (README, CLAUDE.md, SBOM, upgrade analysis — prose)
+      -> Creative Commons Attribution 4.0 International (CC BY 4.0),
+         section 2 below
+
+The split is deliberate. Creative Commons advises against using CC licenses
+for software, and MIT is a poor fit for prose — it grants rights (to "deal
+in the Software") that make little sense for a document, and its warranty
+disclaimer is written for code. Neither grant changes anything about the
+upstream components, which keep their own licenses.
+
 ================================================================================
-MIT License — applies ONLY to modifications and new files authored for
-this local, offline build (enumerated below).
+1. MIT License — applies ONLY to SOFTWARE newly authored or modified for
+   this local, offline build (enumerated below).
 ================================================================================
 
 Copyright (c) 2026 Dan Meany
@@ -34,29 +49,49 @@ SOFTWARE.
 Scope of the MIT grant above
 --------------------------------------------------------------------------------
 
-The MIT license above applies ONLY to files newly authored by Dan Meany
-for this local build, and to specific small modifications listed below.
-Everything else — the vast majority of the codebase, the text corpora,
-the dictionaries, and the commentaries — remains under its original
-upstream license and copyright and is NOT relicensed by this file.
+The MIT license above applies ONLY to software files newly authored by
+Dan Meany for this local build, and to specific small modifications listed
+below. Everything else — the vast majority of the codebase, the text
+corpora, the dictionaries, and the commentaries — remains under its
+original upstream license and copyright and is NOT relicensed by this file.
+Documentation is covered separately by section 2.
 
-Newly authored files covered by the MIT grant above:
-  - LICENSE                                        (this file)
-  - README.md
+NOTE ON PATHS: the vendored application tree was resynced against upstream
+`dev` on 2026-08-10 and now lives at `scaife/scaife-viewer-2026-08-10-001/`
+(previously `.../scaife-viewer-2026-03-27-001/`). Paths below reflect the
+current tree.
+
+Newly authored SOFTWARE files covered by the MIT grant above:
   - .gitignore
+  - .gitattributes
   - bootstrap.sh
   - scripts/fetch-data.sh
+  - scripts/run-tests.sh
+  - scripts/lint.sh
+  - scripts/sbom-refresh.sh
   - deps/morpheus-combined/Dockerfile
-  - scaife/scaife-viewer-2026-03-27-001/Dockerfile-local
-  - scaife/scaife-viewer-2026-03-27-001/deploy/entrypoint-locked.sh
-  - scaife/scaife-viewer-2026-03-27-001/deploy/docker-compose.override.local.yml
-  - scaife/scaife-viewer-2026-03-27-001/data/content-manifests/local.yaml
-  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/localdict/**   (whole app)
-  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/localcomm/**   (whole app)
-  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/openapi_spec.py
-  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/templates/swagger.html
-  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/templates/licenses.html
-  - scaife/scaife-viewer-2026-03-27-001/sv_pdl/templates/reader/reader.html
+  - scaife/scaife-viewer-2026-08-10-001/Dockerfile-local
+  - scaife/scaife-viewer-2026-08-10-001/deploy/entrypoint-locked.sh
+  - scaife/scaife-viewer-2026-08-10-001/deploy/docker-compose.override.local.yml
+  - scaife/scaife-viewer-2026-08-10-001/data/content-manifests/local.yaml
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/localdict/**   (whole app)
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/localcomm/**   (whole app)
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/tests/**       (whole test suite)
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/openapi_spec.py
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/swagger.html
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/licenses.html
+
+  (The two templates are listed as software because they are Django
+  templates that are part of the running application. The prose *content*
+  of licenses.html is additionally available under CC BY 4.0 per section 2,
+  so it can be quoted or reused as documentation.)
+
+No longer claimed (upstream now provides these; the local versions were
+retired at the 2026-08-10 resync):
+  - sv_pdl/templates/reader/reader.html    upstream added this file, and
+                                           removed the polyfill.io script
+                                           the local override existed to
+                                           replace. Now upstream's, unmodified.
 
 Small modifications (still Perseus-derived; the MIT grant covers only the
 lines actually added or changed by Dan Meany, not the surrounding code):
@@ -69,26 +104,83 @@ lines actually added or changed by Dan Meany, not the surrounding code):
   - sv_pdl/templates/site_base.html       (swapped 2 CDN <script> tags
                                            for local static; added
                                            {% load static %})
-  - sv_pdl/templates/app.html             (swapped polyfill.io for local)
   - sv_pdl/templates/homepage.html        (added footer link block)
+  - sv_pdl/context_processors.py          (removed hardcoded Perseus
+                                           Google Analytics IDs)
   - deploy/docker-compose.yml             (SCAIFE_BIND env for ports)
-  - static/src/js/reader/widgets/WidgetPerseusDictionary.vue
+  - deploy/entrypoint.sh                  (dictionary + commentary ingest
+                                           steps; SV_INDEXER_LIMIT /
+                                           SV_INDEXER_MAX_WORKERS; skips
+                                           the repo-metadata step that
+                                           calls api.github.com)
+  - Dockerfile                            (lint opt-in behind RUN_LINT;
+                                           urllib3, gunicorn, certifi
+                                           pinned to patched releases;
+                                           python 3.8 -> 3.9 base;
+                                           setuptools==81.0)
   - static/src/js/reader/widgets/WidgetTokenList.vue
   - static/src/js/reader/widgets/WidgetWordList.vue
   - static/src/js/reader/widgets/NewAlexandriaWidget.vue
 
+  No longer modified (upstream's version is used as-is since 2026-08-10):
+  - sv_pdl/templates/app.html             (upstream removed the polyfill)
+  - static/src/js/reader/widgets/WidgetPerseusDictionary.vue
+                                          (upstream rewrote it; the local
+                                           API now emits the shape it
+                                           expects instead)
+
 Downloaded third-party assets under `static/vendor/`:
   - jquery.min.js                                       (jQuery — MIT)
-  - polyfill.min.js                                     (Financial Times — MIT)
   - swagger-ui/*                                        (Apache 2.0)
 NOT covered by the MIT grant above — see each upstream project.
+(polyfill.min.js was removed at the 2026-08-10 resync — upstream no longer
+loads an IntersectionObserver polyfill, so the local copy was orphaned.)
+
+================================================================================
+2. CC BY 4.0 — applies ONLY to DOCUMENTATION authored for this local build
+   (enumerated below).
+================================================================================
+
+Copyright (c) 2026 Dan Meany
+
+These documents are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+  Full text:  https://creativecommons.org/licenses/by/4.0/legalcode
+  Summary:    https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the license,
+and indicate if changes were made. Suggested attribution:
+
+  "Scaife Viewer local offline build documentation" by Dan Meany,
+  licensed under CC BY 4.0.
+
+Documents covered by the CC BY 4.0 grant above:
+  - README.md
+  - CLAUDE.md
+  - SBOM-2026-08-13.md          (and any later dated SBOM revisions)
+  - UPGRADE-IMPACT.md
+  - scaife/scaife-viewer-2026-08-10-001/.github/workflows/README.md
+  - the prose content of
+    scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/licenses.html
+
+  - LICENSE (this file) is a licensing instrument rather than a creative
+    work; it may be reproduced verbatim as needed to satisfy either grant.
+
+Note on compatibility: these documents are original prose about the
+software. They are not derivative works of the Perseus corpora or
+dictionaries, so the CC BY-SA 4.0 ShareAlike obligation on that DATA does
+not extend to them. Where a document quotes upstream material (for example
+license names, package metadata, or short excerpts), that material remains
+under its own license.
 
 ================================================================================
 Upstream components (not owned or relicensed by Dan Meany)
 ================================================================================
 
   Scaife Viewer (the main Django+Vue application at
-    scaife/scaife-viewer-2026-03-27-001/, including sv_pdl/**, deploy/**,
+    scaife/scaife-viewer-2026-08-10-001/, including sv_pdl/**, deploy/**,
     static/**, sv_pdl/reading/**, sv_pdl/atlas/**, sv_pdl/stats/**,
     sv_pdl/changelog/**, requirements*.txt, package*.json, migrations/**,
     fixtures/**, and every file inside the app not enumerated above)

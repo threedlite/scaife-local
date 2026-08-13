@@ -4,7 +4,7 @@ Local Scaife Viewer instance for Ancient Greek + Latin reading, modified to
 run **fully offline** with no runtime dependency on `services.perseids.org`
 or `atlas.perseus.tufts.edu`.
 
-- `scaife/scaife-viewer-2026-03-27-001/` — the main Django+Vue application (patched)
+- `scaife/scaife-viewer-2026-08-10-001/` — the main Django+Vue application (patched)
 - `data-sources/` — Perseus CTS text corpora (`.gitignore`d; auto-fetched)
 - `deps/` — cloned code dependencies (`.gitignore`d; auto-fetched)
 - `sv-data/` — host-side working tree bind-mounted into the container (CTS staging + sentinels + ATLAS DB)
@@ -17,30 +17,24 @@ Text corpora (Perseus/CTS content) live inside this tree at
 bind-mounted read-only into the container. Nothing in the corpora is
 downloaded at runtime, and the tree is fully self-contained.
 
-> ### ⚠️ Known limitation: full-text search is a 1,000-passage sample
+> ### Everything is populated by default, including search
 >
-> Out of the box, **`/search/` covers only a tiny fraction of the corpus.**
-> First boot runs the indexer with `--limit=1000`, so all but 1,000 passages
-> — across 154 authors of Greek and Latin — are invisible to search. A query
-> returning nothing usually means the text was never indexed, not that the
-> phrase is absent.
+> A default install indexes the **entire corpus** — measured at 779,099
+> passages in 5 min 42 s — so `/search/` works across every text from the
+> first boot. Reading, library browse, 256,220 dictionary entries, 7,656
+> commentary entries, and morphology are likewise complete.
 >
-> Everything else is complete and unaffected: reading, library browse, all
-> 256,220 dictionary entries, all 7,656 commentary entries, and morphology.
->
-> This is a deliberate trade for a fast first boot. To fix it, re-run the
-> indexer with a higher cap — safe to repeat, and it overwrites rather than
-> duplicates. Against a running stack, no restart needed:
+> That full index is the bulk of the extra time on first boot and produces
+> a ~1 GB Elasticsearch index. **For the quickest possible start instead**,
+> set a sample size before running `bootstrap.sh` — search will then cover
+> only that many passages:
 >
 > ```
-> curl -s localhost:9200/scaife-viewer/_count      # what you have now
-> docker exec -u scaife scaife-viewer \
->     python manage.py indexer --max-workers=1 --limit=25000
+> echo 'SV_INDEXER_LIMIT=1000' >> scaife/scaife-viewer-2026-08-10-001/deploy/.env
 > ```
 >
-> Drop `--limit` entirely for the whole corpus — budget hours. To make it
-> the default for future boots instead, see
-> [How to fix it](#how-to-fix-it) under Search index coverage.
+> See [Search index coverage](#search-index-coverage) for the trade-off,
+> how to check what you have, and how to change it later.
 
 ## Requirements
 
@@ -51,10 +45,12 @@ downloaded at runtime, and the tree is fully self-contained.
 - **Docker** (Engine 20.10+ with the Compose v2 plugin — comes bundled
   with Docker Desktop; on Linux it's `docker-compose-plugin` or newer).
 - **Disk**: budget **~10 GB** free. Measured on a completed arm64 install:
-  ~4.1 GB of images (the app image layers over the base, so they share
-  most of their size), ~1.3 GB of Docker volumes once Postgres is
-  populated, and ~1.4 GB of cloned corpora and deps in the working tree —
-  call it 7 GB at rest, plus headroom for intermediate build layers.
+  ~4.1 GB of images (the app image layers over the base, so they share most
+  of their size), ~1.4 GB of cloned corpora and deps in the working tree,
+  and Docker volumes of 1.2 GB (Postgres) plus 1.2 GB (Elasticsearch *after
+  the default full text index* — only ~1 MB if you opt into a small sample).
+  Call it ~8 GB at rest fully populated, plus headroom for intermediate
+  build layers.
 - **RAM allocated to Docker**: 4 GB minimum, 6 GB comfortable.
   Docker Desktop users: Settings → Resources → Memory. On the WSL2 backend
   that slider does nothing — use `.wslconfig` (see "Windows notes"); under
@@ -103,31 +99,40 @@ Run everything from inside the WSL2 distro, not PowerShell.
 git clone <this repo> scaife-local
 cd scaife-local
 
-# 2. One command. First run takes ~30-45 min (image builds + one-time
-#    3 GB fetch of Perseus + Morpheus + LSJ sources). Subsequent runs
-#    start in ~30 s.
+# 2. One command. First run measured at ~21 min on a 6-CPU arm64 machine:
+#    ~15 min of cold image builds plus a one-time ~1.4 GB source fetch,
+#    then ~6 min indexing the full corpus for search. Budget 45-60 min on
+#    slower hardware or a thin network. Subsequent runs start in ~30-40 s.
 bash ./bootstrap.sh
 ```
 
 That's it. When it prints `Listening at: http://0.0.0.0:8000`, open
 <http://localhost:8000/library/> in your browser.
 
-Reading, browsing, dictionaries, and morphology are fully populated at this
-point. **Search is not** — it holds a 1,000-passage sample until you index
-the full corpus. See the callout at the top and
-[Search index coverage](#search-index-coverage).
+Everything is populated at this point, search included — the full-corpus
+index is what accounts for the last few minutes before that line appears.
 
 The bootstrap script:
 
-1. Checks Docker is running.
+1. Checks Docker is installed, the daemon is reachable, and the Compose v2
+   plugin is present (all three fail fast, before any long work).
 2. Runs `scripts/fetch-data.sh` if `deps/` or `data-sources/` are empty —
-   clones nine open-license repos (~3 GB shallow, one-time).
+   clones nine open-license repos (measured ~1.4 GB shallow, one-time:
+   ~745 MB of corpora, ~620 MB of deps, of which `lexica` alone is 484 MB).
 3. Stages a writable `sv-data/` tree with sentinels so the container
    entrypoint skips its own tarball downloads.
 4. Writes `deploy/.env` (mode 0600) if missing.
-5. Builds `scaife-viewer-base:latest` from the untouched upstream Dockerfile.
+5. Builds `scaife-viewer-base:latest` from the upstream Dockerfile (modified
+   only to make lint opt-in — see "Lint is not part of the build").
 6. Runs `docker compose up --build` which builds the hardened + morpheus
    images on top and starts everything.
+
+On first boot the container's `deploy/entrypoint.sh` then does the one-time
+data work, each step gated by a sentinel file in `sv-data/atlas/sentinels/` so it
+never repeats: Django migrations → `prepare_atlas_db` → `ingest_dictionaries`
+→ `ingest_commentaries` → Elasticsearch indexing (the full corpus by
+default). Delete the matching sentinel to force any one of them to run
+again.
 
 Optional environment overrides:
 
@@ -176,7 +181,7 @@ Most Linux distros work out of the box. Three occasional gotchas:
 
 - **SELinux (Fedora / RHEL / Rocky):** bind mounts may be blocked with
   "Permission denied". Fix by adding `:z` to each host-side bind mount in
-  `scaife/scaife-viewer-2026-03-27-001/deploy/docker-compose.override.local.yml`
+  `scaife/scaife-viewer-2026-08-10-001/deploy/docker-compose.override.local.yml`
   — e.g. `- ${SCAIFE_REPO_ROOT}/sv-data:/sv-data:z`. This relabels the
   files with a shared SELinux context so the container can read/write them.
 - **Host UID mismatch:** the container runs gunicorn as UID 1000. If your
@@ -209,7 +214,7 @@ getting right before you start:
   for your distro so `docker` works inside it.
 - **Clone into the WSL2 filesystem, not `/mnt/c/`.** Put it at something
   like `~/git/scaife-local`. The corpora bind mounts see heavy small-file
-  I/O (~1.4 GB across the three CTS repos), and mounts served out of
+  I/O (~745 MB across the three CTS repos), and mounts served out of
   `/mnt/c` cross the drvfs boundary — the usual result is a drastic
   slowdown, and Linux ownership/permission semantics there differ from the
   native ext4 the containers expect.
@@ -250,6 +255,63 @@ exports `SCAIFE_REPO_ROOT` for the compose file, so nothing here is
 pinned to a specific home directory. The whole tree can be moved or
 renamed freely.
 
+### Running the tests
+
+```
+bash scripts/run-tests.sh                      # 79 unit tests; must be green
+bash scripts/run-tests.sh --integration        # adds checks needing live services
+bash scripts/run-tests.sh sv_pdl.tests.test_refs   # one module
+```
+
+The stack must be up. Tests live in
+`scaife/scaife-viewer-2026-08-10-001/sv_pdl/tests/` and exist to make
+**dependency upgrades observable** — they assert the offline patches are
+still in force (URLs resolve to the local views, templates fetch nothing
+from CDNs), the JSON contracts the Vue frontend depends on, and the
+Unicode/ordering invariants behind dictionary lookup and commentary
+matching. See "What the test suite covers, and what it does not" in
+[`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md) — a green suite means the local
+patches survived, not that the whole app works.
+
+Note that `--integration` currently has **one expected failure**: the pinned
+`elasticsearch` 7.10.1 client is talking to an 8.19.11 server. That is a
+real, known defect and the test is a deliberate standing marker.
+
+### Lint is not part of the build
+
+Upstream's Dockerfile ran `npm run lint`, `flake8 sv_pdl` and `isort -c`
+as build steps, so a stray unused import would fail the **entire image
+build** — 15 minutes of work lost to a formatting error. Those three steps
+are now opt-in:
+
+```
+bash scripts/lint.sh          # flake8 + isort (seconds, no rebuild)
+bash scripts/lint.sh --js     # also eslint (pulls the node build stage)
+bash scripts/lint.sh --fix    # apply isort ordering in place
+```
+
+To restore the old behaviour and gate the image on lint again:
+
+```
+docker build --build-arg RUN_LINT=1 -t scaife-viewer-base:latest -f Dockerfile .
+```
+
+`npm run unit` (the frontend unit tests) deliberately still runs in the
+build — those catch broken behaviour, not formatting.
+
+### Dependency and upgrade documentation
+
+- [`SBOM-2026-08-13.md`](SBOM-2026-08-13.md) — dated inventory of every
+  pinned package with EOL status and confirmed CVEs. Regenerate the raw
+  version data with `bash scripts/sbom-refresh.sh`.
+- [`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md) — what it would take to move to
+  current Django/Python/Postgres, and to swap Elasticsearch for OpenSearch.
+
+Short version: five of six platform components are past end of life, and
+`scaife-viewer-core` hard-pins `Django<3.0`, so there is no incremental
+upgrade path without forking upstream. Read those two documents before
+attempting any dependency bump.
+
 ### Expected first-boot log noise
 
 Two things scroll past that look like failures and are not:
@@ -275,7 +337,7 @@ scaife-viewer | [INFO] Listening at: http://0.0.0.0:8000
 To stop the stack cleanly:
 
 ```
-cd scaife/scaife-viewer-2026-03-27-001
+cd scaife/scaife-viewer-2026-08-10-001
 SCAIFE_REPO_ROOT=<abs path to repo root> \
 SCAIFE_DATA_SOURCES=<abs path to data-sources> \
 docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.override.local.yml down
@@ -310,7 +372,7 @@ pulls from Docker Hub at runtime.
 
 | Container | Role | Source |
 |---|---|---|
-| `scaife-viewer` | Django + Gunicorn + built Vue bundle | `scaife/scaife-viewer-2026-03-27-001/Dockerfile` |
+| `scaife-viewer` | Django + Gunicorn + built Vue bundle | `scaife/scaife-viewer-2026-08-10-001/Dockerfile` |
 | `morpheus` | Perseids Morpheus (C) + Ruby Sinatra JSON API | `deps/morpheus-combined/Dockerfile` |
 | `sv-postgres` | Postgres 9.6 (Perseus data + ATLAS DB + local dictionaries + local commentaries) | official image |
 | `sv-elasticsearch` | ES 8.19.11 (text search index), `analysis-icu` plugin added | `Dockerfile-elasticsearch` in the app |
@@ -321,33 +383,52 @@ pulls from Docker Hub at runtime.
 |---|---|---|---|
 | Read Greek/Latin texts | `/reader/…`, `/library/passage/…` | CTS resolver → mounted `canonical-greekLit`/`-latinLit`/`-pdlrefwk` | ✓ |
 | Library browse | `/library/`, `/library/json/` | CTS resolver | ✓ |
-| Text search | `/search/` | Elasticsearch — **⚠ only 1,000 passages indexed by default; see below** | ✓ (partial) |
+| Text search | `/search/` | Elasticsearch — full corpus indexed on first boot (779,099 passages) | ✓ |
 | **Morphology** (form → lemma) | `/morpheus/?word=…&lang=…` | `morpheus` container | ✓ |
 | **Dictionaries** (LSJ, Middle Liddell, Lewis & Short) | `/library/dictionaries/…` | Postgres via `sv_pdl/localdict` app | ✓ |
 | **Commentaries** (Nagy et al. on Homer/Pausanias/Pindar) | `/library/commentaries/…/json/` | Postgres via `sv_pdl/localcomm` app | ✓ |
 
 ### Search index coverage
 
-First boot runs the indexer with `--limit=1000`, so **only 1,000 passages
-are searchable** — a fast-boot sample, not the corpus. Those 1,000 are
-simply whichever passages the indexer walked first; they are not a curated
-or representative selection, so coverage is effectively arbitrary from a
-reader's point of view.
+**The default is a full index.** First boot runs the indexer with no
+`--limit`, so every passage is searchable. This is a deliberate departure
+from upstream, whose entrypoint hard-coded `--limit=1000`.
 
-**What this looks like in practice:** you search a word you are certain
-appears in the text open in front of you, and get nothing back. That is
-the index missing the passage, not the search being broken.
-
-Everything else is complete regardless — reading, library browse,
-dictionaries, commentaries, morphology. Only `/search/` is affected.
-Verify what you currently have indexed:
+Check what you actually have at any time:
 
 ```
 curl -s localhost:9200/scaife-viewer/_count
-# {"count":1000,...}  <- the default sample
+# {"count":779099,...}  <- full corpus
+# {"count":1000,...}    <- a sample; search will miss most texts
 ```
 
-#### How to fix it
+#### Opting into a sample instead
+
+If you want the fastest possible first boot and don't need working search,
+set a passage cap in `deploy/.env` **before** the first `bootstrap.sh`:
+
+```
+echo 'SV_INDEXER_LIMIT=1000' >> scaife/scaife-viewer-2026-08-10-001/deploy/.env
+```
+
+Be aware of what this costs. The capped passages are simply whichever ones
+the indexer walks first — not a curated or representative selection — so
+coverage is arbitrary from a reader's point of view. In practice you search
+a word you are certain appears in the text in front of you and get nothing
+back; that is the index missing the passage, not search being broken.
+Reading, browse, dictionaries, commentaries, and morphology are unaffected
+either way.
+
+`SV_INDEXER_MAX_WORKERS` (default 4) is the other lever — lower it on a
+small machine, at roughly 10x the runtime for a single worker.
+
+#### Changing it later
+
+Already installed, and want to switch? The `.es_indexed` sentinel means the
+entrypoint will not re-index on its own — **changing `.env` alone does
+nothing to an existing install.** Either re-run the indexer directly
+(below), or delete `sv-data/atlas/sentinels/.es_indexed` and re-run
+`bootstrap.sh`.
 
 **Re-indexing is safe to repeat.** Documents are keyed by passage URN, so
 re-running the indexer overwrites rather than duplicates — verified by
@@ -355,45 +436,69 @@ re-running at `--limit=1200` against an existing 1,000-doc index and
 getting exactly 1,200 documents, not 2,200. You never need to delete the
 index first, and a run that dies partway can simply be run again.
 
-There are two ways to do it. **Option A — run it directly**, against the
-already-running stack. Nothing to restart, and you see progress as it goes:
+Run it directly against the already-running stack — nothing to restart,
+and you see progress as it goes:
 
 ```
-# raise the cap (any number), or drop --limit entirely for the full corpus
+# omit --limit for the full corpus; add --limit=N to build a sample
 docker exec -u scaife scaife-viewer \
-    python manage.py indexer --max-workers=1 --limit=25000
+    python manage.py indexer --max-workers=4
 ```
 
-It prints `Committing N doc(s) to scaife-viewer` as it works and
-`Finished in Ns` at the end. Check progress at any time from another shell:
+For a long run, detach it so it survives your shell, and log somewhere the
+host can read (`/sv-data` is the writable bind mount):
+
+```
+docker exec -d -u scaife scaife-viewer \
+    sh -c 'python -u manage.py indexer --max-workers=4 > /sv-data/fullindex.log 2>&1'
+```
+
+It prints `Committing N doc(s) to scaife-viewer` as it works, then a
+per-language `Word Count Summary` and `Finished in Ns`. Watch progress from
+another shell at any time:
 
 ```
 curl -s localhost:9200/scaife-viewer/_count
 ```
 
-**Option B — make it the permanent default**, so future boots index fully.
-`SV_INDEXER_LIMIT=0` means "no limit"; the sentinel must be cleared or the
-entrypoint skips indexing entirely:
+Note that a sampled index is not *reduced* by re-running with a smaller
+`--limit`: documents already in the index stay there. To shrink one, delete
+the index first with `--delete-index` (untested here) or remove the
+`deploy_sv-elasticsearch-data` volume and re-index.
+
+For reference, `SV_INDEXER_LIMIT=0` is what "no limit" means to the
+entrypoint, and it is the default — you only need to set it explicitly to
+undo a sample you configured earlier:
 
 ```
-echo 'SV_INDEXER_LIMIT=0' >> scaife/scaife-viewer-2026-03-27-001/deploy/.env
-rm sv-data/sentinels/.es_indexed
+echo 'SV_INDEXER_LIMIT=0' >> scaife/scaife-viewer-2026-08-10-001/deploy/.env
+rm sv-data/atlas/sentinels/.es_indexed
 bash ./bootstrap.sh
 ```
 
-`SV_INDEXER_MAX_WORKERS` (default 1) parallelizes it if you have the RAM.
+**How long, and how big?** Measured on a 6-CPU / 12 GiB aarch64 Colima VM,
+indexing the entire corpus at `--max-workers=4`:
 
-**How long?** Budget hours for the full corpus. As a rough rate to
-extrapolate from: 1,200 passages indexed in ~19 s at `--max-workers=1` on
-an arm64 laptop. Treat that as indicative only — it is measured over the
-cheapest passages the indexer walks first, and the ES volume grows roughly
-in proportion to what you index.
+| | |
+|---|---|
+| Passages indexed | **779,099** |
+| Wall time | **5 min 42 s** (`Finished in 339.92s`) |
+| Resulting index | ~1 GB (`deploy_sv-elasticsearch-data` volume ~1.2 GB) |
+| Words indexed | grc 10,837,549 · eng 21,070,271 · lat 6,748,008, plus deu/fre/ita/ara |
+
+Worker count matters a lot: the same indexer at `--max-workers=1` ran at
+roughly a tenth of that throughput. Don't extrapolate a single-worker rate
+to estimate a parallel run.
+
+A handful of `toc error: … has an invalid refsDecl` lines during the run
+are the same benign upstream Perseus defects described under "Expected
+first-boot log noise" — four of them, all Cicero and one other Latin text.
 
 **What you cannot do:** index a single work or author. The indexer accepts
 a `--urn-prefix` flag, but it is unimplemented upstream and raises
 `NotImplementedError: URN prefix is not currently supported`. The only
-lever is *how many* passages, not *which* — so the practical middle ground
-is a raised `--limit` (say 25,000) rather than a targeted subset.
+lever is *how many* passages, not *which*. Given the full run takes under
+six minutes, just index everything rather than looking for a subset.
 
 ### Data volumes
 
@@ -404,6 +509,7 @@ is a raised `--limit` (say 25,000) rather than a targeted subset.
 | Lewis & Short entries | 103,232 |
 | Middle Liddell entries | 36,491 |
 | Commentary entries | 7,656 across 14 named commentaries |
+| Searchable passages | **779,099** (full corpus, the default) |
 
 ## Changes made to the upstream app for offline operation
 
@@ -414,10 +520,16 @@ polyfill from `polyfill.io` (a domain hijacked in 2024), and Font Awesome
 icons from `use.fontawesome.com`. All replaced:
 
 - `sv_pdl/templates/site_base.html` — jQuery URL swapped for `{% static 'vendor/jquery.min.js' %}`; the `use.fontawesome.com` script tag removed (icons are already bundled via `@fortawesome/*` npm deps).
-- `sv_pdl/templates/app.html` — polyfill URL swapped for `{% static 'vendor/polyfill.min.js' %}`.
-- `sv_pdl/templates/reader/reader.html` (new) — local override of the same-named template in `scaife_viewer.core`; polyfill URL swapped.
-- `static/vendor/{jquery,polyfill}.min.js` — the two files themselves.
+- `static/vendor/jquery.min.js` — the file itself.
 - `sv_pdl/settings.py` — `STATICFILES_DIRS` extended with `("vendor", <path>)` so `collectstatic` picks up the vendor files.
+
+**The polyfill part of this is now retired.** It previously needed local
+copies in `app.html` and a `reader/reader.html` override, but upstream
+removed the `polyfill.io` script tag entirely, so both local patches and
+`static/vendor/polyfill.min.js` were dropped at the 2026-08-10 resync rather
+than left as an unreferenced file and a misleading licence credit. The host
+is still in the test suite's forbidden list, so reintroducing it would fail
+`test_no_cdn_resources_loaded_by_templates`.
 
 ### 2. Morpheus service brought in-cluster
 
@@ -466,7 +578,7 @@ with a Django app backed by Open-Commentaries markdown files:
 
 ### 5. Docker Compose local override
 
-`scaife/scaife-viewer-2026-03-27-001/deploy/docker-compose.override.local.yml`
+`scaife/scaife-viewer-2026-08-10-001/deploy/docker-compose.override.local.yml`
 (new) does the wiring:
 
 - Adds the `morpheus` service (built from `deps/morpheus-combined/Dockerfile`).
@@ -503,9 +615,100 @@ so the steps skip cleanly when the same entrypoint runs under the upstream
 or CI compose files. Both commands are idempotent (`get_or_create` on the
 parent row, then entries replaced), so re-running never duplicates.
 
-The same section makes the indexer's passage cap configurable via
-`SV_INDEXER_LIMIT` / `SV_INDEXER_MAX_WORKERS` instead of hard-coding
-`--limit=1000`; the default is unchanged.
+### 8. Search indexes the full corpus by default
+
+The entrypoint in the 2026-03-27 snapshot ran `python manage.py indexer
+--max-workers=1 --limit=1000`, which left `/search/` covering 1,000 passages
+of a 779,099-passage corpus. That suits a fast CI or preview build; for a
+local reading instance it is worth indexing everything.
+
+(Upstream has since removed the `--limit` themselves, so current `dev` also
+indexes the full corpus. What remains local is the configurability.)
+
+That cap is now configurable and inverted: `SV_INDEXER_LIMIT` defaults to
+`0` (no `--limit`, index everything) and `SV_INDEXER_MAX_WORKERS` defaults
+to `4` rather than `1`, since worker count dominates runtime. Setting
+`SV_INDEXER_LIMIT=<N>` restores a capped sample for a faster first boot.
+`bootstrap.sh` writes both as commented-out lines in `deploy/.env` so the
+choice is discoverable without reading this file.
+
+### 9. Lint made opt-in in the upstream Dockerfile
+
+This is the **only** change to the upstream `Dockerfile`, which is otherwise
+kept pristine so `Dockerfile-local` can layer on top of it.
+
+Upstream gated the image build on three style checks — `npm run lint` in the
+static-build stage, then `flake8 sv_pdl` and `isort -c **/*.py` in the final
+stage. An unused import therefore failed the whole build, discarding a long
+image build over formatting. Each is now wrapped in a `RUN_LINT` guard that
+defaults to off:
+
+```dockerfile
+ARG RUN_LINT=0
+RUN if [ "$RUN_LINT" = "1" ]; then flake8 sv_pdl && isort -c **/*.py; \
+    else echo "skipping flake8 + isort (build with --build-arg RUN_LINT=1 to enable)"; fi
+```
+
+`scripts/lint.sh` runs the same checks in seconds against the built image,
+without a rebuild. `npm run unit` was left mandatory — behavioural tests
+earn their place in a build in a way that formatting checks do not.
+
+Note that upstream's current `dev` no longer runs `flake8`/`isort` in the
+build at all — they removed both. Only the `npm run lint` guard is still a
+local change.
+
+### 10. `urllib3` pinned forward to a patched release
+
+The second (and only other) local change to the upstream `Dockerfile`.
+Upstream deliberately uninstalls whatever `pip` resolved and pins
+`urllib3==1.26.15` "to avoid conflicts". That release is vulnerable to three
+disclosure issues:
+
+| CVE | Leak | Fixed in |
+|---|---|---|
+| CVE-2023-43804 | `Cookie` header on cross-origin redirect | 1.26.17 |
+| CVE-2023-45803 | request body retained on a 303 redirect | 1.26.18 |
+| CVE-2024-37891 | `Proxy-Authorization` on cross-origin redirect | 1.26.19 |
+
+We pin **1.26.20** — the final release of the 1.26.x line, which carries all
+three fixes. Staying on 1.26.x is deliberate: upstream pins there to avoid
+resolver conflicts, and urllib3 2.7 requires Python 3.10+ while this image
+is Python 3.9. Worth revisiting only if the interpreter is upgraded.
+
+### 11. `gunicorn` and `certifi` upgraded off vulnerable pins
+
+The other two confirmed CVEs in the dependency set, fixed with the same
+post-install pattern in the `Dockerfile`:
+
+| Package | Upstream pin | Ours | Closed |
+|---|---|---|---|
+| `gunicorn` | 19.9.0 | **23.0.0** | CVE-2024-1135 (HTTP request smuggling) |
+| `certifi` | 2018.11.29 | **2026.7.22** | CVE-2023-37920, CVE-2022-23491 (removed-for-cause CA roots) |
+
+`gunicorn` 23.0.0 is the newest release supporting Python 3.9 — 26.0.0
+requires 3.10+. `certifi` is declared as `==2018.11.29` by
+`scaife-viewer-core`, so pip warns about the conflict and proceeds, exactly
+as it already does for `requests`.
+
+Together with §10 this leaves **no known unfixed CVE** in the Python
+dependency set. Re-check after any upstream resync — these are overrides on
+top of upstream pins.
+
+### 12. Base image moved to Python 3.9 / Alpine 3.22
+
+`python:3.8-alpine` is frozen at Alpine **3.20.3**: the tag stopped being
+rebuilt when Python 3.8 reached end of life, so it no longer receives OS
+security updates. Both stages now use `python:3.9-alpine`, currently Alpine
+**3.22.2**, matching the interpreter in upstream's own deployment image
+(`deploy/webapp/webapp-base.dockerfile`).
+
+This required adopting upstream's `setuptools==81.0` pin: newer setuptools
+drops `pkg_resources`, which `django-user-accounts` imports at module load.
+Upstream hit the same problem on their 3.9 image and fixed it the same way.
+
+**Python 3.9 is the ceiling** — Django 2.2 does not support 3.10, so going
+further needs Django 3.2+, which needs the fork. See
+[`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md).
 
 ## Re-ingesting data
 
@@ -579,10 +782,11 @@ bootstrap re-chmods any existing file for safety.
 ### 3. Non-root container
 
 Upstream `Dockerfile` runs gunicorn as UID 0. Added `Dockerfile-local` that
-`FROM`s the untouched upstream image (built and tagged as
+`FROM`s the upstream image (built and tagged as
 `scaife-viewer-base:latest` by `bootstrap.sh`) and adds a `scaife` user
-(UID 1000) plus a locked-down launcher. The upstream Dockerfile is not
-modified.
+(UID 1000) plus a locked-down launcher. The upstream Dockerfile is otherwise
+unmodified; its only local change is making the lint steps opt-in (see
+"Lint is not part of the build").
 
 ### 4. In-container outbound firewall (`entrypoint-locked.sh`)
 
@@ -672,15 +876,27 @@ Lewis & Short TEI), the Open Commentaries markdown, and the three Perseus
 text corpora are all authored by other people and remain under their
 original upstream licenses (MIT, MPL 2.0, or CC BY-SA 4.0 as noted below).
 
-The **MIT license at `LICENSE`** applies **only** to files I newly authored
-for this local offline build — roughly `bootstrap.sh`, `scripts/`,
-`Dockerfile-local`, `entrypoint-locked.sh`, the two new Django apps
-under `sv_pdl/localdict/` and `sv_pdl/localcomm/`, the OpenAPI schema,
-the `homepage.html` / `licenses.html` / `swagger.html` / `reader/reader.html`
-templates I added or overrode, and small edits to `sv_pdl/settings.py`,
-`sv_pdl/urls.py`, `sv_pdl/views.py`, and four widget `.vue` files. The
-`LICENSE` file itself enumerates the exact list. The rest of the tree is
-not mine to relicense.
+My own contributions are split across **two** grants by kind, both in
+`LICENSE`:
+
+- **MIT — software.** `bootstrap.sh`, `scripts/*.sh`, `Dockerfile-local`,
+  `entrypoint-locked.sh`, the two new Django apps under `sv_pdl/localdict/`
+  and `sv_pdl/localcomm/`, the test suite under `sv_pdl/tests/`, the OpenAPI
+  schema, the `licenses.html` / `swagger.html` templates, the compose
+  override, and small edits to `sv_pdl/settings.py`, `sv_pdl/urls.py`,
+  `sv_pdl/views.py`, `sv_pdl/context_processors.py`, `deploy/entrypoint.sh`,
+  the `Dockerfile`, and three widget `.vue` files.
+- **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) —
+  documentation.** This README, `CLAUDE.md`, `SBOM-*.md`,
+  `UPGRADE-IMPACT.md`, and the prose on the `/licenses/` page. Reuse freely
+  with credit.
+
+The split is deliberate: MIT is written for code and grants rights that
+make little sense for prose, while Creative Commons explicitly advises
+against using CC licenses for software.
+
+`LICENSE` enumerates the exact file list for each grant. The rest of the
+tree is not mine to relicense.
 
 The full breakdown of every upstream code library and every data source
 (with license, source repo, and redistribution obligations) is at
@@ -697,7 +913,7 @@ rights reserved" unless a repo README says otherwise.
 | Path | License | Copyright |
 |---|---|---|
 | Local additions (small — see `LICENSE`) | MIT | 2026 Dan Meany |
-| `scaife/scaife-viewer-2026-03-27-001/` (bulk of the tree) | MIT | 2017–2020 Perseus Digital Library |
+| `scaife/scaife-viewer-2026-08-10-001/` (bulk of the tree) | MIT | 2017–2020 Perseus Digital Library |
 
 ### `deps/` — dependencies and ecosystem repos
 
