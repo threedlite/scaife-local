@@ -35,7 +35,10 @@
             </div>
             <div class="col pl-0">
               <a class="navbar-brand" href="{% url "home" %}">
-                <span>Scaife Viewer <br /><small class="fs-6 mt-2">Hosted by Tufts University</small></span>
+                {# "Hosted by Tufts University" upstream. This deployment is #}
+                {# offline and self-hosted, so the attribution would be #}
+                {# misleading — nothing here is served by Tufts. #}
+                <span>Scaife Viewer <br /><small class="fs-6 mt-2">Local version</small></span>
               </a>
             </div>
           </div>
