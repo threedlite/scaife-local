@@ -263,8 +263,8 @@ renamed freely.
 ### Running the tests
 
 ```
-bash scripts/run-tests.sh                      # 121 unit tests; must be green
-bash scripts/run-tests.sh --integration        # 158 tests; adds live-service checks
+bash scripts/run-tests.sh                      # 123 unit tests; must be green
+bash scripts/run-tests.sh --integration        # 160 tests; adds live-service checks
 bash scripts/run-tests.sh sv_pdl.tests.test_refs   # one module
 bash scripts/run-morpheus-tests.sh             # 28 rspec examples in the morpheus image
 ```
@@ -834,6 +834,22 @@ a 500 into a 400.
 The pagination half lives in the vendored `scaife-viewer-core`
 (`get_pagination_info`, which gained a `per_page` argument defaulting to
 10); see `packages/README.md`.
+
+### 14. Site header no longer claims Tufts hosting
+
+Upstream's `sv_pdl/templates/site_base.html` renders "Hosted by Tufts
+University" beneath the Scaife Viewer wordmark. Nothing in this deployment
+is served by Tufts, so the line now reads **"Local version"**.
+
+Cosmetic, but it is a factual claim about who is running the service, and
+it is exactly the sort of string an upstream template refresh restores
+without anyone noticing. `sv_pdl/tests/test_offline_wiring.py` pins it —
+against the *rendered* output rather than the file, so that the comment
+naming the replaced string does not itself satisfy the check.
+
+The home page shows no brand line at all; `homepage.html` overrides the
+`site_brand` block with an empty one. That is upstream behaviour and is
+unchanged.
 
 ## Re-ingesting data
 

@@ -126,3 +126,43 @@ class TemplateCdnTests(SimpleTestCase):
         self.assertEqual(
             offenders, [], f"templates fetch external resources: {offenders}"
         )
+
+
+class SiteBrandTests(SimpleTestCase):
+    """The header must not claim this deployment is hosted by Tufts.
+
+    Upstream's `site_base.html` renders "Hosted by Tufts University" under
+    the Scaife Viewer wordmark. Nothing here is served by Tufts — the whole
+    point of this deployment is that it runs offline on the user's own
+    machine — so the attribution is simply false, and it is the kind of
+    string an upstream template refresh silently restores.
+    """
+
+    BRAND = "Local version"
+    UPSTREAM_BRAND = "Hosted by Tufts University"
+
+    def _site_base(self):
+        import pathlib
+
+        return (
+            pathlib.Path(settings.PACKAGE_ROOT) / "templates" / "site_base.html"
+        ).read_text(encoding="utf-8")
+
+    def test_template_carries_the_local_brand(self):
+        text = self._site_base()
+        self.assertIn(self.BRAND, text)
+
+    def test_template_does_not_claim_tufts_hosting(self):
+        """Checks the rendered markup, not the file.
+
+        The replaced string is named in a comment right above the change,
+        so a plain substring search over the file would match the very
+        note explaining why it is gone. Django template comments
+        (`{# ... #}`) are stripped at render time, so rendering is what
+        distinguishes documentation from a reintroduced claim.
+        """
+        from django.template import Context, Template
+
+        rendered = Template(self._site_base()).render(Context({}))
+        self.assertNotIn(self.UPSTREAM_BRAND, rendered)
+        self.assertIn(self.BRAND, rendered)

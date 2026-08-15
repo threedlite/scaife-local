@@ -44,12 +44,12 @@ it before changing anything, and keep it accurate when behaviour changes.
 
 ## Tests
 
-`bash scripts/run-tests.sh` — 121 unit tests in
+`bash scripts/run-tests.sh` — 123 unit tests in
 `scaife/scaife-viewer-2026-08-10-001/sv_pdl/tests/`. Run them after any
 change to `sv_pdl/`, settings, URLs or dependencies. The stack must be up.
 
 - `--integration` adds checks needing live services and is **fully green as
-  of 2026-08-15** (158 tests). It used to carry one deliberate expected
+  of 2026-08-15** (160 tests). It used to carry one deliberate expected
   failure — a 7.x elasticsearch client against an 8.x server — which was
   resolved by migrating to OpenSearch rather than by weakening the
   assertion. If it fails again, that is a real regression.
