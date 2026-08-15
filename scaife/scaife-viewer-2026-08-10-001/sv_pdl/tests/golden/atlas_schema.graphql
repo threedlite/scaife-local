@@ -1,0 +1,965 @@
+type Query {
+  textGroup(
+    """The ID of the object"""
+    id: ID!
+  ): TextGroupNode
+  textGroups(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): TextGroupNodeConnection
+  work(
+    """The ID of the object"""
+    id: ID!
+  ): WorkNode
+  works(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): WorkNodeConnection
+  version(
+    """The ID of the object"""
+    id: ID!
+  ): VersionNode
+  versions(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): VersionNodeConnection
+  textPart(
+    """The ID of the object"""
+    id: ID!
+  ): TextPartNode
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): TextPartNodeConnection
+  passageTextParts(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection
+  textAlignment(
+    """The ID of the object"""
+    id: ID!
+  ): TextAlignmentNode
+  textAlignments(offset: Int, before: String, after: String, first: Int, last: Int, label: String, urn: String, reference: String): TextAlignmentNodeConnection
+  textAlignmentRecord(
+    """The ID of the object"""
+    id: ID!
+  ): TextAlignmentRecordNode
+  textAlignmentRecords(offset: Int, before: String, after: String, first: Int, last: Int, idx: Int, alignment: ID, alignment_Urn: String, reference: String): TextAlignmentRecordNodeConnection
+  textAlignmentRecordRelation(
+    """The ID of the object"""
+    id: ID!
+  ): TextAlignmentRecordRelationNode
+  textAlignmentRecordRelations(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection
+  textAnnotation(
+    """The ID of the object"""
+    id: ID!
+  ): TextAnnotationNode
+  textAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): TextAnnotationNodeConnection
+  syntaxTree(
+    """The ID of the object"""
+    id: ID!
+  ): SyntaxTreeNode
+  syntaxTrees(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): SyntaxTreeNodeConnection
+  metricalAnnotation(
+    """The ID of the object"""
+    id: ID!
+  ): MetricalAnnotationNode
+  metricalAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): MetricalAnnotationNodeConnection
+  imageAnnotation(
+    """The ID of the object"""
+    id: ID!
+  ): ImageAnnotationNode
+  imageAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): ImageAnnotationNodeConnection
+  audioAnnotation(
+    """The ID of the object"""
+    id: ID!
+  ): AudioAnnotationNode
+  audioAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): AudioAnnotationNodeConnection
+  tree(urn: String!, upTo: String): TreeNode
+  token(
+    """The ID of the object"""
+    id: ID!
+  ): TokenNode
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection
+  namedEntity(
+    """The ID of the object"""
+    id: ID!
+  ): NamedEntityNode
+  namedEntities(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, kind: NamedEntityKind, reference: String): NamedEntityNodeConnection
+  repo(
+    """The ID of the object"""
+    id: ID!
+  ): RepoNode
+  repos(offset: Int, before: String, after: String, first: Int, last: Int, name: String): RepoNodeConnection
+  attribution(
+    """The ID of the object"""
+    id: ID!
+  ): AttributionRecordNode
+  attributions(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): AttributionRecordNodeConnection
+  dictionary(
+    """The ID of the object"""
+    id: ID!
+  ): DictionaryNode
+  dictionaries(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): DictionaryNodeConnection
+  dictionaryEntry(
+    """The ID of the object"""
+    id: ID!
+  ): DictionaryEntryNode
+  dictionaryEntries(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, headword: String, headword_Istartswith: String, reference: String, lemma: String): DictionaryEntryNodeConnection
+  sense(
+    """The ID of the object"""
+    id: ID!
+  ): SenseNode
+  senses(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, entry: ID, entry_Urn: String, depth: Int, depth_Gt: Int, depth_Lt: Int, depth_Gte: Int, depth_Lte: Int, path: String, path_Startswith: String, reference: String): SenseNodeConnection
+  citation(
+    """The ID of the object"""
+    id: ID!
+  ): CitationNode
+  citations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection
+}
+
+type TextGroupNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  path: String!
+  depth: Int!
+  numchild: Int!
+
+  """0-based index"""
+  idx: Int
+  kind: String!
+  urn: String!
+  ref: String
+  rank: Int
+  textContent: String
+  metadata: GenericScalar
+  textAlignments(offset: Int, before: String, after: String, first: Int, last: Int, label: String, urn: String, reference: String): TextAlignmentNodeConnection!
+  textalignmentrecordrelationSet(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+  textAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): SyntaxTreeNodeConnection!
+  metricalAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): MetricalAnnotationNodeConnection!
+  imageAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): ImageAnnotationNodeConnection!
+  audioAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): AudioAnnotationNodeConnection!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+  repos(offset: Int, before: String, after: String, first: Int, last: Int, name: String): RepoNodeConnection!
+  attributionRecords(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): AttributionRecordNodeConnection!
+  senseCitations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection!
+  label: String
+  name: String
+}
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object"""
+  id: ID!
+}
+
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar
+
+type TextAlignmentNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TextAlignmentNodeEdge]!
+}
+
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""A Relay edge containing a `TextAlignmentNode` and its cursor."""
+type TextAlignmentNodeEdge {
+  """The item at the end of the edge"""
+  node: TextAlignmentNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TextAlignmentNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  label: String
+  description: String
+  urn: String!
+  metadata: GenericScalar
+  versions(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  records(offset: Int, before: String, after: String, first: Int, last: Int, idx: Int, alignment: ID, alignment_Urn: String, reference: String): TextAlignmentRecordNodeConnection!
+}
+
+type PassageTextPartNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [PassageTextPartNodeEdge]!
+  metadata: PassageMetadataNode
+}
+
+"""A Relay edge containing a `PassageTextPartNode` and its cursor."""
+type PassageTextPartNodeEdge {
+  """The item at the end of the edge"""
+  node: PassageTextPartNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type PassageTextPartNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  path: String!
+  depth: Int!
+  numchild: Int!
+
+  """0-based index"""
+  idx: Int
+  kind: String!
+  urn: String!
+  ref: String
+  rank: Int
+  textContent: String
+  metadata: JSONString
+  textAlignments(offset: Int, before: String, after: String, first: Int, last: Int, label: String, urn: String, reference: String): TextAlignmentNodeConnection!
+  textalignmentrecordrelationSet(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+  textAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): SyntaxTreeNodeConnection!
+  metricalAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): MetricalAnnotationNodeConnection!
+  imageAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): ImageAnnotationNodeConnection!
+  audioAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): AudioAnnotationNodeConnection!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+  repos(offset: Int, before: String, after: String, first: Int, last: Int, name: String): RepoNodeConnection!
+  attributionRecords(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): AttributionRecordNodeConnection!
+  senseCitations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection!
+  label: String
+}
+
+"""
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
+"""
+scalar JSONString
+
+type TextAlignmentRecordRelationNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TextAlignmentRecordRelationNodeEdge]!
+}
+
+"""
+A Relay edge containing a `TextAlignmentRecordRelationNode` and its cursor.
+"""
+type TextAlignmentRecordRelationNodeEdge {
+  """The item at the end of the edge"""
+  node: TextAlignmentRecordRelationNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TextAlignmentRecordRelationNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  version: PassageTextPartNode!
+  record: TextAlignmentRecordNode!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+}
+
+type TextAlignmentRecordNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  urn: String!
+  metadata: JSONString!
+
+  """0-based index"""
+  idx: Int!
+  alignment: TextAlignmentNode!
+  relations(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+}
+
+type TokenNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TokenNodeEdge]!
+}
+
+"""A Relay edge containing a `TokenNode` and its cursor."""
+type TokenNodeEdge {
+  """The item at the end of the edge"""
+  node: TokenNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TokenNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  textPart: PassageTextPartNode!
+
+  """the tokenized value of a text part (usually whitespace separated)"""
+  value: String!
+
+  """the normalized version of the value (no punctuation)"""
+  wordValue: String
+
+  """the value for the CTS subreference targeting a particular token"""
+  subrefValue: String
+
+  """the lemma for the token value"""
+  lemma: String
+
+  """the interlinear gloss"""
+  gloss: String
+  partOfSpeech: String
+
+  """part-of-speech tag"""
+  tag: String
+  case: String
+  mood: String
+  position: Int!
+
+  """0-based index"""
+  idx: Int!
+
+  """a human-readable reference to the token via a virtualized exemplar"""
+  veRef: String
+  alignmentRecordRelations(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+  namedEntities(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, kind: NamedEntityKind, reference: String): NamedEntityNodeConnection!
+}
+
+type NamedEntityNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [NamedEntityNodeEdge]!
+}
+
+"""A Relay edge containing a `NamedEntityNode` and its cursor."""
+type NamedEntityNodeEdge {
+  """The item at the end of the edge"""
+  node: NamedEntityNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type NamedEntityNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  title: String!
+  description: String
+  kind: NamedEntityKind!
+  url: String!
+  data: GenericScalar
+
+  """0-based index"""
+  idx: Int
+  urn: String!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+}
+
+"""An enumeration."""
+enum NamedEntityKind {
+  """Person"""
+  PERSON
+
+  """Place"""
+  PLACE
+}
+
+type SyntaxTreeNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SyntaxTreeNodeEdge]!
+}
+
+"""A Relay edge containing a `SyntaxTreeNode` and its cursor."""
+type SyntaxTreeNodeEdge {
+  """The item at the end of the edge"""
+  node: SyntaxTreeNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type SyntaxTreeNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  kind: TextAnnotationKind!
+  data: GenericScalar
+
+  """0-based index"""
+  idx: Int!
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  urn: String
+}
+
+"""An enumeration."""
+enum TextAnnotationKind {
+  """Scholia"""
+  SCHOLIA
+
+  """Syntax tree"""
+  SYNTAX_TREE
+}
+
+type MetricalAnnotationNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [MetricalAnnotationNodeEdge]!
+}
+
+"""A Relay edge containing a `MetricalAnnotationNode` and its cursor."""
+type MetricalAnnotationNodeEdge {
+  """The item at the end of the edge"""
+  node: MetricalAnnotationNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type MetricalAnnotationNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  data: GenericScalar
+  htmlContent: String!
+
+  """
+  "|" indicates the start of a foot, ":" indicates a syllable boundary within a foot and "/" indicates a caesura.
+  """
+  shortForm: String!
+
+  """0-based index"""
+  idx: Int!
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  urn: String
+  metricalPattern: String
+}
+
+type ImageAnnotationNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ImageAnnotationNodeEdge]!
+}
+
+"""A Relay edge containing a `ImageAnnotationNode` and its cursor."""
+type ImageAnnotationNodeEdge {
+  """The item at the end of the edge"""
+  node: ImageAnnotationNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type ImageAnnotationNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  kind: ImageAnnotationKind!
+  data: GenericScalar
+  imageIdentifier: String
+  canvasIdentifier: String
+
+  """0-based index"""
+  idx: Int!
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): TextPartNodeConnection
+  urn: String
+}
+
+"""An enumeration."""
+enum ImageAnnotationKind {
+  """Canvas"""
+  CANVAS
+}
+
+type TextPartNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TextPartNodeEdge]!
+}
+
+"""A Relay edge containing a `TextPartNode` and its cursor."""
+type TextPartNodeEdge {
+  """The item at the end of the edge"""
+  node: TextPartNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TextPartNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  path: String!
+  depth: Int!
+  numchild: Int!
+
+  """0-based index"""
+  idx: Int
+  kind: String!
+  urn: String!
+  ref: String
+  rank: Int
+  textContent: String
+  metadata: GenericScalar
+  textAlignments(offset: Int, before: String, after: String, first: Int, last: Int, label: String, urn: String, reference: String): TextAlignmentNodeConnection!
+  textalignmentrecordrelationSet(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+  textAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): SyntaxTreeNodeConnection!
+  metricalAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): MetricalAnnotationNodeConnection!
+  imageAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): ImageAnnotationNodeConnection!
+  audioAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): AudioAnnotationNodeConnection!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+  repos(offset: Int, before: String, after: String, first: Int, last: Int, name: String): RepoNodeConnection!
+  attributionRecords(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): AttributionRecordNodeConnection!
+  senseCitations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection!
+  label: String
+  name: String
+  lowestCitablePart: String
+}
+
+type AudioAnnotationNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [AudioAnnotationNodeEdge]!
+}
+
+"""A Relay edge containing a `AudioAnnotationNode` and its cursor."""
+type AudioAnnotationNodeEdge {
+  """The item at the end of the edge"""
+  node: AudioAnnotationNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type AudioAnnotationNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  data: GenericScalar
+  assetUrl: String!
+
+  """0-based index"""
+  idx: Int!
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  urn: String
+}
+
+type RepoNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [RepoNodeEdge]!
+}
+
+"""A Relay edge containing a `RepoNode` and its cursor."""
+type RepoNodeEdge {
+  """The item at the end of the edge"""
+  node: RepoNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type RepoNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  name: String
+  sha: String
+  urns(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  metadata: GenericScalar
+  versions(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): VersionNodeConnection
+}
+
+type VersionNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [VersionNodeEdge]!
+}
+
+"""A Relay edge containing a `VersionNode` and its cursor."""
+type VersionNodeEdge {
+  """The item at the end of the edge"""
+  node: VersionNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type VersionNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  path: String!
+  depth: Int!
+  numchild: Int!
+
+  """0-based index"""
+  idx: Int
+  kind: String
+  urn: String!
+  ref: String
+  rank: Int
+  textContent: String
+  metadata: GenericScalar
+  textAlignments(offset: Int, before: String, after: String, first: Int, last: Int, label: String, urn: String, reference: String): TextAlignmentNodeConnection!
+  textalignmentrecordrelationSet(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+  textAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): SyntaxTreeNodeConnection!
+  metricalAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): MetricalAnnotationNodeConnection!
+  imageAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): ImageAnnotationNodeConnection!
+  audioAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): AudioAnnotationNodeConnection!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+  repos(offset: Int, before: String, after: String, first: Int, last: Int, name: String): RepoNodeConnection!
+  attributionRecords(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): AttributionRecordNodeConnection!
+  senseCitations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection!
+  label: String
+  name: String
+  textAlignmentRecords(offset: Int, before: String, after: String, first: Int, last: Int, idx: Int, alignment: ID, alignment_Urn: String, reference: String): TextAlignmentRecordNodeConnection
+  access: Boolean
+  description: String
+  lang: String
+  humanLang: String
+}
+
+type AttributionRecordNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [AttributionRecordNodeEdge]!
+}
+
+"""A Relay edge containing a `AttributionRecordNode` and its cursor."""
+type AttributionRecordNodeEdge {
+  """The item at the end of the edge"""
+  node: AttributionRecordNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type AttributionRecordNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  role: String!
+  data: JSONString!
+  urns(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  name: String
+}
+
+type CitationNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [CitationNodeEdge]!
+}
+
+"""A Relay edge containing a `CitationNode` and its cursor."""
+type CitationNodeEdge {
+  """The item at the end of the edge"""
+  node: CitationNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type CitationNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  label: String
+
+  """0-based index"""
+  idx: Int
+
+  """urn:cite2:<site>:citations.atlas_v1"""
+  urn: String!
+  sense: SenseNode!
+  data: GenericScalar
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): TextPartNodeConnection
+  ref: String
+  quote: String
+  passageUrn: String
+}
+
+type SenseNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  path: String!
+  depth: Int!
+  numchild: Int!
+  label: String
+  definition: String
+
+  """0-based index"""
+  idx: Int
+
+  """urn:cite2:<site>:senses.atlas_v1"""
+  urn: String!
+  entry: DictionaryEntryNode!
+  citations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection!
+}
+
+type DictionaryEntryNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  headword: String!
+  headwordNormalized: String
+  data: GenericScalar
+
+  """0-based index"""
+  idx: Int!
+
+  """urn:cite2:<site>:entries.atlas_v1"""
+  urn: String!
+  dictionary: DictionaryNode!
+  senses(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, entry: ID, entry_Urn: String, depth: Int, depth_Gt: Int, depth_Lt: Int, depth_Gte: Int, depth_Lte: Int, path: String, path_Startswith: String, reference: String): SenseNodeConnection!
+
+  """
+  A nested structure returning the URN(s) of senses attached to this entry
+  """
+  senseTree: GenericScalar
+}
+
+type DictionaryNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  label: String
+  data: JSONString!
+
+  """urn:cite2:<site>:dictionaries.atlas_v1"""
+  urn: String!
+  entries(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, headword: String, headword_Istartswith: String, reference: String, lemma: String): DictionaryEntryNodeConnection!
+}
+
+type DictionaryEntryNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [DictionaryEntryNodeEdge]!
+}
+
+"""A Relay edge containing a `DictionaryEntryNode` and its cursor."""
+type DictionaryEntryNodeEdge {
+  """The item at the end of the edge"""
+  node: DictionaryEntryNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type SenseNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [SenseNodeEdge]!
+}
+
+"""A Relay edge containing a `SenseNode` and its cursor."""
+type SenseNodeEdge {
+  """The item at the end of the edge"""
+  node: SenseNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TextAlignmentRecordNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TextAlignmentRecordNodeEdge]!
+  metadata: TextAlignmentMetadataNode
+}
+
+"""A Relay edge containing a `TextAlignmentRecordNode` and its cursor."""
+type TextAlignmentRecordNodeEdge {
+  """The item at the end of the edge"""
+  node: TextAlignmentRecordNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TextAlignmentMetadataNode {
+  """References for the passages being aligned"""
+  passageReferences: GenericScalar
+}
+
+type PassageMetadataNode {
+  humanReference: String
+  ancestors: GenericScalar
+  overview: PassageOverviewNode
+  siblings: PassageSiblingsNode
+  children: GenericScalar
+
+  """Next passage reference"""
+  nextPassage: String
+
+  """Previous passage reference"""
+  previousPassage: String
+
+  """Healed passage"""
+  healedPassage: String
+}
+
+"""Provides lists of top-level text part objects for a given passage"""
+type PassageOverviewNode {
+  """Inclusive list of top-level text parts for a passage"""
+  all: GenericScalar
+
+  """Only the selected top-level objects for a given passage"""
+  selected: GenericScalar
+}
+
+"""Provides lists of sibling objects for a given passage"""
+type PassageSiblingsNode {
+  """Inclusive list of siblings for a passage"""
+  all: GenericScalar
+
+  """Only the selected sibling objects for a given passage"""
+  selected: GenericScalar
+
+  """Siblings for the previous passage"""
+  previous: GenericScalar
+
+  """Siblings for the next passage"""
+  next: GenericScalar
+}
+
+type TextGroupNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TextGroupNodeEdge]!
+}
+
+"""A Relay edge containing a `TextGroupNode` and its cursor."""
+type TextGroupNodeEdge {
+  """The item at the end of the edge"""
+  node: TextGroupNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type WorkNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  path: String!
+  depth: Int!
+  numchild: Int!
+
+  """0-based index"""
+  idx: Int
+  kind: String!
+  urn: String!
+  ref: String
+  rank: Int
+  textContent: String
+  metadata: GenericScalar
+  textAlignments(offset: Int, before: String, after: String, first: Int, last: Int, label: String, urn: String, reference: String): TextAlignmentNodeConnection!
+  textalignmentrecordrelationSet(offset: Int, before: String, after: String, first: Int, last: Int, tokens_TextPart_Urn: String): TextAlignmentRecordRelationNodeConnection!
+  textAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): SyntaxTreeNodeConnection!
+  metricalAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): MetricalAnnotationNodeConnection!
+  imageAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, reference: String): ImageAnnotationNodeConnection!
+  audioAnnotations(offset: Int, before: String, after: String, first: Int, last: Int, urn: String): AudioAnnotationNodeConnection!
+  tokens(offset: Int, before: String, after: String, first: Int, last: Int, textPart_Urn: String, textPart_Urn_Startswith: String): TokenNodeConnection!
+  repos(offset: Int, before: String, after: String, first: Int, last: Int, name: String): RepoNodeConnection!
+  attributionRecords(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): AttributionRecordNodeConnection!
+  senseCitations(offset: Int, before: String, after: String, first: Int, last: Int, textParts_Urn: String, reference: String): CitationNodeConnection!
+  label: String
+  name: String
+  versions(offset: Int, before: String, after: String, first: Int, last: Int, urn: String, urn_Startswith: String, ref: String, ref_Startswith: String, depth: Int, depth_Lt: Int, depth_Gt: Int, rank: Int, rank_Lt: Int, rank_Gt: Int, kind: String, idx: Int, reference: String): VersionNodeConnection
+}
+
+type WorkNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [WorkNodeEdge]!
+}
+
+"""A Relay edge containing a `WorkNode` and its cursor."""
+type WorkNodeEdge {
+  """The item at the end of the edge"""
+  node: WorkNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TextAnnotationNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  kind: TextAnnotationKind!
+  data: GenericScalar
+
+  """0-based index"""
+  idx: Int!
+  textParts(offset: Int, before: String, after: String, first: Int, last: Int, reference: String): PassageTextPartNodeConnection!
+  urn: String
+}
+
+type TextAnnotationNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TextAnnotationNodeEdge]!
+}
+
+"""A Relay edge containing a `TextAnnotationNode` and its cursor."""
+type TextAnnotationNodeEdge {
+  """The item at the end of the edge"""
+  node: TextAnnotationNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TreeNode {
+  tree: GenericScalar
+}
+
+type DictionaryNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [DictionaryNodeEdge]!
+}
+
+"""A Relay edge containing a `DictionaryNode` and its cursor."""
+type DictionaryNodeEdge {
+  """The item at the end of the edge"""
+  node: DictionaryNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}

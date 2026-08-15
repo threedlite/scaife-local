@@ -24,29 +24,39 @@ RUN npm run build
 # frozen at Alpine 3.20.3 because it stopped being rebuilt when Python 3.8
 # went EOL, so it no longer receives OS security updates. `python:3.9-alpine`
 # currently ships Alpine 3.22.2. Django 2.2.28 supports Python 3.9.
-FROM python:3.9-alpine AS python-build
+# LOCAL CHANGE (2026-08-14): was python:3.9-alpine. 3.9 reached EOL in
+# 2025-10 and Django 5.2 requires 3.10+. 3.12 rather than 3.13 because it
+# is supported by both Django 4.2 and 5.2, so the interpreter move and
+# the framework move stay independently revertible.
+FROM python:3.12-alpine AS python-build
 WORKDIR /opt/scaife-viewer/src/
 RUN pip --no-cache-dir --disable-pip-version-check install virtualenv
 ENV PATH="/opt/scaife-viewer/bin:${PATH}" VIRTUAL_ENV="/opt/scaife-viewer"
 COPY requirements.txt /opt/scaife-viewer/src/
+# LOCAL CHANGE: scaife-viewer-core and scaife-viewer-atlas are vendored into
+# packages/ rather than fetched from GitHub archive URLs, so their source has
+# to be present before pip runs. Copied separately from the `COPY . .` in the
+# webapp stage to keep this layer cached against application-code changes.
+COPY packages /opt/scaife-viewer/src/packages
 RUN set -x \
     && virtualenv /opt/scaife-viewer \
     && apk --no-cache add \
     build-base curl git libgcc libxml2-dev libxslt-dev postgresql-dev linux-headers python3-dev libffi-dev \
     && pip install -r requirements.txt
 
-# We need to uninstall and reinstall urllib3 manually
-# to avoid conflicts
-RUN pip uninstall -y urllib3
-# LOCAL CHANGE: upstream pins 1.26.15, which is vulnerable to
-#   CVE-2023-43804 (Cookie header leaked on cross-origin redirect, fixed 1.26.17)
-#   CVE-2023-45803 (request body retained on 303 redirect,        fixed 1.26.18)
-#   CVE-2024-37891 (Proxy-Authorization leaked on redirect,       fixed 1.26.19)
-# 1.26.20 is the final release of the 1.26.x line and fixes all three. We stay
-# on 1.26.x rather than 2.x because upstream pins here deliberately to avoid
-# resolver conflicts, and because urllib3 2.7 requires Python 3.10+ while this
-# image is Python 3.9. Revisit if the interpreter is upgraded.
-RUN pip install urllib3==1.26.20
+# LOCAL CHANGE (2026-08-14): MyCapytain declares a dependency on the
+# `typing` PyPI backport, which is vestigial — the stdlib has provided
+# `typing` since 3.5 — and actively harmful, because the backport
+# shadows the stdlib module and breaks on modern interpreters. Removing
+# it is a prerequisite for the Python upgrade.
+RUN pip uninstall -y typing
+
+# LOCAL CHANGE (2026-08-15): the urllib3 pin-back is gone. It existed
+# because urllib3 2.x requires Python 3.10+ while this image was on 3.9,
+# so pip resolved 2.x and it had to be forced back to 1.26.20. On Python
+# 3.12 nothing caps it: opensearch-py declares urllib3<3,>=1.26.19 for
+# python_version >= 3.10, and requests wants <3,>=1.26. pip now resolves
+# 2.x directly and no override is needed.
 
 # LOCAL CHANGE: the two remaining CVEs in the dependency set. Both packages
 # are pinned at vulnerable versions upstream, so they are overridden here
@@ -62,14 +72,16 @@ RUN pip install urllib3==1.26.20
 #     both fixed in 2023.07.22. The pinned bundle was over seven years old.
 #     scaife-viewer-core declares certifi==2018.11.29; pip warns about the
 #     conflict and proceeds. `requests` is already overridden the same way.
-RUN pip install gunicorn==23.0.0 certifi==2026.7.22
+# certifi no longer needs an override: the vendored core declares
+# certifi>=2018.11.29 rather than ==, so pip resolves the current
+# release on its own. gunicorn is pinned in requirements.txt.
 
 # Likewise, we install PyGithub here to avoid conflicts
 RUN pip install PyGithub
 RUN apk add --update make automake gcc g++ subversion
 
 # LOCAL CHANGE: kept in step with the python-build stage above.
-FROM python:3.9-alpine AS webapp
+FROM python:3.12-alpine AS webapp
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -85,7 +97,11 @@ RUN set -x \
     | tr ',' '\n' \
     | sort -u \
     | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-    | grep -v 'libgcc_s-' \
+    # LOCAL CHANGE: exclude sonames that are not apk packages. libgcc_s-
+    # was already excluded upstream-side; libc.so joined it when newer
+    # C extensions started linking it directly, and musl always
+    # provides it, so `apk add so:libc.so` fails with 'no such package'.
+    | grep -vE 'libgcc_s-|^so:libc\.so$' \
     )" \
     && apk --no-cache add \
     $runDeps \
@@ -122,6 +138,19 @@ RUN apk --no-cache add bash
 # setuptools new enough that `pkg_resources` is gone, and django-user-accounts
 # does `import pkg_resources` at module import. 81.0 still provides it.
 # The root Dockerfile does not need this on 3.8; we do because we moved to 3.9.
+# setuptools is pinned because `pkg_resources` was removed after 81.0.
+#
+# LOCAL CHANGE (2026-08-15): the vendored core and atlas used to be two of
+# the three reasons for this pin; both now use importlib.metadata instead.
+# What remains is exactly one unmaintained third-party package:
+#
+#   pinax/webanalytics/__init__.py:1: import pkg_resources
+#
+# It cannot simply be skipped: site_base.html loads
+# `pinax_webanalytics_tags`, and importing that templatetags module
+# imports its parent package. Removing this pin therefore means either
+# replacing pinax-webanalytics (5.0.0, the latest, has the same line) or
+# vendoring it. Tracked in SBOM-2026-08-15.md §3.
 RUN pip install setuptools==81.0
 RUN python manage.py collectstatic --noinput
 

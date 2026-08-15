@@ -70,68 +70,88 @@ class OrmBehaviourTests(TestCase):
 
 
 @tag("integration")
-class ElasticsearchCompatibilityTests(SimpleTestCase):
-    """Requires a running Elasticsearch; skipped when unreachable.
+class SearchBackendCompatibilityTests(SimpleTestCase):
+    """Requires a running OpenSearch; skipped when unreachable.
 
-    Excluded from the default run because the version check below is a
-    KNOWN FAILURE today: elasticsearch-py 7.17.x runs against an 8.19.11
-    server. Since the 2026-08-10 resync that is Elastic's supported
-    transitional pairing rather than an unsupported one, but the majors
-    still differ and the client is capped below 8 — see UPGRADE-IMPACT.md.
-    Run deliberately with:
+    History: this class used to hold a deliberate standing failure. The
+    server was Elasticsearch 8 while `scaife-viewer-core` capped the client
+    at `elasticsearch<8`, so a 7.17 client drove an 8.x server — Elastic's
+    supported *transitional* pairing, but a bridge rather than an end state,
+    and one the client could not leave.
 
-        manage.py test sv_pdl.tests --tag=integration
+    That is resolved. The deployment now runs OpenSearch, which forked from
+    Elasticsearch 7.10 — the API generation the client targets — with
+    `opensearch-py` in place of `elasticsearch-py`. The version check below
+    is expected to **pass**, and its passing is the signal that the
+    migration achieved something. See UPGRADE-IMPACT.md.
+
+    Integration-tagged because it needs the live service:
+
+        bash scripts/run-tests.sh --integration
     """
 
-    def _server_version(self):
+    def _host(self):
+        from django.conf import settings
+
+        host = getattr(settings, "OPENSEARCH_HOSTS", None) or "sv-opensearch"
+        if isinstance(host, (list, tuple)):
+            host = host[0]
+        return host
+
+    def _server_info(self):
         import json
         import urllib.request
 
-        from django.conf import settings
-
-        host = getattr(settings, "ELASTICSEARCH_HOSTS", None) or "sv-elasticsearch"
-        if isinstance(host, (list, tuple)):
-            host = host[0]
-        with urllib.request.urlopen(f"http://{host}:9200", timeout=5) as r:
-            return json.loads(r.read())["version"]["number"]
+        with urllib.request.urlopen(f"http://{self._host()}:9200", timeout=5) as r:
+            return json.loads(r.read())
 
     def test_search_index_is_queryable(self):
-        """Functional counterpart: whatever the version skew, search works."""
+        """Functional counterpart: search actually returns documents."""
         import json
         import urllib.request
 
-        from django.conf import settings
-
-        host = getattr(settings, "ELASTICSEARCH_HOSTS", None) or "sv-elasticsearch"
-        if isinstance(host, (list, tuple)):
-            host = host[0]
         try:
             with urllib.request.urlopen(
-                f"http://{host}:9200/scaife-viewer/_count", timeout=5
+                f"http://{self._host()}:9200/scaife-viewer/_count", timeout=5
             ) as r:
                 count = json.loads(r.read())["count"]
         except Exception as exc:
-            self.skipTest(f"Elasticsearch unreachable: {exc}")
+            self.skipTest(f"OpenSearch unreachable: {exc}")
         self.assertGreater(count, 0, "search index is empty")
 
-    def test_client_and_server_major_versions(self):
-        import elasticsearch
-
-        client_major = int(elasticsearch.__version__[0])
+    def test_server_is_opensearch_not_elasticsearch(self):
+        """The client would refuse Elasticsearch anyway — opensearch-py and
+        elasticsearch-py each verify the product they are talking to — but
+        assert it directly so a silent revert of the compose image is
+        caught here rather than as a connection error at request time."""
         try:
-            server_version = self._server_version()
+            info = self._server_info()
         except Exception as exc:
-            self.skipTest(f"Elasticsearch unreachable: {exc}")
+            self.skipTest(f"OpenSearch unreachable: {exc}")
+        distribution = info.get("version", {}).get("distribution")
+        self.assertEqual(
+            distribution,
+            "opensearch",
+            f"expected an OpenSearch server, got version block {info.get('version')}. "
+            f"See Dockerfile-opensearch.",
+        )
+
+    def test_client_and_server_major_versions(self):
+        """Was a standing known failure under Elasticsearch; must now pass."""
+        import opensearchpy
+
+        client_major = int(opensearchpy.__versionstr__.split(".")[0])
+        try:
+            server_version = self._server_info()["version"]["number"]
+        except Exception as exc:
+            self.skipTest(f"OpenSearch unreachable: {exc}")
 
         server_major = int(server_version.split(".")[0])
         self.assertEqual(
             client_major,
             server_major,
-            f"elasticsearch-py {elasticsearch.__version__} is talking to "
-            f"server {server_version}. A 7.17+ client against an 8.x server "
-            f"is Elastic's *supported transitional* configuration "
-            f"(compatibility mode is always on in the Python client), so "
-            f"this is not an outage — but it is a transition, not an end "
-            f"state, and the client is capped at <8 by scaife-viewer-core. "
-            f"See UPGRADE-IMPACT.md.",
+            f"opensearch-py {opensearchpy.__versionstr__} is talking to "
+            f"OpenSearch {server_version}. These tracked the same major "
+            f"after the migration off Elasticsearch; if they have diverged, "
+            f"one of the two pins moved. See UPGRADE-IMPACT.md.",
         )

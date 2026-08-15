@@ -1,0 +1,28 @@
+# OpenSearch replaces Elasticsearch for this deployment.
+#
+# Why: OpenSearch forked from Elasticsearch 7.10, which is the API
+# generation `scaife-viewer-core` targets. Running Elasticsearch 8 against
+# the 7.x client was a supported *bridge*, not an end state, and it was the
+# standing failure in `--integration`. OpenSearch makes client and server
+# the same API generation again. See UPGRADE-IMPACT.md, "Elasticsearch 8 →
+# OpenSearch".
+#
+# Licensing also improves: OpenSearch is Apache 2.0 including binaries,
+# whereas the docker.elastic.co images are governed by Elastic's binary
+# terms. That matters for a repo that documents its licences.
+#
+# 2.19.2 rather than 3.x: the 2.x line is the closest match to the 7.10 API
+# generation the client speaks, and it publishes linux/arm64 images.
+FROM opensearchproject/opensearch:2.19.2
+
+# The index template uses an icu_tokenizer and an icu_folding normalizer, so
+# this plugin is required. Same plugin name as the Elasticsearch build it
+# replaces. --batch accepts the security prompts non-interactively.
+RUN bin/opensearch-plugin install --batch analysis-icu
+
+# No auth, matching the previous xpack.security.enabled=false posture. This
+# is safe only because the stack is bound to loopback and blocks egress; see
+# the security notes in README.md. Setting it here as well as in compose so
+# the image is not silently insecure if run standalone.
+ENV DISABLE_SECURITY_PLUGIN=true
+ENV DISABLE_INSTALL_DEMO_CONFIG=true

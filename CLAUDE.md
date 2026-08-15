@@ -44,21 +44,34 @@ it before changing anything, and keep it accurate when behaviour changes.
 
 ## Tests
 
-`bash scripts/run-tests.sh` — 79 unit tests in
+`bash scripts/run-tests.sh` — 121 unit tests in
 `scaife/scaife-viewer-2026-08-10-001/sv_pdl/tests/`. Run them after any
 change to `sv_pdl/`, settings, URLs or dependencies. The stack must be up.
 
-- `--integration` adds checks needing live services and has **one expected
-  failure** (elasticsearch-py 7.10.1 against an 8.x server) — a deliberate
-  marker, documented in `UPGRADE-IMPACT.md`. Do not "fix" it by weakening
-  the assertion.
+- `--integration` adds checks needing live services and is **fully green as
+  of 2026-08-15** (158 tests). It used to carry one deliberate expected
+  failure — a 7.x elasticsearch client against an 8.x server — which was
+  resolved by migrating to OpenSearch rather than by weakening the
+  assertion. If it fails again, that is a real regression.
+- `bash scripts/run-morpheus-tests.sh` — the rspec suite that ships with
+  `morpheus-perseids-api` (28 examples, 0 failures). Morpheus is the only
+  non-Python service and neither of its source repos is tracked here, so
+  `deps/morpheus-combined/Dockerfile` is the only place to pin or patch it.
+  Its output is also covered by `sv_pdl/tests/test_morpheus.py`, which
+  compares live analyses byte-for-byte against `golden/morpheus.json` at
+  three layers. Run both after touching that Dockerfile.
 - Lint is **not** part of the image build (it used to be, and a stray unused
   import would fail the whole build). Run it directly with
   `bash scripts/lint.sh`; `--fix` applies isort ordering. Keep the tree lint
   clean anyway — `docker build --build-arg RUN_LINT=1` restores the gate.
-- Before touching dependencies, read `SBOM-2026-08-13.md` and
-  `UPGRADE-IMPACT.md`. `scaife-viewer-core` hard-pins `Django<3.0`; there is
-  no incremental upgrade path without forking upstream.
+- Before touching dependencies, read `SBOM-2026-08-15.md` (current) and
+  `UPGRADE-IMPACT.md`. `scaife-viewer-core` hard-pins `Django<3.0`, so there
+  was no upgrade path without forking upstream — as of 2026-08-14 both it
+  and `scaife-viewer-atlas` are vendored into
+  `scaife/scaife-viewer-2026-08-10-001/packages/` and those pins are ours to
+  edit. Record every divergence from upstream in `packages/README.md`, and
+  run `bash scripts/run-vendored-tests.sh` after editing them — it checks
+  upstream's suites against a recorded baseline that is not all-green.
 
 ## Conventions
 

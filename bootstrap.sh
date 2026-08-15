@@ -12,7 +12,7 @@
 #   3. Writes deploy/.env if missing.
 #   4. Runs `docker compose up --build` with the local override, which
 #      builds the image (Node 12 + Python 3.8 inside the container),
-#      brings up Postgres 9.6 and Elasticsearch 7.10, runs migrations,
+#      brings up Postgres 17 and OpenSearch 2.19, runs migrations,
 #      prepares the ATLAS db, and indexes the corpora for search.
 #
 # First run will take a while (image build + npm install + prepare_atlas_db
@@ -180,16 +180,16 @@ LIBRARY_VIEW_API_VERSION=1
 DATABASE_URL=postgres://scaife:scaife@sv-postgres:5432/scaife
 SV_POSTGRES_HOST=sv-postgres
 SV_POSTGRES_PORT=5432
-SV_ELASTICSEARCH_HOST=sv-elasticsearch
-SV_ELASTICSEARCH_PORT=9200
-ELASTICSEARCH_HOSTS=sv-elasticsearch
-ELASTICSEARCH_SNIFF_ON_START=0
-ELASTICSEARCH_SNIFF_ON_CONNECTION_FAIL=0
+SV_OPENSEARCH_HOST=sv-opensearch
+SV_OPENSEARCH_PORT=9200
+OPENSEARCH_HOSTS=sv-opensearch
+OPENSEARCH_SNIFF_ON_START=0
+OPENSEARCH_SNIFF_ON_CONNECTION_FAIL=0
 GUNICORN_CMD_ARGS=--log-file=- --timeout=120 -w 2
 
-# Search indexing (first boot only, gated by sv-data/atlas/sentinels/.es_indexed).
+# Search indexing (first boot only, gated by sv-data/atlas/sentinels/.search_indexed).
 # Default indexes the FULL corpus so /search/ works everywhere: ~779k
-# passages, measured under 6 min with 4 workers, ~1 GB Elasticsearch index.
+# passages, measured under 6 min with 4 workers, ~1 GB OpenSearch index.
 # For the quickest possible first boot instead, uncomment a sample size —
 # search will then only cover that many passages.
 #SV_INDEXER_LIMIT=1000

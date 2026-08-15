@@ -4,6 +4,12 @@ from django.db import models
 class Commentary(models.Model):
     """A named commentary source (e.g. Nagy on Iliad)."""
 
+    # Declared explicitly rather than left to the framework default. An
+    # implicit pk is AutoField under Django 2.2 but BigAutoField from 3.2
+    # once this app's AppConfig.default_auto_field is honoured, which would
+    # silently ALTER the column mid-upgrade. Naming it here pins the type
+    # across every Django version.
+    id = models.BigAutoField(primary_key=True)
     slug = models.SlugField(max_length=120, unique=True)
     label = models.CharField(max_length=200)
     author = models.CharField(max_length=200, blank=True)
@@ -16,6 +22,7 @@ class Commentary(models.Model):
 class CommentaryEntry(models.Model):
     """A single note keyed to a target CTS passage URN."""
 
+    id = models.BigAutoField(primary_key=True)
     commentary = models.ForeignKey(
         Commentary, on_delete=models.CASCADE, related_name="entries"
     )
@@ -34,7 +41,14 @@ class CommentaryEntry(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=["target_key", "ref_start", "ref_end"]),
+            # Named explicitly. An unnamed Index gets a generated name whose
+            # hash is not stable across Django versions, so the migration and
+            # the live database disagree about what the index is called and
+            # every makemigrations proposes to drop and recreate it.
+            models.Index(
+                fields=["target_key", "ref_start", "ref_end"],
+                name="localcomm_entry_target_idx",
+            ),
         ]
         ordering = ["target_key", "ref_start", "id"]
 

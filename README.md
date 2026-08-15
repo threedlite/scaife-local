@@ -25,7 +25,7 @@ downloaded at runtime, and the tree is fully self-contained.
 > commentary entries, and morphology are likewise complete.
 >
 > That full index is the bulk of the extra time on first boot and produces
-> a ~1 GB Elasticsearch index. **For the quickest possible start instead**,
+> a ~1 GB OpenSearch index. **For the quickest possible start instead**,
 > set a sample size before running `bootstrap.sh` — search will then cover
 > only that many passages:
 >
@@ -47,7 +47,7 @@ downloaded at runtime, and the tree is fully self-contained.
 - **Disk**: budget **~10 GB** free. Measured on a completed arm64 install:
   ~4.1 GB of images (the app image layers over the base, so they share most
   of their size), ~1.4 GB of cloned corpora and deps in the working tree,
-  and Docker volumes of 1.2 GB (Postgres) plus 1.2 GB (Elasticsearch *after
+  and Docker volumes of 1.2 GB (Postgres) plus 1.2 GB (OpenSearch *after
   the default full text index* — only ~1 MB if you opt into a small sample).
   Call it ~8 GB at rest fully populated, plus headroom for intermediate
   build layers.
@@ -125,7 +125,9 @@ The bootstrap script:
 5. Builds `scaife-viewer-base:latest` from the upstream Dockerfile, using
    `--target webapp`. Four local changes to that file are documented in
    sections 9–12 below: lint made opt-in, `urllib3`/`gunicorn`/`certifi`
-   pinned to patched releases, the base image moved to Python 3.9, and
+   pinned to patched releases (see §10-11 — the urllib3 and certifi
+   overrides were removed on 2026-08-15 once the interpreter upgrade made
+   them unnecessary), the base image moved to Python 3.12, and
    upstream's `setuptools==81.0` pin adopted.
 6. Runs `docker compose up --build` which builds the hardened + morpheus
    images on top and starts everything.
@@ -133,7 +135,7 @@ The bootstrap script:
 On first boot the container's `deploy/entrypoint.sh` then does the one-time
 data work, each step gated by a sentinel file in `sv-data/atlas/sentinels/` so it
 never repeats: Django migrations → `prepare_atlas_db` → `ingest_dictionaries`
-→ `ingest_commentaries` → Elasticsearch indexing (the full corpus by
+→ `ingest_commentaries` → OpenSearch indexing (the full corpus by
 default). Delete the matching sentinel to force any one of them to run
 again.
 
@@ -261,9 +263,10 @@ renamed freely.
 ### Running the tests
 
 ```
-bash scripts/run-tests.sh                      # 79 unit tests; must be green
-bash scripts/run-tests.sh --integration        # adds checks needing live services
+bash scripts/run-tests.sh                      # 121 unit tests; must be green
+bash scripts/run-tests.sh --integration        # 158 tests; adds live-service checks
 bash scripts/run-tests.sh sv_pdl.tests.test_refs   # one module
+bash scripts/run-morpheus-tests.sh             # 28 rspec examples in the morpheus image
 ```
 
 The stack must be up. Tests live in
@@ -276,9 +279,71 @@ matching. See "What the test suite covers, and what it does not" in
 [`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md) — a green suite means the local
 patches survived, not that the whole app works.
 
-Note that `--integration` currently has **one expected failure**: the pinned
-`elasticsearch` 7.10.1 client is talking to an 8.19.11 server. That is a
-real, known defect and the test is a deliberate standing marker.
+#### Vendored upstream packages
+
+`scaife-viewer-core` and `scaife-viewer-atlas` live in
+`scaife/scaife-viewer-2026-08-10-001/packages/` rather than being fetched
+from GitHub at build time. They supply the CTS resolver, reader, library,
+search indexer and the ATLAS GraphQL layer, and both pin `Django<3`, so
+nothing above them could move to a supported Django while those pins were
+external metadata. See `packages/README.md` for provenance, the local
+changes, and the dependency delta; `DJANGO-UPGRADE.md` §10 for why.
+
+Their own test suites run against a recorded baseline:
+
+```
+bash scripts/run-vendored-tests.sh            # both packages
+bash scripts/run-vendored-tests.sh --verbose atlas
+```
+
+Upstream's suites do **not** pass cleanly at these refs and did not before
+vendoring — core is 4 passed / 1 failed, atlas 12 passed / 7 failed. The
+script fails if those counts move in either direction, so an edit to
+`packages/` that breaks something new shows up immediately. The individual
+failures, including one real latent bug in atlas's exemplar handling, are
+documented in the script's header.
+
+#### Golden-file regression tests
+
+Three of the suites compare against committed snapshots rather than
+hand-written expectations, because the code they cover is large, untested
+upstream, and about to be rewritten by the Django/graphene upgrade:
+
+| Suite | Golden file | Covers |
+|---|---|---|
+| `test_schema_contract.py` | `golden/atlas_schema.json` | the whole GraphQL schema — 80 types, 391 fields |
+| `test_passage_contract.py` | `golden/passages.json` | CTS rendering of 7 passages: text, HTML, word tokens, navigation |
+| `test_morpheus.py` | `golden/morpheus.json` | morphological analysis of 29 Greek and Latin words, at three layers: the service's RDF/JSON, nokogiri's XML, and the `/morpheus/` view |
+
+`golden/atlas_schema.graphql` is the printed SDL, kept for human review; no
+test asserts on it. Regenerate after an *intended* change:
+
+```
+bash scripts/capture-golden.sh            # all three
+bash scripts/capture-golden.sh schema     # or just one
+bash scripts/capture-golden.sh passages
+bash scripts/capture-golden.sh morpheus
+```
+
+Read the resulting diff before committing it. An unreviewed golden refresh
+is indistinguishable from the regression the file exists to catch — a
+removed GraphQL field or a shifted token offset silently blanks part of the
+reader rather than raising. The passage suite is tagged `integration`
+because it reads the mounted corpora; the morpheus suite because it calls
+the running analyser.
+
+The morpheus golden exists specifically because that service is the only
+non-Python part of the stack and neither of its source repositories is
+tracked here — so a Ruby, nokogiri or libxml2 change has nothing else
+standing in its way. It is what verified that moving Ruby 3.0.2 → 3.4.10
+and nokogiri 1.14.3 → 1.19.4 left every analysis byte-identical.
+
+`--integration` is **fully green** as of 2026-08-15. It previously carried
+one deliberate expected failure — a 7.x `elasticsearch` client driving an
+8.x server, which the client's `<8` cap could not escape. That was fixed
+at the root by moving to OpenSearch (which forked from Elasticsearch 7.10,
+the client's own API generation), not by relaxing the test. A failure here
+now means something is actually wrong.
 
 ### Lint is not part of the build
 
@@ -303,19 +368,28 @@ style checks were made optional.
 
 ### Dependency and upgrade documentation
 
-- [`SBOM-2026-08-13.md`](SBOM-2026-08-13.md) — dated inventory of every
-  pinned package with EOL status and confirmed CVEs. Regenerate the raw
-  version data with `bash scripts/sbom-refresh.sh`.
+- [`SBOM-2026-08-15.md`](SBOM-2026-08-15.md) — current dated inventory:
+  every installed package, EOL status and confirmed CVEs, plus which
+  dependencies the platform upgrade has just unblocked. Regenerate the
+  raw version data with `bash scripts/sbom-refresh.sh`.
+  [`SBOM-2026-08-13.md`](SBOM-2026-08-13.md) is the superseded
+  pre-upgrade snapshot, kept as the record the upgrade was planned against.
 - [`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md) — what it would take to move to
-  current Django/Python/Postgres, and to swap Elasticsearch for OpenSearch.
+  current Django/Python/Postgres, and the Elasticsearch → OpenSearch swap
+  (now done — see its "Elasticsearch 8 → OpenSearch" section).
 - [`DJANGO-UPGRADE.md`](DJANGO-UPGRADE.md) — a deeper, measured analysis of
-  the Django 2.2 → 5.2 LTS path specifically: what has to be forked, what
-  actually breaks, and a phased sequence with effort estimates.
+  the Django 2.2 → 5.2 LTS path specifically: what had to be forked, what
+  actually breaks, and the numbered work items (§10) with their status.
+- [`DJANGO-3.2-PLAN.md`](DJANGO-3.2-PLAN.md) — the execution plan for the
+  next step, Django 2.2 → 3.2 LTS: measured version matrix, ordered work
+  items, the golden diff each one is allowed to produce, and the decisions
+  needed before starting.
 
 Short version: five of six platform components are past end of life, and
-`scaife-viewer-core` hard-pins `Django<3.0`, so there is no incremental
-upgrade path without forking upstream. Read those two documents before
-attempting any dependency bump.
+`scaife-viewer-core` hard-pinned `Django<3.0`, so there was no incremental
+upgrade path without forking upstream. That fork happened on 2026-08-14 —
+both packages are now vendored under `packages/` and the pins are editable.
+Read those documents before attempting any dependency bump.
 
 ### Expected first-boot log noise
 
@@ -325,9 +399,12 @@ Two things scroll past that look like failures and are not:
   refsDecl`** — a handful of Perseus texts (mostly Cicero, `phi0474`) ship
   malformed `refsDecl` metadata upstream. The affected editions are skipped;
   every other text loads. Not caused by anything local.
-- **Elasticsearch JSON at `log.level: INFO`** — ES 8 logs its whole plugin
-  and index-template startup as structured JSON. Only `log.level` of `WARN`
-  or `ERROR` is worth reading.
+- **OpenSearch JVM warnings at boot** — `Using incubator modules:
+  jdk.incubator.vector`, `A terminally deprecated method in java.lang.System
+  has been called`, `System::setSecurityManager has been called`, and
+  `Disabling OpenSearch Security Plugin`. All expected: the last is our own
+  `DISABLE_SECURITY_PLUGIN=true` (safe only behind the loopback binding), and
+  the rest are the JVM complaining about OpenSearch's own bootstrap code.
 
 A genuinely failed boot looks different: a Python `Traceback`, a
 `CommandError`, or the `scaife-viewer` container exiting non-zero. The
@@ -350,7 +427,7 @@ docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.override.lo
 
 Or just Ctrl-C the foreground `bootstrap.sh` — it uses `exec` for compose
 so the signal propagates. Data is persistent in Docker volumes
-(`sv-postgres-data`, `sv-elasticsearch-data`) — the next `bootstrap.sh`
+(`sv-postgres-17-data`, `sv-opensearch-data`) — the next `bootstrap.sh`
 comes back with the same DB + search index.
 
 ### Applying updates
@@ -379,8 +456,8 @@ pulls from Docker Hub at runtime.
 |---|---|---|
 | `scaife-viewer` | Django + Gunicorn + built Vue bundle | `scaife/scaife-viewer-2026-08-10-001/Dockerfile` |
 | `morpheus` | Perseids Morpheus (C) + Ruby Sinatra JSON API | `deps/morpheus-combined/Dockerfile` |
-| `sv-postgres` | Postgres 9.6 (Perseus data + ATLAS DB + local dictionaries + local commentaries) | official image |
-| `sv-elasticsearch` | ES 8.19.11 (text search index), `analysis-icu` plugin added | `Dockerfile-elasticsearch` in the app |
+| `sv-postgres` | Postgres 17 (Perseus data + ATLAS DB + local dictionaries + local commentaries) | official image |
+| `sv-opensearch` | OpenSearch 2.19.2 (text search index), `analysis-icu` plugin added | `Dockerfile-opensearch` in the app |
 
 ### Features and what backs each
 
@@ -388,7 +465,7 @@ pulls from Docker Hub at runtime.
 |---|---|---|---|
 | Read Greek/Latin texts | `/reader/…`, `/library/passage/…` | CTS resolver → mounted `canonical-greekLit`/`-latinLit`/`-pdlrefwk` | ✓ |
 | Library browse | `/library/`, `/library/json/` | CTS resolver | ✓ |
-| Text search | `/search/` | Elasticsearch — full corpus indexed on first boot (779,099 passages) | ✓ |
+| Text search | `/search/` | OpenSearch — full corpus indexed on first boot (779,099 passages) | ✓ |
 | **Morphology** (form → lemma) | `/morpheus/?word=…&lang=…` | `morpheus` container | ✓ |
 | **Dictionaries** (LSJ, Middle Liddell, Lewis & Short) | `/library/dictionaries/…` | Postgres via `sv_pdl/localdict` app | ✓ |
 | **Commentaries** (Nagy et al. on Homer/Pausanias/Pindar) | `/library/commentaries/…/json/` | Postgres via `sv_pdl/localcomm` app | ✓ |
@@ -429,10 +506,10 @@ small machine, at roughly 10x the runtime for a single worker.
 
 #### Changing it later
 
-Already installed, and want to switch? The `.es_indexed` sentinel means the
+Already installed, and want to switch? The `.search_indexed` sentinel means the
 entrypoint will not re-index on its own — **changing `.env` alone does
 nothing to an existing install.** Either re-run the indexer directly
-(below), or delete `sv-data/atlas/sentinels/.es_indexed` and re-run
+(below), or delete `sv-data/atlas/sentinels/.search_indexed` and re-run
 `bootstrap.sh`.
 
 **Re-indexing is safe to repeat.** Documents are keyed by passage URN, so
@@ -469,7 +546,7 @@ curl -s localhost:9200/scaife-viewer/_count
 Note that a sampled index is not *reduced* by re-running with a smaller
 `--limit`: documents already in the index stay there. To shrink one, delete
 the index first with `--delete-index` (untested here) or remove the
-`deploy_sv-elasticsearch-data` volume and re-index.
+`deploy_sv-opensearch-data` volume and re-index.
 
 For reference, `SV_INDEXER_LIMIT=0` is what "no limit" means to the
 entrypoint, and it is the default — you only need to set it explicitly to
@@ -477,7 +554,7 @@ undo a sample you configured earlier:
 
 ```
 echo 'SV_INDEXER_LIMIT=0' >> scaife/scaife-viewer-2026-08-10-001/deploy/.env
-rm sv-data/atlas/sentinels/.es_indexed
+rm sv-data/atlas/sentinels/.search_indexed
 bash ./bootstrap.sh
 ```
 
@@ -488,7 +565,7 @@ indexing the entire corpus at `--max-workers=4`:
 |---|---|
 | Passages indexed | **779,099** |
 | Wall time | **5 min 42 s** (`Finished in 339.92s`) |
-| Resulting index | ~1 GB (`deploy_sv-elasticsearch-data` volume ~1.2 GB) |
+| Resulting index | ~1 GB (`deploy_sv-opensearch-data` volume ~1.2 GB) |
 | Words indexed | grc 10,837,549 · eng 21,070,271 · lat 6,748,008, plus deu/fre/ita/ara |
 
 Worker count dominates: the same indexer at `--max-workers=1` ran at
@@ -543,7 +620,8 @@ Upstream `scaife_viewer.core.views.morpheus` proxied to
 
 - `deps/morpheus-perseids/` — cloned upstream (Perseids C fork of Morpheus, MPL 2.0).
 - `deps/morpheus-perseids-api/` — cloned upstream (Ruby Sinatra JSON wrapper, MIT).
-- `deps/morpheus-combined/Dockerfile` — multi-stage build that compiles Morpheus on Ubuntu 22.04 (arm64 or x86_64 — whatever the host is) and layers the Ruby wrapper on top (glibc match required).
+- `deps/morpheus-combined/Dockerfile` — multi-stage build. The C engine is compiled on Ubuntu 22.04 (arm64 or x86_64 — whatever the host is); gems are built in a separate stage; the runtime is `ruby:3.4.10-slim-bookworm` carrying only the bundle, the app and the Morpheus binary. The binary links against libc alone, so it runs unchanged on bookworm's newer glibc.
+  Neither `morpheus-perseids` nor `morpheus-perseids-api` is tracked in this repo, so this Dockerfile is the only place their build can be pinned — `nokogiri` is held at 1.19.4 there (1.14.3 carries a critical advisory).
 - `deploy/docker-compose.override.local.yml` — adds the `morpheus` service, port 1500.
 - `sv_pdl/views.py` — new `morpheus_local` view calls the local service and reshapes the response to the flat `{Body: [...]}` shape the frontend expects.
 - `sv_pdl/urls.py` — `/morpheus/` re-routed to `morpheus_local` instead of the upstream import.
@@ -700,24 +778,62 @@ Together with §10 this leaves **no known unfixed CVE** in the Python
 dependency set. Re-check after any upstream resync — these are overrides on
 top of upstream pins.
 
-### 12. Base image moved to Python 3.9 / Alpine 3.22
+### 12. Base image moved to Python 3.12
 
-The fourth local change to the upstream `Dockerfile` (with the
-`setuptools==81.0` pin it requires).
+The fourth local change to the upstream `Dockerfile`.
 
 `python:3.8-alpine` is frozen at Alpine **3.20.3**: the tag stopped being
-rebuilt when Python 3.8 reached end of life, so it no longer receives OS
-security updates. Both stages now use `python:3.9-alpine`, currently Alpine
-**3.22.2**, matching the interpreter in upstream's own deployment image
-(`deploy/webapp/webapp-base.dockerfile`).
+rebuilt when Python 3.8 reached end of life. The image moved to 3.9, and
+then on 2026-08-14 to **`python:3.12-alpine`** as part of the Django 5.2
+upgrade — Django 5.2 requires Python 3.10+. 3.12 rather than 3.13 because
+it is supported by both Django 4.2 and 5.2, which kept the interpreter move
+and the framework move independently revertible.
 
-This required adopting upstream's `setuptools==81.0` pin: newer setuptools
-drops `pkg_resources`, which `django-user-accounts` imports at module load.
-Upstream hit the same problem on their 3.9 image and fixed it the same way.
+Two things this required:
 
-**Python 3.9 is the ceiling** — Django 2.2 does not support 3.10, so going
-further needs Django 3.2+, which needs the fork. See
-[`UPGRADE-IMPACT.md`](UPGRADE-IMPACT.md).
+- **Dropping the `typing` PyPI backport.** `MyCapytain` declares it as a
+  dependency; it shadows the standard library module and breaks on modern
+  interpreters. It is uninstalled after `pip install`, in the same
+  post-install pattern already used for `urllib3`.
+- **`six` 1.12.0 → 1.17.0.** Its `six.moves` lazy-import machinery relies on
+  import internals that changed in 3.12, so `from six.moves import _thread`
+  (reached via `python-dateutil`) failed outright.
+
+The `setuptools==81.0` pin remains: newer setuptools drops `pkg_resources`,
+which the vendored `scaife-viewer-core` and `scaife-viewer-atlas` still call
+at import time. Replacing that with `importlib.metadata` would let the pin
+go.
+
+### 13. Search API pagination and validation fixed
+
+Three defects in `/search/json/`, inherited from upstream and identical on
+the pre-upgrade stack. Each was first *pinned* by a test in
+`sv_pdl/tests/test_search_options.py` — recording the wrong behaviour so
+the upgrade could be shown not to have caused it — and then fixed.
+
+| | Was | Now |
+|---|---|---|
+| `type` | checked only for being non-empty, so an unknown value fell through to the reader branch and returned 200 — while the message for a *missing* type promised 'library' or 'reader' | validated against `library`/`reader`, 400 otherwise |
+| page stride | `offset = (page_num - 1) * 10` with `size` caller-controlled, so `size=5` made page 2 start at result 11 and results 6-10 unreachable from any page | stride follows `size`; consecutive pages tile the result set exactly |
+| empty results | `num_pages: 0` with `start_index: 1`, `end_index: 10` — "showing 1-10 of 0, page 1 of 0" | one empty page with both indices 0, matching Django's `Paginator` |
+
+**The frontend is unaffected**, which is both why these survived and why
+fixing them was safe. `static/src/js/library/search/Search.vue` never sends
+`size`, so it gets the default 10 and the arithmetic is unchanged; the
+reader widget sends its own explicit `offset` and does not use the
+paginated branch; and the pagination control is not rendered at all when a
+search returns nothing (`v-if="results.length || textGroups.length"`).
+Verified against the pre-upgrade stack: for the exact parameter set the Vue
+code sends, page metadata and totals are identical.
+
+Fixing the stride meant `size` had to be validated — `size=0` would divide
+by zero and `page_num=0` would ask the backend for a negative offset. Both
+are now required to be positive integers, which also turns `?size=abc` from
+a 500 into a 400.
+
+The pagination half lives in the vendored `scaife-viewer-core`
+(`get_pagination_info`, which gained a `per_page` argument defaulting to
+10); see `packages/README.md`.
 
 ## Re-ingesting data
 
@@ -749,9 +865,9 @@ commentary entries, the `deps/` clones are incomplete:
 ## Remaining external network use
 
 None at *runtime*. During initial `docker compose up --build`:
-- Base OS images are pulled once from Docker Hub (`ubuntu:22.04`, `postgres:9.6-alpine`, `node:12.13-alpine`, `python:3.8-alpine`) and the
-  Elasticsearch image from `docker.elastic.co`.
-- `pip install`, `npm ci`, and `elasticsearch-plugin install analysis-icu`
+- Base OS images are pulled once from Docker Hub (`ubuntu:22.04`, `postgres:17-alpine`, `node:12.13-alpine`, `python:3.8-alpine`) and the
+  OpenSearch image from Docker Hub (`opensearchproject/opensearch`).
+- `pip install`, `npm ci`, and `opensearch-plugin install analysis-icu`
   fetch language deps and the ES plugin.
 
 Once the images are built, a fully offline host can run the stack with
@@ -766,7 +882,7 @@ run on a workstation, some defaults were tightened.
 ### 1. Host ports bound to loopback
 
 Upstream `deploy/docker-compose.yml` exposed ports on `0.0.0.0`, meaning any
-peer on the same LAN could talk to Django, Postgres, and Elasticsearch
+peer on the same LAN could talk to Django, Postgres, and OpenSearch
 without authentication (Postgres has a trivial `scaife/scaife` password;
 ES runs with `xpack.security.enabled=false`, so it has no auth at
 all). Changed to bind on `127.0.0.1` for all four services — Django 8000,
@@ -815,7 +931,7 @@ ACCEPT  -d 169.254.0.0/16
 REJECT  --reject-with icmp-net-unreachable
 ```
 
-Net effect: the app can reach loopback, `sv-postgres`, `sv-elasticsearch`,
+Net effect: the app can reach loopback, `sv-postgres`, `sv-opensearch`,
 `morpheus`, and Docker's embedded DNS at 172.16-172.31 — but **any packet
 addressed to the public internet is dropped by the kernel**, with an
 immediate `Network unreachable` error to the caller. This is stronger
@@ -872,9 +988,10 @@ path can leak.
 - **Postgres `scaife/scaife` password.** Now only reachable via loopback,
   so not network-exploitable. Any local process on the host can still
   reach it; rotate the password if that matters for you.
-- **Django 2.2.28 is EOL** as of 2022. Several CVEs since. Upgrading is a
-  large project (migrations across many apps, MyCapytain fork, deprecated
-  APIs); out of scope for this snapshot.
+- ~~**Django 2.2.28 is EOL**~~ — resolved 2026-08-14. The stack now runs
+  **Django 5.2.17 on Python 3.12**, with **PostgreSQL 17** and
+  **OpenSearch 2.19**. See `DJANGO-UPGRADE.md` and `DJANGO-3.2-PLAN.md` for
+  how it was sequenced and what was verified at each step.
 
 ## Licenses
 

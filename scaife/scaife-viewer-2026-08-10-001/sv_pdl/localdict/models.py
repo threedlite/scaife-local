@@ -2,6 +2,9 @@ from django.db import models
 
 
 class Dictionary(models.Model):
+    # See the note in sv_pdl/localcomm/models.py: an implicit pk changes type
+    # between Django 2.2 and 3.2, so it is pinned here instead.
+    id = models.BigAutoField(primary_key=True)
     slug = models.SlugField(max_length=80, unique=True)
     label = models.CharField(max_length=200)
     lang = models.CharField(max_length=8)  # grc | lat
@@ -15,6 +18,7 @@ class Dictionary(models.Model):
 
 
 class DictionaryEntry(models.Model):
+    id = models.BigAutoField(primary_key=True)
     dictionary = models.ForeignKey(
         Dictionary, on_delete=models.CASCADE, related_name="entries"
     )
@@ -31,7 +35,11 @@ class DictionaryEntry(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=["dictionary", "headword_normalized_stripped"]),
+            # Named explicitly; see the note in sv_pdl/localcomm/models.py.
+            models.Index(
+                fields=["dictionary", "headword_normalized_stripped"],
+                name="localdict_entry_headword_idx",
+            ),
         ]
         ordering = ["sort_order", "id"]
 

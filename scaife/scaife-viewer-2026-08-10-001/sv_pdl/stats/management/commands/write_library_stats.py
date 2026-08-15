@@ -24,7 +24,7 @@ class Command(BaseCommand):
             }
         }
         aggregations = es.search(
-            index=settings.ELASTICSEARCH_INDEX_NAME, body=body, params=dict(size=0)
+            index=settings.OPENSEARCH_INDEX_NAME, body=body, params=dict(size=0)
         )["aggregations"]
         buckets = aggregations["language"]["buckets"]
         marquee_languages = {"grc": "Greek", "lat": "Latin"}

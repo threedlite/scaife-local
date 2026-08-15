@@ -1,0 +1,2665 @@
+{
+  "mutation": null,
+  "query": "Query",
+  "snapshot_version": 1,
+  "subscription": null,
+  "types": {
+    "AttributionRecordNode": {
+      "fields": {
+        "data": {
+          "type": "JSONString!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "name": {
+          "type": "String"
+        },
+        "role": {
+          "type": "String!"
+        },
+        "urns": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "AttributionRecordNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[AttributionRecordNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "AttributionRecordNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "AttributionRecordNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "AudioAnnotationNode": {
+      "fields": {
+        "assetUrl": {
+          "type": "String!"
+        },
+        "data": {
+          "type": "GenericScalar"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        },
+        "urn": {
+          "type": "String"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "AudioAnnotationNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[AudioAnnotationNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "AudioAnnotationNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "AudioAnnotationNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "Boolean": {
+      "kind": "SCALAR"
+    },
+    "CitationNode": {
+      "fields": {
+        "data": {
+          "type": "GenericScalar"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "label": {
+          "type": "String"
+        },
+        "passageUrn": {
+          "type": "String"
+        },
+        "quote": {
+          "type": "String"
+        },
+        "ref": {
+          "type": "String"
+        },
+        "sense": {
+          "type": "SenseNode!"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "TextPartNodeConnection"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "CitationNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[CitationNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "CitationNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "CitationNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "DictionaryEntryNode": {
+      "fields": {
+        "data": {
+          "type": "GenericScalar"
+        },
+        "dictionary": {
+          "type": "DictionaryNode!"
+        },
+        "headword": {
+          "type": "String!"
+        },
+        "headwordNormalized": {
+          "type": "String"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "senseTree": {
+          "type": "GenericScalar"
+        },
+        "senses": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Gte": "Int",
+            "depth_Lt": "Int",
+            "depth_Lte": "Int",
+            "entry": "ID",
+            "entry_Urn": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "path": "String",
+            "path_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "SenseNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "DictionaryEntryNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[DictionaryEntryNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "DictionaryEntryNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "DictionaryEntryNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "DictionaryNode": {
+      "fields": {
+        "data": {
+          "type": "JSONString!"
+        },
+        "entries": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "headword": "String",
+            "headword_Istartswith": "String",
+            "last": "Int",
+            "lemma": "String",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "DictionaryEntryNodeConnection!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "label": {
+          "type": "String"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "DictionaryNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[DictionaryNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "DictionaryNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "DictionaryNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "GenericScalar": {
+      "kind": "SCALAR"
+    },
+    "ID": {
+      "kind": "SCALAR"
+    },
+    "ImageAnnotationKind": {
+      "kind": "ENUM",
+      "values": [
+        "CANVAS"
+      ]
+    },
+    "ImageAnnotationNode": {
+      "fields": {
+        "canvasIdentifier": {
+          "type": "String"
+        },
+        "data": {
+          "type": "GenericScalar"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "imageIdentifier": {
+          "type": "String"
+        },
+        "kind": {
+          "type": "ImageAnnotationKind!"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "TextPartNodeConnection"
+        },
+        "urn": {
+          "type": "String"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "ImageAnnotationNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[ImageAnnotationNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "ImageAnnotationNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "ImageAnnotationNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "Int": {
+      "kind": "SCALAR"
+    },
+    "JSONString": {
+      "kind": "SCALAR"
+    },
+    "MetricalAnnotationNode": {
+      "fields": {
+        "data": {
+          "type": "GenericScalar"
+        },
+        "htmlContent": {
+          "type": "String!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "metricalPattern": {
+          "type": "String"
+        },
+        "shortForm": {
+          "type": "String!"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        },
+        "urn": {
+          "type": "String"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "MetricalAnnotationNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[MetricalAnnotationNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "MetricalAnnotationNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "MetricalAnnotationNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "NamedEntityKind": {
+      "kind": "ENUM",
+      "values": [
+        "PERSON",
+        "PLACE"
+      ]
+    },
+    "NamedEntityNode": {
+      "fields": {
+        "data": {
+          "type": "GenericScalar"
+        },
+        "description": {
+          "type": "String"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "kind": {
+          "type": "NamedEntityKind!"
+        },
+        "title": {
+          "type": "String!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "url": {
+          "type": "String!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "NamedEntityNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[NamedEntityNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "NamedEntityNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "NamedEntityNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "Node": {
+      "fields": {
+        "id": {
+          "type": "ID!"
+        }
+      },
+      "kind": "INTERFACE"
+    },
+    "PageInfo": {
+      "fields": {
+        "endCursor": {
+          "type": "String"
+        },
+        "hasNextPage": {
+          "type": "Boolean!"
+        },
+        "hasPreviousPage": {
+          "type": "Boolean!"
+        },
+        "startCursor": {
+          "type": "String"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "PassageMetadataNode": {
+      "fields": {
+        "ancestors": {
+          "type": "GenericScalar"
+        },
+        "children": {
+          "type": "GenericScalar"
+        },
+        "healedPassage": {
+          "type": "String"
+        },
+        "humanReference": {
+          "type": "String"
+        },
+        "nextPassage": {
+          "type": "String"
+        },
+        "overview": {
+          "type": "PassageOverviewNode"
+        },
+        "previousPassage": {
+          "type": "String"
+        },
+        "siblings": {
+          "type": "PassageSiblingsNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "PassageOverviewNode": {
+      "fields": {
+        "all": {
+          "type": "GenericScalar"
+        },
+        "selected": {
+          "type": "GenericScalar"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "PassageSiblingsNode": {
+      "fields": {
+        "all": {
+          "type": "GenericScalar"
+        },
+        "next": {
+          "type": "GenericScalar"
+        },
+        "previous": {
+          "type": "GenericScalar"
+        },
+        "selected": {
+          "type": "GenericScalar"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "PassageTextPartNode": {
+      "fields": {
+        "attributionRecords": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "AttributionRecordNodeConnection!"
+        },
+        "audioAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "AudioAnnotationNodeConnection!"
+        },
+        "depth": {
+          "type": "Int!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "imageAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "ImageAnnotationNodeConnection!"
+        },
+        "kind": {
+          "type": "String!"
+        },
+        "label": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "JSONString"
+        },
+        "metricalAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "MetricalAnnotationNodeConnection!"
+        },
+        "numchild": {
+          "type": "Int!"
+        },
+        "path": {
+          "type": "String!"
+        },
+        "rank": {
+          "type": "Int"
+        },
+        "ref": {
+          "type": "String"
+        },
+        "repos": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "name": "String",
+            "offset": "Int"
+          },
+          "type": "RepoNodeConnection!"
+        },
+        "senseCitations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection!"
+        },
+        "textAlignments": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "label": "String",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAlignmentNodeConnection!"
+        },
+        "textAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "SyntaxTreeNodeConnection!"
+        },
+        "textContent": {
+          "type": "String"
+        },
+        "textalignmentrecordrelationSet": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "PassageTextPartNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[PassageTextPartNodeEdge]!"
+        },
+        "metadata": {
+          "type": "PassageMetadataNode"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "PassageTextPartNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "PassageTextPartNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "Query": {
+      "fields": {
+        "attribution": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "AttributionRecordNode"
+        },
+        "attributions": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "AttributionRecordNodeConnection"
+        },
+        "audioAnnotation": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "AudioAnnotationNode"
+        },
+        "audioAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "AudioAnnotationNodeConnection"
+        },
+        "citation": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "CitationNode"
+        },
+        "citations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection"
+        },
+        "dictionaries": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "DictionaryNodeConnection"
+        },
+        "dictionary": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "DictionaryNode"
+        },
+        "dictionaryEntries": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "headword": "String",
+            "headword_Istartswith": "String",
+            "last": "Int",
+            "lemma": "String",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "DictionaryEntryNodeConnection"
+        },
+        "dictionaryEntry": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "DictionaryEntryNode"
+        },
+        "imageAnnotation": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "ImageAnnotationNode"
+        },
+        "imageAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "ImageAnnotationNodeConnection"
+        },
+        "metricalAnnotation": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "MetricalAnnotationNode"
+        },
+        "metricalAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "MetricalAnnotationNodeConnection"
+        },
+        "namedEntities": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "kind": "NamedEntityKind",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "NamedEntityNodeConnection"
+        },
+        "namedEntity": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "NamedEntityNode"
+        },
+        "passageTextParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection"
+        },
+        "repo": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "RepoNode"
+        },
+        "repos": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "name": "String",
+            "offset": "Int"
+          },
+          "type": "RepoNodeConnection"
+        },
+        "sense": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "SenseNode"
+        },
+        "senses": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Gte": "Int",
+            "depth_Lt": "Int",
+            "depth_Lte": "Int",
+            "entry": "ID",
+            "entry_Urn": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "path": "String",
+            "path_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "SenseNodeConnection"
+        },
+        "syntaxTree": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "SyntaxTreeNode"
+        },
+        "syntaxTrees": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "SyntaxTreeNodeConnection"
+        },
+        "textAlignment": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TextAlignmentNode"
+        },
+        "textAlignmentRecord": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TextAlignmentRecordNode"
+        },
+        "textAlignmentRecordRelation": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TextAlignmentRecordRelationNode"
+        },
+        "textAlignmentRecordRelations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection"
+        },
+        "textAlignmentRecords": {
+          "args": {
+            "after": "String",
+            "alignment": "ID",
+            "alignment_Urn": "String",
+            "before": "String",
+            "first": "Int",
+            "idx": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "TextAlignmentRecordNodeConnection"
+        },
+        "textAlignments": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "label": "String",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAlignmentNodeConnection"
+        },
+        "textAnnotation": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TextAnnotationNode"
+        },
+        "textAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAnnotationNodeConnection"
+        },
+        "textGroup": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TextGroupNode"
+        },
+        "textGroups": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "TextGroupNodeConnection"
+        },
+        "textPart": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TextPartNode"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "TextPartNodeConnection"
+        },
+        "token": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "TokenNode"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection"
+        },
+        "tree": {
+          "args": {
+            "upTo": "String",
+            "urn": "String!"
+          },
+          "type": "TreeNode"
+        },
+        "version": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "VersionNode"
+        },
+        "versions": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "VersionNodeConnection"
+        },
+        "work": {
+          "args": {
+            "id": "ID!"
+          },
+          "type": "WorkNode"
+        },
+        "works": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "WorkNodeConnection"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "RepoNode": {
+      "fields": {
+        "id": {
+          "type": "ID!"
+        },
+        "metadata": {
+          "type": "GenericScalar"
+        },
+        "name": {
+          "type": "String"
+        },
+        "sha": {
+          "type": "String"
+        },
+        "urns": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        },
+        "versions": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "VersionNodeConnection"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "RepoNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[RepoNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "RepoNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "RepoNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "SenseNode": {
+      "fields": {
+        "citations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection!"
+        },
+        "definition": {
+          "type": "String"
+        },
+        "depth": {
+          "type": "Int!"
+        },
+        "entry": {
+          "type": "DictionaryEntryNode!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "label": {
+          "type": "String"
+        },
+        "numchild": {
+          "type": "Int!"
+        },
+        "path": {
+          "type": "String!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "SenseNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[SenseNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "SenseNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "SenseNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "String": {
+      "kind": "SCALAR"
+    },
+    "SyntaxTreeNode": {
+      "fields": {
+        "data": {
+          "type": "GenericScalar"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "kind": {
+          "type": "TextAnnotationKind!"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        },
+        "urn": {
+          "type": "String"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "SyntaxTreeNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[SyntaxTreeNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "SyntaxTreeNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "SyntaxTreeNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentMetadataNode": {
+      "fields": {
+        "passageReferences": {
+          "type": "GenericScalar"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentNode": {
+      "fields": {
+        "description": {
+          "type": "String"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "label": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "GenericScalar"
+        },
+        "records": {
+          "args": {
+            "after": "String",
+            "alignment": "ID",
+            "alignment_Urn": "String",
+            "before": "String",
+            "first": "Int",
+            "idx": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "TextAlignmentRecordNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        },
+        "versions": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TextAlignmentNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TextAlignmentNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentRecordNode": {
+      "fields": {
+        "alignment": {
+          "type": "TextAlignmentNode!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "metadata": {
+          "type": "JSONString!"
+        },
+        "relations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentRecordNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TextAlignmentRecordNodeEdge]!"
+        },
+        "metadata": {
+          "type": "TextAlignmentMetadataNode"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentRecordNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TextAlignmentRecordNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentRecordRelationNode": {
+      "fields": {
+        "id": {
+          "type": "ID!"
+        },
+        "record": {
+          "type": "TextAlignmentRecordNode!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "version": {
+          "type": "PassageTextPartNode!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentRecordRelationNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TextAlignmentRecordRelationNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAlignmentRecordRelationNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TextAlignmentRecordRelationNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAnnotationKind": {
+      "kind": "ENUM",
+      "values": [
+        "SCHOLIA",
+        "SYNTAX_TREE"
+      ]
+    },
+    "TextAnnotationNode": {
+      "fields": {
+        "data": {
+          "type": "GenericScalar"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "kind": {
+          "type": "TextAnnotationKind!"
+        },
+        "textParts": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "PassageTextPartNodeConnection!"
+        },
+        "urn": {
+          "type": "String"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TextAnnotationNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TextAnnotationNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextAnnotationNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TextAnnotationNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextGroupNode": {
+      "fields": {
+        "attributionRecords": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "AttributionRecordNodeConnection!"
+        },
+        "audioAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "AudioAnnotationNodeConnection!"
+        },
+        "depth": {
+          "type": "Int!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "imageAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "ImageAnnotationNodeConnection!"
+        },
+        "kind": {
+          "type": "String!"
+        },
+        "label": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "GenericScalar"
+        },
+        "metricalAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "MetricalAnnotationNodeConnection!"
+        },
+        "name": {
+          "type": "String"
+        },
+        "numchild": {
+          "type": "Int!"
+        },
+        "path": {
+          "type": "String!"
+        },
+        "rank": {
+          "type": "Int"
+        },
+        "ref": {
+          "type": "String"
+        },
+        "repos": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "name": "String",
+            "offset": "Int"
+          },
+          "type": "RepoNodeConnection!"
+        },
+        "senseCitations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection!"
+        },
+        "textAlignments": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "label": "String",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAlignmentNodeConnection!"
+        },
+        "textAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "SyntaxTreeNodeConnection!"
+        },
+        "textContent": {
+          "type": "String"
+        },
+        "textalignmentrecordrelationSet": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TextGroupNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TextGroupNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextGroupNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TextGroupNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextPartNode": {
+      "fields": {
+        "attributionRecords": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "AttributionRecordNodeConnection!"
+        },
+        "audioAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "AudioAnnotationNodeConnection!"
+        },
+        "depth": {
+          "type": "Int!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "imageAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "ImageAnnotationNodeConnection!"
+        },
+        "kind": {
+          "type": "String!"
+        },
+        "label": {
+          "type": "String"
+        },
+        "lowestCitablePart": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "GenericScalar"
+        },
+        "metricalAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "MetricalAnnotationNodeConnection!"
+        },
+        "name": {
+          "type": "String"
+        },
+        "numchild": {
+          "type": "Int!"
+        },
+        "path": {
+          "type": "String!"
+        },
+        "rank": {
+          "type": "Int"
+        },
+        "ref": {
+          "type": "String"
+        },
+        "repos": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "name": "String",
+            "offset": "Int"
+          },
+          "type": "RepoNodeConnection!"
+        },
+        "senseCitations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection!"
+        },
+        "textAlignments": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "label": "String",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAlignmentNodeConnection!"
+        },
+        "textAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "SyntaxTreeNodeConnection!"
+        },
+        "textContent": {
+          "type": "String"
+        },
+        "textalignmentrecordrelationSet": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TextPartNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TextPartNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TextPartNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TextPartNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TokenNode": {
+      "fields": {
+        "alignmentRecordRelations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "case": {
+          "type": "String"
+        },
+        "gloss": {
+          "type": "String"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int!"
+        },
+        "lemma": {
+          "type": "String"
+        },
+        "mood": {
+          "type": "String"
+        },
+        "namedEntities": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "kind": "NamedEntityKind",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "NamedEntityNodeConnection!"
+        },
+        "partOfSpeech": {
+          "type": "String"
+        },
+        "position": {
+          "type": "Int!"
+        },
+        "subrefValue": {
+          "type": "String"
+        },
+        "tag": {
+          "type": "String"
+        },
+        "textPart": {
+          "type": "PassageTextPartNode!"
+        },
+        "value": {
+          "type": "String!"
+        },
+        "veRef": {
+          "type": "String"
+        },
+        "wordValue": {
+          "type": "String"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "TokenNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[TokenNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TokenNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "TokenNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "TreeNode": {
+      "fields": {
+        "tree": {
+          "type": "GenericScalar"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "VersionNode": {
+      "fields": {
+        "access": {
+          "type": "Boolean"
+        },
+        "attributionRecords": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "AttributionRecordNodeConnection!"
+        },
+        "audioAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "AudioAnnotationNodeConnection!"
+        },
+        "depth": {
+          "type": "Int!"
+        },
+        "description": {
+          "type": "String"
+        },
+        "humanLang": {
+          "type": "String"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "imageAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "ImageAnnotationNodeConnection!"
+        },
+        "kind": {
+          "type": "String"
+        },
+        "label": {
+          "type": "String"
+        },
+        "lang": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "GenericScalar"
+        },
+        "metricalAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "MetricalAnnotationNodeConnection!"
+        },
+        "name": {
+          "type": "String"
+        },
+        "numchild": {
+          "type": "Int!"
+        },
+        "path": {
+          "type": "String!"
+        },
+        "rank": {
+          "type": "Int"
+        },
+        "ref": {
+          "type": "String"
+        },
+        "repos": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "name": "String",
+            "offset": "Int"
+          },
+          "type": "RepoNodeConnection!"
+        },
+        "senseCitations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection!"
+        },
+        "textAlignmentRecords": {
+          "args": {
+            "after": "String",
+            "alignment": "ID",
+            "alignment_Urn": "String",
+            "before": "String",
+            "first": "Int",
+            "idx": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "TextAlignmentRecordNodeConnection"
+        },
+        "textAlignments": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "label": "String",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAlignmentNodeConnection!"
+        },
+        "textAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "SyntaxTreeNodeConnection!"
+        },
+        "textContent": {
+          "type": "String"
+        },
+        "textalignmentrecordrelationSet": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "VersionNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[VersionNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "VersionNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "VersionNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "WorkNode": {
+      "fields": {
+        "attributionRecords": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String"
+          },
+          "type": "AttributionRecordNodeConnection!"
+        },
+        "audioAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "AudioAnnotationNodeConnection!"
+        },
+        "depth": {
+          "type": "Int!"
+        },
+        "id": {
+          "type": "ID!"
+        },
+        "idx": {
+          "type": "Int"
+        },
+        "imageAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "ImageAnnotationNodeConnection!"
+        },
+        "kind": {
+          "type": "String!"
+        },
+        "label": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "GenericScalar"
+        },
+        "metricalAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "urn": "String"
+          },
+          "type": "MetricalAnnotationNodeConnection!"
+        },
+        "name": {
+          "type": "String"
+        },
+        "numchild": {
+          "type": "Int!"
+        },
+        "path": {
+          "type": "String!"
+        },
+        "rank": {
+          "type": "Int"
+        },
+        "ref": {
+          "type": "String"
+        },
+        "repos": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "name": "String",
+            "offset": "Int"
+          },
+          "type": "RepoNodeConnection!"
+        },
+        "senseCitations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "textParts_Urn": "String"
+          },
+          "type": "CitationNodeConnection!"
+        },
+        "textAlignments": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "label": "String",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "TextAlignmentNodeConnection!"
+        },
+        "textAnnotations": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "reference": "String",
+            "urn": "String"
+          },
+          "type": "SyntaxTreeNodeConnection!"
+        },
+        "textContent": {
+          "type": "String"
+        },
+        "textalignmentrecordrelationSet": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "tokens_TextPart_Urn": "String"
+          },
+          "type": "TextAlignmentRecordRelationNodeConnection!"
+        },
+        "tokens": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "first": "Int",
+            "last": "Int",
+            "offset": "Int",
+            "textPart_Urn": "String",
+            "textPart_Urn_Startswith": "String"
+          },
+          "type": "TokenNodeConnection!"
+        },
+        "urn": {
+          "type": "String!"
+        },
+        "versions": {
+          "args": {
+            "after": "String",
+            "before": "String",
+            "depth": "Int",
+            "depth_Gt": "Int",
+            "depth_Lt": "Int",
+            "first": "Int",
+            "idx": "Int",
+            "kind": "String",
+            "last": "Int",
+            "offset": "Int",
+            "rank": "Int",
+            "rank_Gt": "Int",
+            "rank_Lt": "Int",
+            "ref": "String",
+            "ref_Startswith": "String",
+            "reference": "String",
+            "urn": "String",
+            "urn_Startswith": "String"
+          },
+          "type": "VersionNodeConnection"
+        }
+      },
+      "interfaces": [
+        "Node"
+      ],
+      "kind": "OBJECT"
+    },
+    "WorkNodeConnection": {
+      "fields": {
+        "edges": {
+          "type": "[WorkNodeEdge]!"
+        },
+        "pageInfo": {
+          "type": "PageInfo!"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    },
+    "WorkNodeEdge": {
+      "fields": {
+        "cursor": {
+          "type": "String!"
+        },
+        "node": {
+          "type": "WorkNode"
+        }
+      },
+      "interfaces": [],
+      "kind": "OBJECT"
+    }
+  }
+}

@@ -4,7 +4,8 @@
 **Snapshot analysed:** `scaife-viewer-2026-08-10-001`, resynced against
 upstream `dev` at `ea3cce4` (2026-08-10) — i.e. upstream's current HEAD, not
 a stale capture.
-**Companion:** [`SBOM-2026-08-13.md`](SBOM-2026-08-13.md) — what is installed and what is EOL
+**Companion:** [`SBOM-2026-08-15.md`](SBOM-2026-08-15.md) — what is installed and what is EOL
+(the pre-upgrade [`SBOM-2026-08-13.md`](SBOM-2026-08-13.md) is superseded)
 **Verification:** version facts observed from the running stack; release/EOL
 facts checked against upstream sources on 2026-08-13 (cited at the end).
 Effort estimates are judgement, not measurement, and are flagged as such.
@@ -350,7 +351,37 @@ The heaviest lift after graphene, and entirely build-time.
 
 ## Elasticsearch 8 → OpenSearch, in detail
 
-### The situation today is already wrong
+> **DONE 2026-08-14.** The migration described below was carried out. The
+> deployment now runs **OpenSearch 2.19.2** with **opensearch-py 2.8.0**,
+> and `--integration` is fully green (101 tests) for the first time — the
+> version-skew test that had been a deliberate standing failure now passes,
+> which is exactly the signal this section predicted.
+>
+> The plan held up, with one correction and two notes:
+>
+> - **Correction.** The "pragmatic route" below — keep `elasticsearch-py`
+>   installed and point it at OpenSearch — does not work. From 7.14
+>   `elasticsearch-py` verifies the product it is connected to and raises
+>   `UnsupportedProductError` against anything that is not Elasticsearch.
+>   The client swap was mandatory, not optional. It was also cheap: five
+>   call sites across `core/search.py`, `core/indexer.py`,
+>   `core/management/commands/create_index.py` and `sv_pdl/search/__init__.py`,
+>   since `opensearch-py` is a fork of `elasticsearch-py` 7.x and the API is
+>   unchanged.
+> - `opensearch-py` is pinned `>=2.8,<3` because 3.1+ requires Python 3.10
+>   and this stack is still on 3.9.
+> - The compose service was renamed `sv-elasticsearch` → `sv-opensearch`,
+>   with a **network alias** keeping the old hostname resolvable, because
+>   `deploy/.env` is user-owned and gitignored and still contains
+>   `SV_ELASTICSEARCH_HOST=sv-elasticsearch`. Nothing has to be hand-edited
+>   on an existing install. The `ELASTICSEARCH_*` Django settings kept their
+>   names for the same reason.
+>
+> The portability assessment was accurate: the index template needed no
+> changes, and re-indexing produced **779,099 documents — the identical
+> count** Elasticsearch held.
+
+### The situation before the migration
 
 | | Version |
 |---|---|

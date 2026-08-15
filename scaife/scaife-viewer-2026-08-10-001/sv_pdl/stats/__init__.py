@@ -22,7 +22,7 @@ def get_library_stats():
     In the future, these stats may be served up directly from `scaife-cts-api`
     at the conclusion of indexing.  For now, `scaife-viewer` seens to be the most
     sensible place to compute the stats since it has the connection info for both
-    Nautilus and ElasticSearch.
+    Nautilus and OpenSearch.
     """
     key = "library-stats"
     library_stats = cache.get(key, None)

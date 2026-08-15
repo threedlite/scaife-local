@@ -3,6 +3,15 @@ import sys
 
 import dj_database_url
 
+# Must run before any app is imported: several unmaintained dependencies
+# reference Django APIs removed in 4.0 at module scope. See the table in
+# sv_pdl/django_compat.py for exactly which, and why shimming beats
+# dropping them.
+from sv_pdl import django_compat
+
+
+django_compat.install()
+
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -21,6 +30,22 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
     "default": dj_database_url.config(default="postgres://localhost/scaife-viewer")
 }
+
+# Django 2.2 does not read this setting; it is set now for the upgrade.
+# From 3.2 an unset DEFAULT_AUTO_FIELD emits models.W042 for every app whose
+# models leave the primary key implicit — which is most of them, including
+# ATLAS's 19 — and pins the value the next `makemigrations` would bake in.
+# "AutoField" is the value that preserves today's schema exactly: every
+# implicit primary key in this project is currently a 32-bit AutoField, so
+# this generates no migration and alters no table.
+#
+# It is deliberately NOT BigAutoField. That would be the modern default, but
+# adopting it means an ALTER on every implicit-pk table across ATLAS and the
+# upstream apps, which is a schema change to decide on its own merits rather
+# than to inherit as a side effect of a framework upgrade. The two local apps
+# that do want 64-bit keys declare them explicitly on their models — see
+# sv_pdl/localcomm/models.py.
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -56,9 +81,7 @@ SITE_ID = int(os.environ.get("SITE_ID", 1))
 # to load the internationalization machinery.
 USE_I18N = True
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale.
-USE_L10N = True
+# USE_L10N was removed in Django 5.0; localised formatting is always on.
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
@@ -95,7 +118,21 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# LOCAL CHANGE (2026-08-14): was STATICFILES_STORAGE, which Django 5.1
+# REMOVED. It is not deprecated-but-honoured — it is simply ignored, so the
+# setting stayed in place while Django silently fell back to the plain
+# StaticFilesStorage: no hashed filenames, no precompression, and
+# collectstatic no longer post-processing. The app still served pages, which
+# is exactly why this needed catching deliberately. See
+# sv_pdl/tests/test_static_storage.py.
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 if "SECRET_KEY" in os.environ:
     SECRET_KEY = os.environ["SECRET_KEY"]
@@ -127,6 +164,22 @@ TEMPLATES = [
                 "pinax_theme_bootstrap.context_processors.theme",
                 "sv_pdl.context_processors.google_analytics",
             ],
+            "libraries": {
+                # Django 3.0 removed the "staticfiles" template tag library;
+                # `{% load static %}` has been staticfiles-aware since 2.1.
+                # Two installed packages still write `{% load staticfiles %}`
+                # and neither has a fixed release — pinax-theme-bootstrap
+                # 8.0.1 and django-oidc-provider 0.9.0 are both the latest.
+                # theme_bootstrap/base.html is the template this site's
+                # site_base.html extends, so without this every page is a
+                # 500: "'staticfiles' is not a registered tag library".
+                #
+                # Re-registering the old name against django.templatetags.static
+                # is the whole fix, and is preferable to vendoring someone
+                # else's base template just to edit one line. Remove it if
+                # those packages are ever replaced.
+                "staticfiles": "django.templatetags.static",
+            },
         },
     },
 ]
@@ -190,12 +243,13 @@ INSTALLED_APPS = [
     "account",
     "corsheaders",
     "django_extensions",
-    "django_jsonfield_backport",
     "letsencrypt",
     "oidc_provider",
     "graphene_django",
     "pinax.eventlog",
-    "pinax.webanalytics",
+    # Not "pinax.webanalytics": its own AppConfig sets an app label with a
+    # hyphen, which Django rejects from 3.2. See sv_pdl.apps.WebAnalyticsConfig.
+    "sv_pdl.apps.WebAnalyticsConfig",
     "raven.contrib.django.raven_compat",
     # scaife-viewer
     "scaife_viewer.atlas",
@@ -415,13 +469,13 @@ if FORCE_SCRIPT_NAME:
     STATIC_URL = f"{FORCE_SCRIPT_NAME}{STATIC_URL}"
 
 
-ELASTICSEARCH_HOSTS = os.environ.get("ELASTICSEARCH_HOSTS", "localhost:9200").split(",")
-ELASTICSEARCH_INDEX_NAME = os.environ.get("ELASTICSEARCH_INDEX_NAME", "scaife-viewer")
-ELASTICSEARCH_SNIFF_ON_START = bool(
-    int(os.environ.get("ELASTICSEARCH_SNIFF_ON_START", "0"))
+OPENSEARCH_HOSTS = os.environ.get("OPENSEARCH_HOSTS", "localhost:9200").split(",")
+OPENSEARCH_INDEX_NAME = os.environ.get("OPENSEARCH_INDEX_NAME", "scaife-viewer")
+OPENSEARCH_SNIFF_ON_START = bool(
+    int(os.environ.get("OPENSEARCH_SNIFF_ON_START", "0"))
 )
-ELASTICSEARCH_SNIFF_ON_CONNECTION_FAIL = bool(
-    int(os.environ.get("ELASTICSEARCH_SNIFF_ON_CONNECTION_FAIL", "0"))
+OPENSEARCH_SNIFF_ON_CONNECTION_FAIL = bool(
+    int(os.environ.get("OPENSEARCH_SNIFF_ON_CONNECTION_FAIL", "0"))
 )
 
 DEPLOYMENT_TIMESTAMP_VAR_NAME = os.environ.get(
@@ -431,6 +485,15 @@ DEPLOYMENT_TIMESTAMP_VAR_NAME = os.environ.get(
 
 GRAPHENE = {
     "SCHEMA": "sv_pdl.atlas.schema.schema",
+    # LOCAL CHANGE (2026-08-14): graphene-django 3 renamed the enums it
+    # derives from Django field `choices`, e.g. NamedEntityKind became
+    # ScaifeViewerAtlasNamedEntityKindChoices. That is a GraphQL contract
+    # change — the enum *values* are the same, but a client declaring a
+    # variable as `$kind: NamedEntityKind!` would break. The frontend bundle
+    # is prebuilt and baked into the image, so it does not change unless
+    # absolutely required. This restores the 2.x naming and makes the
+    # graphene 2 -> 3 port schema-identical. See DJANGO-3.2-PLAN.md.
+    "DJANGO_CHOICE_FIELD_ENUM_V2_NAMING": True,
     # setting RELAY_CONNECTION_MAX_LIMIT to None removes the limit; for backwards compatability with current API
     # @@@ restore the limit
     "RELAY_CONNECTION_MAX_LIMIT": None,

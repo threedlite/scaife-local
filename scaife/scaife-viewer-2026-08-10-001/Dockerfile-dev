@@ -3,6 +3,18 @@ WORKDIR /opt/scaife-viewer/src/
 RUN pip --no-cache-dir --disable-pip-version-check install virtualenv
 ENV PATH="/opt/scaife-viewer/bin:${PATH}" VIRTUAL_ENV="/opt/scaife-viewer"
 COPY requirements-dev.txt requirements.txt /opt/scaife-viewer/src/
+# LOCAL CHANGE: requirements-dev.txt pulls in requirements.txt, which now
+# installs scaife-viewer-core and scaife-viewer-atlas from ./packages/, so
+# that source has to be in the context before pip runs. Kept in step with
+# the same COPY in Dockerfile.
+#
+# NOTE: this image is stale for other reasons — it is pinned to Python 3.6
+# while the application needs 3.9 — and nothing in the offline stack builds
+# it. deploy/docker-compose.override.yml (upstream's override, not the
+# .override.local.yml this project uses) is its only reference. The line
+# below keeps it consistent with the vendored layout rather than leaving a
+# knowingly broken reference behind.
+COPY packages /opt/scaife-viewer/src/packages
 RUN set -x \
     && virtualenv /opt/scaife-viewer \
     && apk --no-cache add \

@@ -1,34 +1,83 @@
 
 dj-database-url==0.5.0
-django-cors-headers==3.1.1
-django-extensions==2.2.9
-django-letsencrypt==3.0.1
-django-oidc-provider==0.7.0
+# LOCAL CHANGE (2026-08-14): was 3.1.1, whose signals.py calls
+# Signal(providing_args=...), removed in Django 4.0.
+django-cors-headers==4.9.0
+# LOCAL CHANGE (2026-08-14): was 2.2.9, which predates Django 3.2. 3.2.3 is
+# the newest release that still supports 3.2 (4.x requires Django >= 4.2).
+django-extensions==3.2.3
+# LOCAL CHANGE (2026-08-14): was 3.0.1, whose urls.py imports
+# django.conf.urls.url, removed in Django 4.0. 5.1.0 rather than the
+# newest 6.0.2, which requires Python 3.10; revisit after the
+# interpreter upgrade. 5.1.0 covers Django 4.0-5.1.
+django-letsencrypt==5.1.0
+# LOCAL CHANGE (2026-08-14): was 0.7.0, which imports ugettext_lazy at
+# module scope (removed in Django 4.0). 0.9.0 is clean.
+django-oidc-provider==0.9.0
 django-ratelimit==4.0.0
 django-redis==5.2.0
-django-user-accounts==3.0.2
+# LOCAL CHANGE (2026-08-14): was 3.0.2, whose signals.py uses
+# Signal(providing_args=...), removed in Django 4.0. 3.3.2 fixes it.
+django-user-accounts==3.3.2
 django-webpack-loader==0.6.0
-Django==2.2.28
-# NOTE: Pinned at 7.10.x;
-# refs https://bonsai.io/docs/which-versions-bonsai-supports
-elasticsearch>=7,<8
+# LOCAL CHANGE (2026-08-14): was Django==2.2.28, EOL since 2022-04-01.
+# 3.2.25 is the final 3.2 LTS patch. See DJANGO-3.2-PLAN.md.
+Django==5.2.17
+# LOCAL CHANGE (2026-08-14): replaced elasticsearch>=7,<8 with opensearch-py.
+# The upstream comment here pointed at Bonsai's supported Elasticsearch
+# versions, which is why the client was capped below 8 — a cap that left it
+# an API generation behind our Elasticsearch 8 server. This deployment runs
+# OpenSearch instead; see UPGRADE-IMPACT.md and Dockerfile-opensearch.
+opensearch-py>=2.8,<3
 flake8
 flake8-quotes
-gunicorn==19.9.0
+# LOCAL CHANGE (2026-08-15): was 19.9.0, which the Dockerfile then
+# overrode to 23.0.0 for CVE-2024-1135 (HTTP request smuggling via
+# Transfer-Encoding, affects >=0.10.0,<22.0.0). 23.0.0 was the newest
+# release supporting Python 3.9; on 3.12 the cap is gone, so this is
+# pinned directly here and the Dockerfile override is removed.
+gunicorn==26.0.0
 honcho==1.0.1
 isort
 # @@@ pin to MyCapytain fork until performance improvements are merged
 MyCapytain @https://github.com/jacobwegner/MyCapytain/archive/7b3c18b5721476535796ae4241934aea3afa85f8.zip
-pinax-eventlog[django-lts]==5.1.0
+# LOCAL CHANGE (2026-08-14): dropped the [django-lts] extra, whose only
+# effect is to pull in django-jsonfield-backport for Django < 3.1. On 3.2
+# pinax.eventlog.compat imports django.db.models.JSONField directly, and
+# none of its migrations reference the backport, so the extra installed a
+# package nothing used. This removes the backport from the image entirely,
+# now that ATLAS no longer needs it either. See DJANGO-3.2-PLAN.md §4.4.
+# LOCAL CHANGE (2026-08-14): was 5.1.0, same providing_args problem.
+pinax-eventlog==6.0.0
 pinax-theme-bootstrap==8.0.1
 pinax-webanalytics==4.0.2
 psycopg2==2.9.10
 PyYAML>=6.0.1
 raven==6.10.0
 requests>=2.22.0
-# @@@ atlas package is not yet released to pypi
-scaife-viewer-atlas @https://github.com/scaife-viewer/backend/archive/scaife-viewer-atlas@0.1a15.zip#subdirectory=atlas
-# @@@ core package is not yet released to pypi
-scaife-viewer-core @https://github.com/scaife-viewer/backend/archive/ed7f8777be86b9f58ae58a303d34913261f4f7df.zip#subdirectory=core
-six==1.12.0
-whitenoise==4.1.2
+# Vendored into this repo — see packages/README.md for provenance and the
+# exact upstream refs these were taken from. They were previously installed
+# from GitHub archive URLs; the source is now in-tree so the Django and
+# graphene pins inside them can be edited, which is the prerequisite for
+# every step of the upgrade (DJANGO-UPGRADE.md §10, W1).
+#
+# Paths are relative to the build context root, which is also pip's working
+# directory in the Dockerfile.
+#
+# [test] pulls the pytest/hypothesis versions each package declares for its
+# own suite, so `bash scripts/run-vendored-tests.sh` can run them. Vendoring
+# is pointless if the code arrives without a way to tell whether an edit to
+# it broke something. This mirrors flake8/isort below, which are likewise
+# development tools already carried in the runtime image.
+./packages/scaife-viewer-atlas[test]
+./packages/scaife-viewer-core[test]
+# LOCAL CHANGE (2026-08-14): was 1.12.0 (2019). Its six.moves lazy-import
+# machinery relies on import internals that changed in Python 3.12, so
+# `from six.moves import _thread` (via python-dateutil) fails outright.
+# 1.17.0 supports 3.12+.
+six==1.17.0
+# LOCAL CHANGE (2026-08-14): was 4.1.2, which imports django.utils.six —
+# removed in Django 3.0, so the middleware failed to import. 6.7.0 is the
+# newest release still supporting Python 3.8+ and Django 3.2 (6.8+ requires
+# Django >= 4.2), so it also covers the 4.2 step.
+whitenoise==6.7.0

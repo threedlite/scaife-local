@@ -4,15 +4,42 @@ SENTINEL_DIR=${ATLAS_DATA_DIR:-atlas_data}/sentinels
 mkdir -p ${SENTINEL_DIR} ${CTS_LOCAL_DATA_PATH:-data/cts} ${ATLAS_DATA_DIR:-atlas_data}
 
 
+die() {
+    echo "entrypoint: $*" >&2
+    exit 1
+}
+
+# NOTE: `makemigrations` used to run here, ahead of the migrates below.
+# It was removed deliberately. Generating migrations at boot meant:
+#
+#   * a fresh 0002_auto_<timestamp> for localcomm/localdict on every start,
+#     because their models and migrations disagreed under Django 2.2 (the
+#     models declared no explicit pk, so an implicit AutoField faced a
+#     BigAutoField migration). Each one carried a different timestamp, so
+#     django_migrations and the files on disk permanently diverged.
+#   * migrations written *into site-packages* for third-party apps —
+#     django-user-accounts derives its language choices from
+#     settings.LANGUAGES, so makemigrations always saw a change and wrote
+#     account/migrations/0006_auto_<timestamp>.py into the dependency.
+#   * `migrate` then failing with "relation ... already exists" while the
+#     boot carried on regardless, because this script had no error handling.
+#   * MigrationStateTests being unable to fail: any drift was absorbed into
+#     a generated migration before the test could see it.
+#
+# Models and migrations now agree (both declare BigAutoField pks and
+# explicitly named indexes), so `migrate` alone is sufficient. If a model
+# changes, generate the migration deliberately and commit it:
+#
+#     docker exec -u scaife scaife-viewer python manage.py makemigrations <app>
+#
 # FIXME: (charles) I have no idea why we need to run migrate
 # twice. Something is clearly wrong with what's
 # going on here, but Django complains about the
 # missing sites table unless we run these processes
 # in this order.
-python manage.py makemigrations
-python manage.py migrate
-python manage.py migrate sites
-python manage.py migrate --database=atlas
+python manage.py migrate || die "migrate failed"
+python manage.py migrate sites || die "migrate sites failed"
+python manage.py migrate --database=atlas || die "migrate --database=atlas failed"
 
 python manage.py loaddata sites
 
@@ -40,7 +67,7 @@ if [ ! -f "${SENTINEL_DIR}/.atlas_db_prepared" ]; then
     # /about/; benefit is no network at ATLAS build time.
     python manage.py prepare_atlas_db --force && \
     touch "${SENTINEL_DIR}/.atlas_db_prepared" && \
-    rm -f "${SENTINEL_DIR}/.es_indexed" # rebuild ES index when ATLAS changes
+    rm -f "${SENTINEL_DIR}/.search_indexed" # rebuild the search index when ATLAS changes
 fi
 
 # Local dictionaries (LSJ, Lewis & Short, Middle Liddell) and commentaries.
@@ -55,8 +82,8 @@ if [ ! -f "${SENTINEL_DIR}/.commentaries_ingested" ] && [ -d /host-commentaries 
     python manage.py ingest_commentaries && touch "${SENTINEL_DIR}/.commentaries_ingested"
 fi
 
-if [ ! -f "${SENTINEL_DIR}/.es_indexed" ]; then
-    curl -X PUT "http://${SV_ELASTICSEARCH_HOST}:${SV_ELASTICSEARCH_PORT}/_template/scaife-viewer?pretty" -H 'Content-Type: application/json' -d "$(cat deploy/scaife-viewer-es-template.json)"
+if [ ! -f "${SENTINEL_DIR}/.search_indexed" ]; then
+    curl -X PUT "http://${SV_OPENSEARCH_HOST}:${SV_OPENSEARCH_PORT}/_template/scaife-viewer?pretty" -H 'Content-Type: application/json' -d "$(cat deploy/scaife-viewer-opensearch-template.json)"
     # Index the FULL corpus by default (SV_INDEXER_LIMIT=0 means "no
     # --limit"), matching upstream. Set SV_INDEXER_LIMIT=<N> for a fast
     # sample instead if you want the quickest possible first boot and do
@@ -69,7 +96,7 @@ if [ ! -f "${SENTINEL_DIR}/.es_indexed" ]; then
     fi
     # Worker count dominates runtime: 1 worker is roughly 10x slower.
     python manage.py indexer --max-workers="${SV_INDEXER_MAX_WORKERS:-4}" ${INDEXER_LIMIT_ARG}
-    touch "${SENTINEL_DIR}/.es_indexed"
+    touch "${SENTINEL_DIR}/.search_indexed"
 fi
 
 exec "$@"

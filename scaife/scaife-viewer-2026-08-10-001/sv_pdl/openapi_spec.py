@@ -24,7 +24,7 @@ SPEC = {
         {"name": "dictionaries", "description": "LSJ / Middle Liddell / Lewis & Short"},
         {"name": "commentaries", "description": "Open Commentaries on classical texts"},
         {"name": "library", "description": "CTS text catalog + passage retrieval"},
-        {"name": "search", "description": "Elasticsearch-backed full-text search"},
+        {"name": "search", "description": "OpenSearch-backed full-text search"},
     ],
 
     "paths": {

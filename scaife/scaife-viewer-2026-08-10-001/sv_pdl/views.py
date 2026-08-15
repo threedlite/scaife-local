@@ -122,29 +122,64 @@ def about(request):
 # from Postgres. See README "Local dictionaries app" / "Local commentaries app".
 
 
+SEARCH_TYPES = ("library", "reader")
+
+
+def _positive_int(request, name, default):
+    """Read a query parameter that must be a positive integer.
+
+    Raises ValueError, which the caller turns into a 400. Previously these
+    were parsed with a bare `int()`, so `?size=abc` raised straight out of
+    the view and became a 500 — a client error reported as a server one.
+
+    The lower bound is not cosmetic. `size` is now the page stride, so
+    `size=0` would divide by zero when computing the page count, and
+    `page_num=0` would ask the search backend for a negative offset.
+    """
+    value = int(request.GET.get(name, default))
+    if value < 1:
+        raise ValueError(f"{name} must be >= 1")
+    return value
+
+
 def search_json(request):
     # get params from query string
     search_type = request.GET.get("type")
     q = request.GET.get("q", "")
     kind = request.GET.get("kind", "form")
-    size = int(request.GET.get("size", "10"))
     text_group_urn = request.GET.get("text_group")
     work_urn = request.GET.get("work")
 
     # validate params
-    if not search_type:
+    #
+    # `type` is checked against the known values rather than merely for
+    # being non-empty. It used to be the latter, so any unrecognised value
+    # fell through to the reader branch and returned 200 — while the error
+    # message for a *missing* type promised 'library' or 'reader'.
+    if search_type not in SEARCH_TYPES:
         return JsonResponse(
             {"error": "Provide a search type - 'library' or 'reader'."}, status=400
         )
     if not q:
         return JsonResponse({"error": "Provide a search query."}, status=400)
+    try:
+        size = _positive_int(request, "size", "10")
+    except ValueError:
+        return JsonResponse(
+            {"error": "'size' must be a positive integer."}, status=400
+        )
 
     scope = {}
     data: dict[str, Any] = {"results": []}
 
     # conduct search
     if search_type == "library":
-        page_num = int(request.GET.get("page_num", "1"))
+        try:
+            page_num = _positive_int(request, "page_num", "1")
+        except ValueError:
+            return JsonResponse(
+                {"error": "'page_num' must be a positive integer."}, status=400
+            )
         aggregate_fields = {
             "filtered_text_group": {"terms": {"field": "text_group", "size": 300}}
         }
@@ -161,20 +196,33 @@ def search_json(request):
             scope = {}
             scope["work"] = work_urn
 
+        # The page stride is `size`, not a hardcoded 10.
+        #
+        # It used to be 10 in all three places below while `size` stayed
+        # caller-controlled, so the two disagreed whenever a caller asked
+        # for anything else: with size=5, page 2 began at result 11 and
+        # results 6-10 could not be reached from any page.
+        #
+        # This is invisible to the frontend, which is why it went unnoticed
+        # and why fixing it is safe: static/src/js/library/search/Search.vue
+        # never sends `size`, so it gets the default 10 and the arithmetic
+        # is unchanged. The reader widget does send `size`, but it also
+        # sends an explicit `offset` and does not use this branch.
+        offset = (page_num - 1) * size
         kwargs = {
             "search_type": search_type,
             "scope": scope,
             "aggregate_fields": aggregate_fields,
             "kind": kind,
-            "offset": (page_num - 1) * 10,
+            "offset": offset,
         }
         try:
             sq = SearchQuery(q, **kwargs)
         except Exception:
             return JsonResponse({"error": "Something went wrong."}, status=500)
         total_count = sq.count()
-        page = get_pagination_info(total_count, page_num)
-        results = sq.search_window(size=size, offset=((page_num - 1) * 10))
+        page = get_pagination_info(total_count, page_num, per_page=size)
+        results = sq.search_window(size=size, offset=offset)
 
         for result in results:
             r = {"passage": apify(result["passage"], with_content=False)}

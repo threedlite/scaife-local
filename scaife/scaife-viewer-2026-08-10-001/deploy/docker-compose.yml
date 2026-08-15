@@ -8,7 +8,7 @@ services:
     depends_on:
       sv-postgres:
         condition: service_healthy
-      sv-elasticsearch:
+      sv-opensearch:
         condition: service_healthy
     ports:
       # Bind to loopback by default so LAN peers can't hit the app / DB / ES.
@@ -18,13 +18,19 @@ services:
 
   sv-postgres:
     container_name: sv-postgres
-    image: postgres:9.6-alpine
+    # LOCAL CHANGE (2026-08-14): was postgres:9.6-alpine, EOL since
+    # 2021-11. 17 rather than 18 deliberately: the official 18 image moved
+    # PGDATA to a version-specific path (/var/lib/postgresql/18/docker),
+    # which would bake the major version into the volume mount and need
+    # redoing at 19. 17 keeps /var/lib/postgresql/data and is supported to
+    # 2029, comfortably past the Django 5.2 target.
+    image: postgres:17-alpine
     ports:
       - ${SCAIFE_BIND:-127.0.0.1}:${SV_POSTGRES_PORT:-5433}:5432
     environment:
       - POSTGRES_USER=scaife
       - POSTGRES_PASSWORD=scaife
-      - USE_ELASTICSEARCH_SERVICE=1
+      - USE_OPENSEARCH_SERVICE=1
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 10s
@@ -32,18 +38,22 @@ services:
       start_period: 30s
       timeout: 10s
     volumes:
-      - sv-postgres-data:/var/lib/postgresql/data
+      - sv-postgres-17-data:/var/lib/postgresql/data
 
-  sv-elasticsearch:
+  sv-opensearch:
     build:
       context: ../
-      dockerfile: Dockerfile-elasticsearch
-    container_name: sv-elasticsearch
+      dockerfile: Dockerfile-opensearch
+    container_name: sv-opensearch
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
+      # No auth, matching the previous xpack.security.enabled=false posture.
+      # Safe only behind the loopback binding; see README security notes.
+      - DISABLE_SECURITY_PLUGIN=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
     healthcheck:
       test:
         [
@@ -61,8 +71,13 @@ services:
     ports:
       - ${SCAIFE_BIND:-127.0.0.1}:9200:9200
     volumes:
-      - sv-elasticsearch-data:/usr/share/elasticsearch/data
+      - sv-opensearch-data:/usr/share/opensearch/data
 
 volumes:
+  # sv-postgres-data holds the old 9.6 cluster. A 9.6 data directory
+  # cannot be read by 17, so the upgrade went via pg_dump/restore into
+  # this new volume. The old one is left declared so it is not garbage
+  # collected, and remains a rollback path until the upgrade is trusted.
   sv-postgres-data:
-  sv-elasticsearch-data:
+  sv-postgres-17-data:
+  sv-opensearch-data:

@@ -13,7 +13,7 @@ services:
       - 8000:8000
     environment:
       - DEBUG=1
-      - USE_ELASTICSEARCH_SERVICE=1
+      - USE_OPENSEARCH_SERVICE=1
     volumes:
       - webpack-stats:/opt/scaife-viewer/src/static/stats
       - ..:/opt/scaife-viewer/src/

@@ -6,3 +6,11 @@ webpack-stats.json
 Pipfile
 Pipfile.lock
 .atlas-db-url
+
+# Build artifacts from the vendored packages. pip builds them inside the
+# image; if someone also runs pip against packages/ on the host, these would
+# otherwise be copied into the context and shadow the real source.
+packages/*/build/
+packages/*/dist/
+packages/*/*.egg-info/
+**/__pycache__/

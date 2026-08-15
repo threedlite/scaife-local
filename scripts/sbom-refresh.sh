@@ -35,8 +35,8 @@ docker exec "$CONTAINER" python -c 'import django; print("Django", django.__vers
 docker exec sv-postgres postgres --version 2>/dev/null | sed 's/^/  /' || echo "  postgres: not running"
 docker exec morpheus ruby --version 2>/dev/null | sed 's/^/  /' || echo "  ruby: not running"
 curl -s localhost:9200 2>/dev/null \
-  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("  Elasticsearch", d["version"]["number"], "lucene", d["version"]["lucene_version"])' \
-  2>/dev/null || echo "  elasticsearch: unreachable"
+  | python3 -c 'import sys,json; d=json.load(sys.stdin); v=d["version"]; print("  " + v.get("distribution","elasticsearch").title(), v["number"], "lucene", v["lucene_version"])' \
+  2>/dev/null || echo "  search backend: unreachable"
 echo
 
 echo "## base images"
@@ -60,12 +60,22 @@ for section in ("dependencies", "devDependencies"):
 PY
 echo
 
-echo "## upstream constraints that block upgrades"
+# These two are vendored into packages/ as of 2026-08-14, so what follows is
+# no longer an *upstream* constraint — it is this repository's own declared
+# floor, and editable. Kept because it is the single most load-bearing set of
+# pins in the stack. The python3.* glob avoids hardcoding the interpreter,
+# which has already moved twice.
+echo "## framework constraints declared by the vendored packages"
 for dist in scaife_viewer_core scaife_viewer_atlas; do
   echo "  [$dist]"
   docker exec "$CONTAINER" sh -c \
-    "grep -h '^Requires-Dist' /opt/scaife-viewer/lib/python3.8/site-packages/${dist}-*.dist-info/METADATA 2>/dev/null" \
-    | grep -Ei 'django|elasticsearch|graphene' | sed 's/^/    /' || echo "    (not found)"
+    "grep -h '^Requires-Dist' /opt/scaife-viewer/lib/python3.*/site-packages/${dist}-*.dist-info/METADATA 2>/dev/null" \
+    | grep -Ei 'django|opensearch|elasticsearch|graphene|treebeard|filter' | sed 's/^/    /' || echo "    (not found)"
 done
+
+echo
+echo "## local divergence from upstream"
+echo "  vendored packages: see packages/README.md for the full change table"
+grep -c '^| 2026-' "$APP_ROOT/packages/README.md" 2>/dev/null | sed 's/^/  documented local changes: /' || true
 
 if [ -n "$OUT" ]; then echo "wrote $OUT" >&2; fi

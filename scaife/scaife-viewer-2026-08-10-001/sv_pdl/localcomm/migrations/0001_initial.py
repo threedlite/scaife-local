@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Commentary",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 ("slug", models.SlugField(max_length=120, unique=True)),
                 ("label", models.CharField(max_length=200)),
                 ("author", models.CharField(blank=True, max_length=200)),
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="CommentaryEntry",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 ("target_urn", models.CharField(db_index=True, max_length=300)),
                 ("target_key", models.CharField(db_index=True, max_length=120)),
                 ("ref_start", models.CharField(db_index=True, max_length=64)),
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
             model_name="commentaryentry",
             index=models.Index(
                 fields=["target_key", "ref_start", "ref_end"],
-                name="localcomm_c_target__b2c5f0_idx",
+                name="localcomm_entry_target_idx",
             ),
         ),
     ]

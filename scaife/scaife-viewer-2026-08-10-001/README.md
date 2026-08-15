@@ -1,5 +1,15 @@
 # Scaife Viewer
 
+> **This deployment does not use Elasticsearch.** As of 2026-08-14 the
+> offline stack in this repository runs **OpenSearch 2.19** with
+> `opensearch-py`; there is no Elasticsearch server, client, image or
+> setting anywhere in it. The sections below that mention Elasticsearch —
+> the local `brew install elasticsearch` walkthrough, the Heroku index
+> promotion workflow, `ELASTICSEARCH_INDEX_NAME` — are **upstream's own
+> documentation for upstream's hosted deployment**, kept as-is so this file
+> still diffs cleanly against upstream. They do not describe how this
+> repository runs. See the root `README.md` and `UPGRADE-IMPACT.md`.
+
 The new reading environment for version 5.0 of the Perseus Digital Library.
 
 This repository is part of the [Scaife Viewer](https://scaife-viewer.org) project, an open-source ecosystem for building rich online reading environments.
@@ -48,7 +58,7 @@ _Note_: These may be made optional in the future
 Build and start up services via:
 ```shell
 touch deploy/.env
-docker-compose -f deploy/docker-compose.yml up -d sv-elasticsearch sv-postgres
+docker-compose -f deploy/docker-compose.yml up -d sv-opensearch sv-postgres
 ```
 
 ### Prepare the backend
@@ -165,7 +175,7 @@ export CTS_RESOLVER=local \
 - Start up PostgreSQL and ElasticSearch:
 
 ```shell
-docker-compose -f deploy/docker-compose.yml up -d sv-elasticsearch sv-postgres
+docker-compose -f deploy/docker-compose.yml up -d sv-opensearch sv-postgres
 # Optionally wait 10 seconds for Postgres to finish starting
 sleep 10
 ```
@@ -292,7 +302,7 @@ Copy `.env.example` and customize environment variables for your deployment:
 cp deploy/.env.example deploy/.env
 ```
 
-To build the Docker image and bring up the `scaife-viewer`, `sv-postgres` and `sv-elasticsearch` services in the background:
+To build the Docker image and bring up the `scaife-viewer`, `sv-postgres` and `sv-opensearch` services in the background:
 
 ```
 docker-compose -f deploy/docker-compose.yml up --build -d
@@ -338,7 +348,7 @@ Then build the images and spin up the containers:
 docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.override.yml up --build
 ```
 
-To run only the `scaife-viewer`, `sv-webpack`, and `sv-postgres` services, set the `USE_ELASTICSEARCH_SERVICE` environment variable in `docker-compose.override.yml` to 0, and then run:
+To run only the `scaife-viewer`, `sv-webpack`, and `sv-postgres` services, set the `USE_OPENSEARCH_SERVICE` environment variable in `docker-compose.override.yml` to 0, and then run:
 
 ```
 docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.override.yml up --build scaife-viewer sv-webpack sv-postgres

@@ -5,16 +5,22 @@ from django.urls import reverse
 from django.utils.functional import SimpleLazyObject
 
 import regex
-from elasticsearch import Elasticsearch
-from elasticsearch.helpers import scan as scanner
+# LOCAL CHANGE (2026-08-14): opensearch-py replaces elasticsearch-py.
+# opensearch-py is a fork of elasticsearch-py 7.x, so the client API is
+# the same; the swap is essentially a rename. It is not optional: from
+# 7.14 elasticsearch-py verifies it is talking to Elasticsearch and
+# raises UnsupportedProductError against OpenSearch. See
+# UPGRADE-IMPACT.md, "Elasticsearch 8 -> OpenSearch".
+from opensearchpy import OpenSearch
+from opensearchpy.helpers import scan as scanner
 from scaife_viewer.core import cts
 
 
-def default_es_client_config():
+def default_search_client_config():
     return dict(
-        hosts=settings.ELASTICSEARCH_HOSTS,
-        sniff_on_start=settings.ELASTICSEARCH_SNIFF_ON_START,
-        sniff_on_connection_fail=settings.ELASTICSEARCH_SNIFF_ON_CONNECTION_FAIL,
+        hosts=settings.OPENSEARCH_HOSTS,
+        sniff_on_start=settings.OPENSEARCH_SNIFF_ON_START,
+        sniff_on_connection_fail=settings.OPENSEARCH_SNIFF_ON_CONNECTION_FAIL,
         # TODO: Refactor these as env vars /
         # refactor the defaults to a hookset
         timeout=30,
@@ -23,11 +29,11 @@ def default_es_client_config():
     )
 
 
-def get_es_client():
-    return Elasticsearch(**default_es_client_config())
+def get_search_client():
+    return OpenSearch(**default_search_client_config())
 
 
-es = SimpleLazyObject(get_es_client)
+es = SimpleLazyObject(get_search_client)
 
 
 """
@@ -41,7 +47,7 @@ If number_of_fragments is 0, fragment_size is ignored. Defaults to 5."
 
 Since `Highlighter` zips the positions of the tokens returned in the ES hit
 with the tokens generated from `passage.tokenizer`, we must return the entire
-fragment from ElasticSearch.
+fragment from the search backend.
 
 If `number_of_fragments` returns less than the number of tokens in the passage,
 `Highlighter` will not zip the highlighted tokens correctly.
@@ -72,7 +78,7 @@ class SearchQuery:
         self.total_count = None
 
     def query_index(self):
-        return {"index": settings.ELASTICSEARCH_INDEX_NAME}
+        return {"index": settings.OPENSEARCH_INDEX_NAME}
 
     def query_sort(self):
         if not self.sort_by:
@@ -160,7 +166,7 @@ class SearchQuery:
             query={**self.query_sort(), "_source": False, "query": self.query()},
             preserve_order=bool(self.sort_by),
             raise_on_error=False,
-            index=settings.ELASTICSEARCH_INDEX_NAME,
+            index=settings.OPENSEARCH_INDEX_NAME,
         )
 
     def __getitem__(self, key):

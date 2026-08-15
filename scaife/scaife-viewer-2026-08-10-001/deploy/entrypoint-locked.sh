@@ -21,7 +21,7 @@ iptables -A OUTPUT -o lo -j ACCEPT
 # Allow return traffic for inbound connections (host -> :8000 replies).
 iptables -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-# Allow all Docker-private subnets — sv-postgres, sv-elasticsearch,
+# Allow all Docker-private subnets — sv-postgres, sv-opensearch,
 # morpheus, and Docker's embedded DNS at 127.0.0.11 all live here.
 iptables -A OUTPUT -d 127.0.0.0/8      -j ACCEPT
 iptables -A OUTPUT -d 172.16.0.0/12    -j ACCEPT

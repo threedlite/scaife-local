@@ -73,7 +73,7 @@ services:
         condition: service_started
       sv-postgres:
         condition: service_healthy
-      sv-elasticsearch:
+      sv-opensearch:
         condition: service_healthy
     environment:
       CTS_RESOLVER: local

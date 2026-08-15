@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandParser
 
-from scaife_viewer.core.search import get_es_client as elasticsearch_client
+from scaife_viewer.core.search import get_search_client
 
 
 class Command(BaseCommand):
@@ -22,8 +22,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         force = options["force"]
-        es = elasticsearch_client()
-        idx = settings.ELASTICSEARCH_INDEX_NAME
+        es = get_search_client()
+        idx = settings.OPENSEARCH_INDEX_NAME
         self.stdout.write(f"Primary index: {idx}")
         all_indices = set([i for i in es.indices.get("*").keys()])
         assert idx in all_indices

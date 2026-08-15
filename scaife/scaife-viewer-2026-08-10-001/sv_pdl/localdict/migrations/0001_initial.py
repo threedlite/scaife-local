@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Dictionary",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 ("slug", models.SlugField(max_length=80, unique=True)),
                 ("label", models.CharField(max_length=200)),
                 ("lang", models.CharField(max_length=8)),
@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="DictionaryEntry",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
                 ("headword", models.CharField(max_length=200)),
                 ("headword_normalized", models.CharField(db_index=True, max_length=200)),
                 ("headword_normalized_stripped", models.CharField(db_index=True, max_length=200)),
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             model_name="dictionaryentry",
             index=models.Index(
                 fields=["dictionary", "headword_normalized_stripped"],
-                name="localdict_d_diction_ed4c5f_idx",
+                name="localdict_entry_headword_idx",
             ),
         ),
     ]

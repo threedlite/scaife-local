@@ -1,0 +1,4074 @@
+{
+  "urn:cts:greekLit:tlg0003.tlg001.perseus-grc2:1.1.1": {
+    "_next": "urn:cts:greekLit:tlg0003.tlg001.perseus-grc2:1.1.2",
+    "_prev": null,
+    "ancestors": [
+      {
+        "reference": "1"
+      },
+      {
+        "reference": "1.1"
+      }
+    ],
+    "children": [],
+    "refs": {
+      "start": {
+        "human_reference": "Book 1 Chapter 1 Section 1",
+        "reference": "1.1.1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "Thucydides",
+          "urn": "urn:cts:greekLit:tlg0003"
+        },
+        {
+          "label": "History of the Peloponnesian War",
+          "urn": "urn:cts:greekLit:tlg0003.tlg001"
+        }
+      ],
+      "human_lang": "Greek",
+      "kind": "edition",
+      "label": "Ἱστορίαι",
+      "lang": "grc",
+      "urn": "urn:cts:greekLit:tlg0003.tlg001.perseus-grc2"
+    },
+    "text_html": "<div id=\"edition\" class=\"edition lang_grc\"><text-part class=\"book\" reference=\"1\"><text-part class=\"chapter\" reference=\"1.1\"><text-part class=\"section leaf o\" reference=\"1.1.1\"><p><t t=\"w\" w=\"Θουκυδίδης\" i=\"1\" o=\"0\">Θουκυδίδης</t> <t t=\"w\" w=\"Ἀθηναῖος\" i=\"1\" o=\"10\">Ἀθηναῖος</t> <t t=\"w\" w=\"ξυνέγραψε\" i=\"1\" o=\"18\">ξυνέγραψε</t> <t t=\"w\" w=\"τὸν\" i=\"1\" o=\"27\">τὸν</t> <t t=\"w\" w=\"πόλεμον\" i=\"1\" o=\"30\">πόλεμον</t> <t t=\"w\" w=\"τῶν\" i=\"1\" o=\"37\">τῶν</t> <t t=\"w\" w=\"Πελοποννησίων\" i=\"1\" o=\"40\">Πελοποννησίων</t> <t t=\"w\" w=\"καὶ\" i=\"1\" o=\"53\">καὶ</t> <t t=\"w\" w=\"Ἀθηναίων\" i=\"1\" o=\"56\">Ἀθηναίων</t><t t=\"p\" w=\",\" i=\"1\" o=\"65\">,</t> <t t=\"w\" w=\"ὡς\" i=\"1\" o=\"66\">ὡς</t> <t t=\"w\" w=\"ἐπολέμησαν\" i=\"1\" o=\"68\">ἐπολέμησαν</t> <t t=\"w\" w=\"πρὸς\" i=\"1\" o=\"78\">πρὸς</t> <t t=\"w\" w=\"ἀλλήλους\" i=\"1\" o=\"82\">ἀλλήλους</t><t t=\"p\" w=\",\" i=\"2\" o=\"91\">,</t> <t t=\"w\" w=\"ἀρξάμενος\" i=\"1\" o=\"92\">ἀρξάμενος</t> <t t=\"w\" w=\"εὐθὺς\" i=\"1\" o=\"101\">εὐθὺς</t> <t t=\"w\" w=\"καθισταμένου\" i=\"1\" o=\"106\">καθισταμένου</t> <t t=\"w\" w=\"καὶ\" i=\"2\" o=\"118\">καὶ</t> <t t=\"w\" w=\"ἐλπίσας\" i=\"1\" o=\"121\">ἐλπίσας</t> <t t=\"w\" w=\"μέγαν\" i=\"1\" o=\"128\">μέγαν</t> <t t=\"w\" w=\"τε\" i=\"1\" o=\"133\">τε</t> <t t=\"w\" w=\"ἔσεσθαι\" i=\"1\" o=\"135\">ἔσεσθαι</t> <t t=\"w\" w=\"καὶ\" i=\"3\" o=\"142\">καὶ</t> <t t=\"w\" w=\"ἀξιολογώτατον\" i=\"1\" o=\"145\">ἀξιολογώτατον</t> <t t=\"w\" w=\"τῶν\" i=\"2\" o=\"158\">τῶν</t> <t t=\"w\" w=\"προγεγενημένων\" i=\"1\" o=\"161\">προγεγενημένων</t><t t=\"p\" w=\",\" i=\"3\" o=\"176\">,</t> <t t=\"w\" w=\"τεκμαιρόμενος\" i=\"1\" o=\"177\">τεκμαιρόμενος</t> <t t=\"w\" w=\"ὅτι\" i=\"1\" o=\"190\">ὅτι</t> <t t=\"w\" w=\"ἀκμάζοντές\" i=\"1\" o=\"193\">ἀκμάζοντές</t> <t t=\"w\" w=\"τε\" i=\"3\" o=\"203\">τε</t> <t t=\"w\" w=\"ᾖσαν\" i=\"1\" o=\"205\">ᾖσαν</t> <t t=\"w\" w=\"ἐς\" i=\"1\" o=\"209\">ἐς</t> <t t=\"w\" w=\"αὐτὸν\" i=\"1\" o=\"211\">αὐτὸν</t> <t t=\"w\" w=\"ἀμφότεροι\" i=\"1\" o=\"216\">ἀμφότεροι</t> <t t=\"w\" w=\"παρασκευῇ\" i=\"1\" o=\"225\">παρασκευῇ</t> <t t=\"w\" w=\"τῇ\" i=\"1\" o=\"234\">τῇ</t> <t t=\"w\" w=\"πάσῃ\" i=\"1\" o=\"236\">πάσῃ</t> <t t=\"w\" w=\"καὶ\" i=\"4\" o=\"240\">καὶ</t> <t t=\"w\" w=\"τὸ\" i=\"3\" o=\"243\">τὸ</t> <t t=\"w\" w=\"ἄλλο\" i=\"1\" o=\"245\">ἄλλο</t> <t t=\"w\" w=\"Ἑλληνικὸν\" i=\"1\" o=\"249\">Ἑλληνικὸν</t> <t t=\"w\" w=\"ὁρῶν\" i=\"1\" o=\"258\">ὁρῶν</t> <t t=\"w\" w=\"ξυνιστάμενον\" i=\"1\" o=\"262\">ξυνιστάμενον</t> <t t=\"w\" w=\"πρὸς\" i=\"2\" o=\"274\">πρὸς</t> <t t=\"w\" w=\"ἑκατέρους\" i=\"1\" o=\"278\">ἑκατέρους</t><t t=\"p\" w=\",\" i=\"4\" o=\"288\">,</t> <t t=\"w\" w=\"τὸ\" i=\"4\" o=\"289\">τὸ</t> <t t=\"w\" w=\"μὲν\" i=\"1\" o=\"291\">μὲν</t> <t t=\"w\" w=\"εὐθύς\" i=\"1\" o=\"294\">εὐθύς</t><t t=\"p\" w=\",\" i=\"5\" o=\"300\">,</t> <t t=\"w\" w=\"τὸ\" i=\"5\" o=\"301\">τὸ</t> <t t=\"w\" w=\"δὲ\" i=\"1\" o=\"303\">δὲ</t> <t t=\"w\" w=\"καὶ\" i=\"5\" o=\"305\">καὶ</t> <t t=\"w\" w=\"διανοούμενον\" i=\"1\" o=\"308\">διανοούμενον</t><t t=\"p\" w=\".\" i=\"1\" o=\"321\">.</t> </p></text-part></text-part></text-part></div>\n",
+    "urn": "urn:cts:greekLit:tlg0003.tlg001.perseus-grc2:1.1.1",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 10,
+        "t": "w",
+        "w": "Θουκυδίδης"
+      },
+      {
+        "i": 1,
+        "o": 18,
+        "t": "w",
+        "w": "Ἀθηναῖος"
+      },
+      {
+        "i": 1,
+        "o": 27,
+        "t": "w",
+        "w": "ξυνέγραψε"
+      },
+      {
+        "i": 1,
+        "o": 30,
+        "t": "w",
+        "w": "τὸν"
+      },
+      {
+        "i": 1,
+        "o": 37,
+        "t": "w",
+        "w": "πόλεμον"
+      },
+      {
+        "i": 1,
+        "o": 40,
+        "t": "w",
+        "w": "τῶν"
+      },
+      {
+        "i": 1,
+        "o": 53,
+        "t": "w",
+        "w": "Πελοποννησίων"
+      },
+      {
+        "i": 1,
+        "o": 56,
+        "t": "w",
+        "w": "καὶ"
+      },
+      {
+        "i": 1,
+        "o": 64,
+        "t": "w",
+        "w": "Ἀθηναίων"
+      },
+      {
+        "i": 1,
+        "o": 67,
+        "t": "w",
+        "w": "ὡς"
+      },
+      {
+        "i": 1,
+        "o": 77,
+        "t": "w",
+        "w": "ἐπολέμησαν"
+      },
+      {
+        "i": 1,
+        "o": 81,
+        "t": "w",
+        "w": "πρὸς"
+      },
+      {
+        "i": 1,
+        "o": 89,
+        "t": "w",
+        "w": "ἀλλήλους"
+      },
+      {
+        "i": 1,
+        "o": 99,
+        "t": "w",
+        "w": "ἀρξάμενος"
+      },
+      {
+        "i": 1,
+        "o": 104,
+        "t": "w",
+        "w": "εὐθὺς"
+      },
+      {
+        "i": 1,
+        "o": 116,
+        "t": "w",
+        "w": "καθισταμένου"
+      },
+      {
+        "i": 2,
+        "o": 119,
+        "t": "w",
+        "w": "καὶ"
+      },
+      {
+        "i": 1,
+        "o": 126,
+        "t": "w",
+        "w": "ἐλπίσας"
+      },
+      {
+        "i": 1,
+        "o": 131,
+        "t": "w",
+        "w": "μέγαν"
+      },
+      {
+        "i": 1,
+        "o": 133,
+        "t": "w",
+        "w": "τε"
+      },
+      {
+        "i": 1,
+        "o": 140,
+        "t": "w",
+        "w": "ἔσεσθαι"
+      },
+      {
+        "i": 3,
+        "o": 143,
+        "t": "w",
+        "w": "καὶ"
+      },
+      {
+        "i": 1,
+        "o": 156,
+        "t": "w",
+        "w": "ἀξιολογώτατον"
+      },
+      {
+        "i": 2,
+        "o": 159,
+        "t": "w",
+        "w": "τῶν"
+      },
+      {
+        "i": 1,
+        "o": 173,
+        "t": "w",
+        "w": "προγεγενημένων"
+      },
+      {
+        "i": 1,
+        "o": 187,
+        "t": "w",
+        "w": "τεκμαιρόμενος"
+      },
+      {
+        "i": 1,
+        "o": 190,
+        "t": "w",
+        "w": "ὅτι"
+      },
+      {
+        "i": 1,
+        "o": 200,
+        "t": "w",
+        "w": "ἀκμάζοντές"
+      },
+      {
+        "i": 3,
+        "o": 202,
+        "t": "w",
+        "w": "τε"
+      },
+      {
+        "i": 1,
+        "o": 206,
+        "t": "w",
+        "w": "ᾖσαν"
+      },
+      {
+        "i": 1,
+        "o": 208,
+        "t": "w",
+        "w": "ἐς"
+      },
+      {
+        "i": 1,
+        "o": 213,
+        "t": "w",
+        "w": "αὐτὸν"
+      },
+      {
+        "i": 1,
+        "o": 222,
+        "t": "w",
+        "w": "ἀμφότεροι"
+      },
+      {
+        "i": 1,
+        "o": 231,
+        "t": "w",
+        "w": "παρασκευῇ"
+      },
+      {
+        "i": 1,
+        "o": 233,
+        "t": "w",
+        "w": "τῇ"
+      },
+      {
+        "i": 1,
+        "o": 237,
+        "t": "w",
+        "w": "πάσῃ"
+      },
+      {
+        "i": 4,
+        "o": 240,
+        "t": "w",
+        "w": "καὶ"
+      },
+      {
+        "i": 3,
+        "o": 242,
+        "t": "w",
+        "w": "τὸ"
+      },
+      {
+        "i": 1,
+        "o": 246,
+        "t": "w",
+        "w": "ἄλλο"
+      },
+      {
+        "i": 1,
+        "o": 255,
+        "t": "w",
+        "w": "Ἑλληνικὸν"
+      },
+      {
+        "i": 1,
+        "o": 259,
+        "t": "w",
+        "w": "ὁρῶν"
+      },
+      {
+        "i": 1,
+        "o": 271,
+        "t": "w",
+        "w": "ξυνιστάμενον"
+      },
+      {
+        "i": 2,
+        "o": 275,
+        "t": "w",
+        "w": "πρὸς"
+      },
+      {
+        "i": 1,
+        "o": 284,
+        "t": "w",
+        "w": "ἑκατέρους"
+      },
+      {
+        "i": 4,
+        "o": 287,
+        "t": "w",
+        "w": "τὸ"
+      },
+      {
+        "i": 1,
+        "o": 290,
+        "t": "w",
+        "w": "μὲν"
+      },
+      {
+        "i": 1,
+        "o": 295,
+        "t": "w",
+        "w": "εὐθύς"
+      },
+      {
+        "i": 5,
+        "o": 298,
+        "t": "w",
+        "w": "τὸ"
+      },
+      {
+        "i": 1,
+        "o": 300,
+        "t": "w",
+        "w": "δὲ"
+      },
+      {
+        "i": 5,
+        "o": 303,
+        "t": "w",
+        "w": "καὶ"
+      },
+      {
+        "i": 1,
+        "o": 315,
+        "t": "w",
+        "w": "διανοούμενον"
+      }
+    ]
+  },
+  "urn:cts:greekLit:tlg0006.tlg001.perseus-grc2:1-5": {
+    "_next": "urn:cts:greekLit:tlg0006.tlg001.perseus-grc2:6-10",
+    "_prev": "urn:cts:greekLit:tlg0006.tlg001.perseus-grc2:0-0",
+    "ancestors": [],
+    "children": [],
+    "refs": {
+      "end": {
+        "human_reference": "Line 5",
+        "reference": "5"
+      },
+      "start": {
+        "human_reference": "Line 1",
+        "reference": "1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "Euripides",
+          "urn": "urn:cts:greekLit:tlg0006"
+        },
+        {
+          "label": "Cyclops",
+          "urn": "urn:cts:greekLit:tlg0006.tlg001"
+        }
+      ],
+      "human_lang": "Greek",
+      "kind": "edition",
+      "label": "Κύκλωψ",
+      "lang": "grc",
+      "urn": "urn:cts:greekLit:tlg0006.tlg001.perseus-grc2"
+    },
+    "text_html": "<div id=\"edition\" class=\"edition lang_grc\"><text-part class=\"episode\"><div class=\"speak\">\n<text-part class=\" leaf o\" reference=\"1\"><t t=\"w\" w=\"Ὦ\" i=\"1\" o=\"0\">Ὦ</t> <t t=\"w\" w=\"Βρόμιε\" i=\"1\" o=\"1\">Βρόμιε</t><t t=\"p\" w=\",\" i=\"1\" o=\"8\">,</t> <t t=\"w\" w=\"διὰ\" i=\"1\" o=\"9\">διὰ</t> <t t=\"w\" w=\"σὲ\" i=\"1\" o=\"12\">σὲ</t> <t t=\"w\" w=\"μυρίους\" i=\"1\" o=\"14\">μυρίους</t> <t t=\"w\" w=\"ἔχω\" i=\"1\" o=\"21\">ἔχω</t> <t t=\"w\" w=\"πόνους\" i=\"1\" o=\"24\">πόνους</t> </text-part><text-part class=\" leaf o\" reference=\"2\"><t t=\"w\" w=\"νῦν\" i=\"1\" o=\"30\">νῦν</t> <t t=\"w\" w=\"χὥτ\" i=\"1\" o=\"33\">χὥτ</t><t t=\"p\" w=\"’\" i=\"1\" o=\"37\">’</t> <t t=\"w\" w=\"ἐν\" i=\"1\" o=\"38\">ἐν</t> <t t=\"w\" w=\"ἥβῃ\" i=\"1\" o=\"40\">ἥβῃ</t> <t t=\"w\" w=\"τοὐμὸν\" i=\"1\" o=\"43\">τοὐμὸν</t> <t t=\"w\" w=\"εὐσθένει\" i=\"1\" o=\"49\">εὐσθένει</t> <t t=\"w\" w=\"δέμας\" i=\"1\" o=\"57\">δέμας</t><t t=\"p\" w=\"·\" i=\"1\" o=\"63\">·</t> </text-part><text-part class=\" leaf o\" reference=\"3\"><t t=\"w\" w=\"πρῶτον\" i=\"1\" o=\"64\">πρῶτον</t> <t t=\"w\" w=\"μέν\" i=\"1\" o=\"70\">μέν</t><t t=\"p\" w=\",\" i=\"2\" o=\"74\">,</t> <t t=\"w\" w=\"ἡνίκ\" i=\"1\" o=\"75\">ἡνίκ</t><t t=\"p\" w=\"’\" i=\"2\" o=\"80\">’</t> <t t=\"w\" w=\"ἐμμανὴς\" i=\"1\" o=\"81\">ἐμμανὴς</t> <t t=\"w\" w=\"Ἥρας\" i=\"1\" o=\"88\">Ἥρας</t> <t t=\"w\" w=\"ὕπο\" i=\"1\" o=\"92\">ὕπο</t> </text-part><text-part class=\" leaf o\" reference=\"4\"><t t=\"w\" w=\"Νύμφας\" i=\"1\" o=\"95\">Νύμφας</t> <t t=\"w\" w=\"ὀρείας\" i=\"1\" o=\"101\">ὀρείας</t> <t t=\"w\" w=\"ἐκλιπὼν\" i=\"1\" o=\"107\">ἐκλιπὼν</t> <t t=\"w\" w=\"ᾤχου\" i=\"1\" o=\"114\">ᾤχου</t> <t t=\"w\" w=\"τροφούς\" i=\"1\" o=\"118\">τροφούς</t><t t=\"p\" w=\"·\" i=\"2\" o=\"126\">·</t> </text-part><text-part class=\" leaf o\" reference=\"5\"><t t=\"w\" w=\"ἔπειτά\" i=\"1\" o=\"127\">ἔπειτά</t> <t t=\"w\" w=\"γ\" i=\"1\" o=\"133\">γ</t><t t=\"p\" w=\"’\" i=\"3\" o=\"135\">’</t> <t t=\"w\" w=\"ἀμφὶ\" i=\"1\" o=\"136\">ἀμφὶ</t> <t t=\"w\" w=\"γηγενῆ\" i=\"1\" o=\"140\">γηγενῆ</t> <t t=\"w\" w=\"μάχην\" i=\"1\" o=\"146\">μάχην</t> <t t=\"w\" w=\"δορὸς\" i=\"1\" o=\"151\">δορὸς</t> </text-part>\n</div></text-part></div>\n",
+    "urn": "urn:cts:greekLit:tlg0006.tlg001.perseus-grc2:1-5",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 1,
+        "t": "w",
+        "w": "Ὦ"
+      },
+      {
+        "i": 1,
+        "o": 7,
+        "t": "w",
+        "w": "Βρόμιε"
+      },
+      {
+        "i": 1,
+        "o": 11,
+        "t": "w",
+        "w": "διὰ"
+      },
+      {
+        "i": 1,
+        "o": 13,
+        "t": "w",
+        "w": "σὲ"
+      },
+      {
+        "i": 1,
+        "o": 20,
+        "t": "w",
+        "w": "μυρίους"
+      },
+      {
+        "i": 1,
+        "o": 23,
+        "t": "w",
+        "w": "ἔχω"
+      },
+      {
+        "i": 1,
+        "o": 29,
+        "t": "w",
+        "w": "πόνους"
+      },
+      {
+        "i": 1,
+        "o": 32,
+        "t": "w",
+        "w": "νῦν"
+      },
+      {
+        "i": 1,
+        "o": 35,
+        "t": "w",
+        "w": "χὥτ"
+      },
+      {
+        "i": 1,
+        "o": 38,
+        "t": "w",
+        "w": "ἐν"
+      },
+      {
+        "i": 1,
+        "o": 41,
+        "t": "w",
+        "w": "ἥβῃ"
+      },
+      {
+        "i": 1,
+        "o": 47,
+        "t": "w",
+        "w": "τοὐμὸν"
+      },
+      {
+        "i": 1,
+        "o": 55,
+        "t": "w",
+        "w": "εὐσθένει"
+      },
+      {
+        "i": 1,
+        "o": 60,
+        "t": "w",
+        "w": "δέμας"
+      },
+      {
+        "i": 1,
+        "o": 67,
+        "t": "w",
+        "w": "πρῶτον"
+      },
+      {
+        "i": 1,
+        "o": 70,
+        "t": "w",
+        "w": "μέν"
+      },
+      {
+        "i": 1,
+        "o": 75,
+        "t": "w",
+        "w": "ἡνίκ"
+      },
+      {
+        "i": 1,
+        "o": 83,
+        "t": "w",
+        "w": "ἐμμανὴς"
+      },
+      {
+        "i": 1,
+        "o": 87,
+        "t": "w",
+        "w": "Ἥρας"
+      },
+      {
+        "i": 1,
+        "o": 90,
+        "t": "w",
+        "w": "ὕπο"
+      },
+      {
+        "i": 1,
+        "o": 96,
+        "t": "w",
+        "w": "Νύμφας"
+      },
+      {
+        "i": 1,
+        "o": 102,
+        "t": "w",
+        "w": "ὀρείας"
+      },
+      {
+        "i": 1,
+        "o": 109,
+        "t": "w",
+        "w": "ἐκλιπὼν"
+      },
+      {
+        "i": 1,
+        "o": 113,
+        "t": "w",
+        "w": "ᾤχου"
+      },
+      {
+        "i": 1,
+        "o": 120,
+        "t": "w",
+        "w": "τροφούς"
+      },
+      {
+        "i": 1,
+        "o": 127,
+        "t": "w",
+        "w": "ἔπειτά"
+      },
+      {
+        "i": 1,
+        "o": 128,
+        "t": "w",
+        "w": "γ"
+      },
+      {
+        "i": 1,
+        "o": 133,
+        "t": "w",
+        "w": "ἀμφὶ"
+      },
+      {
+        "i": 1,
+        "o": 139,
+        "t": "w",
+        "w": "γηγενῆ"
+      },
+      {
+        "i": 1,
+        "o": 144,
+        "t": "w",
+        "w": "μάχην"
+      },
+      {
+        "i": 1,
+        "o": 149,
+        "t": "w",
+        "w": "δορὸς"
+      }
+    ]
+  },
+  "urn:cts:greekLit:tlg0012.tlg001.perseus-eng3:1.1": {
+    "_next": "urn:cts:greekLit:tlg0012.tlg001.perseus-eng3:1.33",
+    "_prev": null,
+    "ancestors": [
+      {
+        "reference": "1"
+      }
+    ],
+    "children": [],
+    "refs": {
+      "start": {
+        "human_reference": "Book 1 Card 1",
+        "reference": "1.1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "Homer",
+          "urn": "urn:cts:greekLit:tlg0012"
+        },
+        {
+          "label": "Iliad",
+          "urn": "urn:cts:greekLit:tlg0012.tlg001"
+        }
+      ],
+      "human_lang": "English",
+      "kind": "translation",
+      "label": "Iliad",
+      "lang": "eng",
+      "urn": "urn:cts:greekLit:tlg0012.tlg001.perseus-eng3"
+    },
+    "text_html": "<div id=\"translation_eng\" class=\"translation lang_eng\"><text-part class=\"book\" reference=\"1\"><text-part class=\"card leaf o\" reference=\"1.1\"><p><div class=\"milestone\">1</div><t t=\"w\" w=\"The\" i=\"1\" o=\"0\">The</t> <t t=\"w\" w=\"wrath\" i=\"1\" o=\"3\">wrath</t> <t t=\"w\" w=\"sing\" i=\"1\" o=\"8\">sing</t><t t=\"p\" w=\",\" i=\"1\" o=\"13\">,</t> <t t=\"w\" w=\"goddess\" i=\"1\" o=\"14\">goddess</t><t t=\"p\" w=\",\" i=\"2\" o=\"22\">,</t> <t t=\"w\" w=\"of\" i=\"1\" o=\"23\">of</t> <t t=\"w\" w=\"Peleus\" i=\"1\" o=\"25\">Peleus</t><t t=\"p\" w=\"'\" i=\"1\" o=\"32\">'</t> <t t=\"w\" w=\"son\" i=\"1\" o=\"33\">son</t><t t=\"p\" w=\",\" i=\"3\" o=\"37\">,</t> <t t=\"w\" w=\"Achilles\" i=\"1\" o=\"38\">Achilles</t><t t=\"p\" w=\",\" i=\"4\" o=\"47\">,</t> <t t=\"w\" w=\"that\" i=\"1\" o=\"48\">that</t> <t t=\"w\" w=\"destructive\" i=\"1\" o=\"52\">destructive</t> <t t=\"w\" w=\"wrath\" i=\"2\" o=\"63\">wrath</t> <t t=\"w\" w=\"which\" i=\"1\" o=\"68\">which</t> <t t=\"w\" w=\"brought\" i=\"1\" o=\"73\">brought</t> <t t=\"w\" w=\"countless\" i=\"1\" o=\"80\">countless</t> <t t=\"w\" w=\"woes\" i=\"1\" o=\"89\">woes</t> <t t=\"w\" w=\"upon\" i=\"1\" o=\"93\">upon</t> <t t=\"w\" w=\"the\" i=\"1\" o=\"97\">the</t> <t t=\"w\" w=\"Achaeans\" i=\"1\" o=\"100\">Achaeans</t><t t=\"p\" w=\",\" i=\"5\" o=\"109\">,</t> <t t=\"w\" w=\"and\" i=\"1\" o=\"110\">and</t> <t t=\"w\" w=\"sent\" i=\"1\" o=\"113\">sent</t> <t t=\"w\" w=\"forth\" i=\"1\" o=\"117\">forth</t> <t t=\"w\" w=\"to\" i=\"1\" o=\"122\">to</t> <t t=\"w\" w=\"Hades\" i=\"1\" o=\"124\">Hades</t> <t t=\"w\" w=\"many\" i=\"1\" o=\"129\">many</t> <t t=\"w\" w=\"valiant\" i=\"1\" o=\"133\">valiant</t> <t t=\"w\" w=\"souls\" i=\"1\" o=\"140\">souls</t> <t t=\"w\" w=\"of\" i=\"2\" o=\"145\">of</t> <t t=\"w\" w=\"heroes\" i=\"1\" o=\"147\">heroes</t><t t=\"p\" w=\",\" i=\"6\" o=\"154\">,</t> <t t=\"w\" w=\"and\" i=\"2\" o=\"155\">and</t> <t t=\"w\" w=\"made\" i=\"1\" o=\"158\">made</t> <t t=\"w\" w=\"them\" i=\"1\" o=\"162\">them</t> <t t=\"w\" w=\"themselves\" i=\"1\" o=\"166\">themselves</t> <t t=\"w\" w=\"spoil\" i=\"1\" o=\"176\">spoil</t> <t t=\"w\" w=\"for\" i=\"2\" o=\"181\">for</t> <t t=\"w\" w=\"dogs\" i=\"1\" o=\"184\">dogs</t> <t t=\"w\" w=\"and\" i=\"3\" o=\"188\">and</t> <t t=\"w\" w=\"every\" i=\"1\" o=\"191\">every</t> <t t=\"w\" w=\"bird\" i=\"1\" o=\"196\">bird</t><t t=\"p\" w=\";\" i=\"1\" o=\"201\">;</t> <t t=\"w\" w=\"thus\" i=\"1\" o=\"202\">thus</t> <t t=\"w\" w=\"the\" i=\"4\" o=\"206\">the</t> <t t=\"w\" w=\"plan\" i=\"1\" o=\"209\">plan</t> <t t=\"w\" w=\"of\" i=\"3\" o=\"213\">of</t> <t t=\"w\" w=\"Zeus\" i=\"1\" o=\"215\">Zeus</t> <t t=\"w\" w=\"came\" i=\"1\" o=\"219\">came</t> <t t=\"w\" w=\"to\" i=\"2\" o=\"223\">to</t> <t t=\"w\" w=\"fulfillment\" i=\"1\" o=\"225\">fulfillment</t><t t=\"p\" w=\",\" i=\"7\" o=\"237\">,</t><div class=\"milestone\">5</div><t t=\"w\" w=\"from\" i=\"1\" o=\"238\">from</t> <t t=\"w\" w=\"the\" i=\"5\" o=\"242\">the</t> <t t=\"w\" w=\"time\" i=\"1\" o=\"245\">time</t> <t t=\"w\" w=\"when\" i=\"1\" o=\"249\">when</t><a xmlns:v-popover=\"v-popover\" class=\"note\" v-popover:bottom=\"\n        {content: `1`, trigger: 'click'}\n      \">[*]</a> <t t=\"w\" w=\"first\" i=\"1\" o=\"254\">first</t> <t t=\"w\" w=\"they\" i=\"1\" o=\"259\">they</t> <t t=\"w\" w=\"parted\" i=\"1\" o=\"263\">parted</t> <t t=\"w\" w=\"in\" i=\"2\" o=\"269\">in</t> <t t=\"w\" w=\"strife\" i=\"1\" o=\"271\">strife</t> <t t=\"w\" w=\"Atreus\" i=\"1\" o=\"277\">Atreus</t><t t=\"p\" w=\"'\" i=\"2\" o=\"284\">'</t> <t t=\"w\" w=\"son\" i=\"2\" o=\"285\">son</t><t t=\"p\" w=\",\" i=\"8\" o=\"289\">,</t> <t t=\"w\" w=\"king\" i=\"1\" o=\"290\">king</t> <t t=\"w\" w=\"of\" i=\"4\" o=\"294\">of</t> <t t=\"w\" w=\"men\" i=\"2\" o=\"296\">men</t><t t=\"p\" w=\",\" i=\"9\" o=\"300\">,</t> <t t=\"w\" w=\"and\" i=\"4\" o=\"301\">and</t> <t t=\"w\" w=\"brilliant\" i=\"1\" o=\"304\">brilliant</t> <t t=\"w\" w=\"Achilles\" i=\"2\" o=\"313\">Achilles</t><t t=\"p\" w=\".\" i=\"1\" o=\"322\">.</t> <t t=\"w\" w=\"Who\" i=\"1\" o=\"323\">Who</t> <t t=\"w\" w=\"then\" i=\"1\" o=\"326\">then</t> <t t=\"w\" w=\"of\" i=\"5\" o=\"330\">of</t> <t t=\"w\" w=\"the\" i=\"8\" o=\"332\">the</t> <t t=\"w\" w=\"gods\" i=\"1\" o=\"335\">gods</t> <t t=\"w\" w=\"was\" i=\"1\" o=\"339\">was</t> <t t=\"w\" w=\"it\" i=\"1\" o=\"342\">it</t> <t t=\"w\" w=\"that\" i=\"2\" o=\"344\">that</t> <t t=\"w\" w=\"brought\" i=\"2\" o=\"348\">brought</t> <t t=\"w\" w=\"these\" i=\"1\" o=\"355\">these</t> <t t=\"w\" w=\"two\" i=\"1\" o=\"360\">two</t> <t t=\"w\" w=\"together\" i=\"1\" o=\"363\">together</t> <t t=\"w\" w=\"to\" i=\"4\" o=\"371\">to</t> <t t=\"w\" w=\"contend\" i=\"1\" o=\"373\">contend</t><t t=\"p\" w=\"?\" i=\"1\" o=\"381\">?</t> <t t=\"w\" w=\"The\" i=\"2\" o=\"382\">The</t> <t t=\"w\" w=\"son\" i=\"3\" o=\"385\">son</t> <t t=\"w\" w=\"of\" i=\"6\" o=\"388\">of</t> <t t=\"w\" w=\"Leto\" i=\"1\" o=\"390\">Leto</t> <t t=\"w\" w=\"and\" i=\"5\" o=\"394\">and</t> <t t=\"w\" w=\"Zeus\" i=\"2\" o=\"397\">Zeus</t><t t=\"p\" w=\";\" i=\"2\" o=\"402\">;</t> <t t=\"w\" w=\"for\" i=\"3\" o=\"403\">for</t> <t t=\"w\" w=\"he\" i=\"15\" o=\"406\">he</t> <t t=\"w\" w=\"in\" i=\"4\" o=\"408\">in</t> <t t=\"w\" w=\"anger\" i=\"1\" o=\"410\">anger</t> <t t=\"w\" w=\"against\" i=\"1\" o=\"415\">against</t> <t t=\"w\" w=\"the\" i=\"11\" o=\"422\">the</t> <t t=\"w\" w=\"king\" i=\"2\" o=\"425\">king</t> <t t=\"w\" w=\"roused\" i=\"1\" o=\"429\">roused</t> <t t=\"w\" w=\"throughout\" i=\"1\" o=\"435\">throughout</t> <t t=\"w\" w=\"the\" i=\"12\" o=\"445\">the</t> <t t=\"w\" w=\"host\" i=\"1\" o=\"448\">host</t> <t t=\"w\" w=\"an\" i=\"12\" o=\"452\">an</t> <t t=\"w\" w=\"evil\" i=\"1\" o=\"454\">evil</t> <t t=\"w\" w=\"pestilence\" i=\"1\" o=\"458\">pestilence</t><t t=\"p\" w=\",\" i=\"10\" o=\"469\">,</t> <t t=\"w\" w=\"and\" i=\"6\" o=\"470\">and</t> <t t=\"w\" w=\"the\" i=\"13\" o=\"473\">the</t> <t t=\"w\" w=\"people\" i=\"1\" o=\"476\">people</t> <t t=\"w\" w=\"began\" i=\"1\" o=\"482\">began</t> <t t=\"w\" w=\"to\" i=\"6\" o=\"487\">to</t> <t t=\"w\" w=\"perish\" i=\"1\" o=\"489\">perish</t><t t=\"p\" w=\",\" i=\"11\" o=\"496\">,</t><div class=\"milestone\">10</div><t t=\"w\" w=\"because\" i=\"1\" o=\"497\">because</t> <t t=\"w\" w=\"upon\" i=\"2\" o=\"504\">upon</t> <t t=\"w\" w=\"the\" i=\"14\" o=\"508\">the</t> <t t=\"w\" w=\"priest\" i=\"1\" o=\"511\">priest</t> <t t=\"w\" w=\"Chryses\" i=\"1\" o=\"517\">Chryses</t> <t t=\"w\" w=\"the\" i=\"15\" o=\"524\">the</t> <t t=\"w\" w=\"son\" i=\"4\" o=\"527\">son</t> <t t=\"w\" w=\"of\" i=\"7\" o=\"530\">of</t> <t t=\"w\" w=\"Atreus\" i=\"2\" o=\"532\">Atreus</t> <t t=\"w\" w=\"had\" i=\"1\" o=\"538\">had</t> <t t=\"w\" w=\"wrought\" i=\"1\" o=\"541\">wrought</t> <t t=\"w\" w=\"dishonour\" i=\"1\" o=\"548\">dishonour</t><t t=\"p\" w=\".\" i=\"2\" o=\"558\">.</t> <t t=\"w\" w=\"For\" i=\"1\" o=\"559\">For</t> <t t=\"w\" w=\"he\" i=\"21\" o=\"562\">he</t> <t t=\"w\" w=\"had\" i=\"2\" o=\"564\">had</t> <t t=\"w\" w=\"come\" i=\"1\" o=\"567\">come</t> <t t=\"w\" w=\"to\" i=\"7\" o=\"571\">to</t> <t t=\"w\" w=\"the\" i=\"16\" o=\"573\">the</t> <t t=\"w\" w=\"swift\" i=\"1\" o=\"576\">swift</t> <t t=\"w\" w=\"ships\" i=\"1\" o=\"581\">ships</t> <t t=\"w\" w=\"of\" i=\"8\" o=\"586\">of</t> <t t=\"w\" w=\"the\" i=\"17\" o=\"588\">the</t> <t t=\"w\" w=\"Achaeans\" i=\"2\" o=\"591\">Achaeans</t> <t t=\"w\" w=\"to\" i=\"8\" o=\"599\">to</t> <t t=\"w\" w=\"free\" i=\"1\" o=\"601\">free</t> <t t=\"w\" w=\"his\" i=\"1\" o=\"605\">his</t> <t t=\"w\" w=\"daughter\" i=\"1\" o=\"608\">daughter</t><t t=\"p\" w=\",\" i=\"12\" o=\"617\">,</t> <t t=\"w\" w=\"bearing\" i=\"1\" o=\"618\">bearing</t> <t t=\"w\" w=\"ransom\" i=\"1\" o=\"625\">ransom</t> <t t=\"w\" w=\"past\" i=\"1\" o=\"631\">past</t> <t t=\"w\" w=\"counting\" i=\"1\" o=\"635\">counting</t><t t=\"p\" w=\";\" i=\"3\" o=\"644\">;</t> <t t=\"w\" w=\"and\" i=\"7\" o=\"645\">and</t> <t t=\"w\" w=\"in\" i=\"9\" o=\"648\">in</t> <t t=\"w\" w=\"his\" i=\"2\" o=\"650\">his</t> <t t=\"w\" w=\"hands\" i=\"1\" o=\"653\">hands</t> <t t=\"w\" w=\"he\" i=\"24\" o=\"658\">he</t> <t t=\"w\" w=\"held\" i=\"1\" o=\"660\">held</t> <t t=\"w\" w=\"the\" i=\"18\" o=\"664\">the</t> <t t=\"w\" w=\"wreaths\" i=\"1\" o=\"667\">wreaths</t> <t t=\"w\" w=\"of\" i=\"9\" o=\"674\">of</t> <t t=\"w\" w=\"Apollo\" i=\"1\" o=\"676\">Apollo</t> <t t=\"w\" w=\"who\" i=\"1\" o=\"682\">who</t> <t t=\"w\" w=\"strikes\" i=\"1\" o=\"685\">strikes</t> <t t=\"w\" w=\"from\" i=\"2\" o=\"692\">from</t> <t t=\"w\" w=\"afar\" i=\"1\" o=\"696\">afar</t><t t=\"p\" w=\",\" i=\"13\" o=\"701\">,</t><a xmlns:v-popover=\"v-popover\" class=\"note\" v-popover:bottom=\"\n        {content: `2`, trigger: 'click'}\n      \">[*]</a> <t t=\"w\" w=\"on\" i=\"9\" o=\"703\">on</t> <t t=\"w\" w=\"a\" i=\"42\" o=\"705\">a</t> <t t=\"w\" w=\"staff\" i=\"1\" o=\"706\">staff</t> <t t=\"w\" w=\"of\" i=\"10\" o=\"711\">of</t> <t t=\"w\" w=\"gold\" i=\"1\" o=\"713\">gold</t><t t=\"p\" w=\";\" i=\"4\" o=\"718\">;</t> <t t=\"w\" w=\"and\" i=\"9\" o=\"719\">and</t> <t t=\"w\" w=\"he\" i=\"27\" o=\"722\">he</t> <t t=\"w\" w=\"implored\" i=\"1\" o=\"724\">implored</t> <t t=\"w\" w=\"all\" i=\"1\" o=\"732\">all</t> <t t=\"w\" w=\"the\" i=\"19\" o=\"735\">the</t> <t t=\"w\" w=\"Achaeans\" i=\"3\" o=\"738\">Achaeans</t><t t=\"p\" w=\",\" i=\"14\" o=\"747\">,</t><div class=\"milestone\">15</div><t t=\"w\" w=\"but\" i=\"1\" o=\"748\">but</t> <t t=\"w\" w=\"most\" i=\"1\" o=\"751\">most</t> <t t=\"w\" w=\"of\" i=\"11\" o=\"755\">of</t> <t t=\"w\" w=\"all\" i=\"2\" o=\"757\">all</t> <t t=\"w\" w=\"the\" i=\"20\" o=\"760\">the</t> <t t=\"w\" w=\"two\" i=\"2\" o=\"763\">two</t> <t t=\"w\" w=\"sons\" i=\"1\" o=\"766\">sons</t> <t t=\"w\" w=\"of\" i=\"12\" o=\"770\">of</t> <t t=\"w\" w=\"Atreus\" i=\"3\" o=\"772\">Atreus</t><t t=\"p\" w=\",\" i=\"15\" o=\"779\">,</t> <t t=\"w\" w=\"the\" i=\"21\" o=\"780\">the</t> <t t=\"w\" w=\"marshallers\" i=\"1\" o=\"783\">marshallers</t> <t t=\"w\" w=\"of\" i=\"13\" o=\"794\">of</t> <t t=\"w\" w=\"the\" i=\"22\" o=\"796\">the</t> <t t=\"w\" w=\"people\" i=\"2\" o=\"799\">people</t><t t=\"p\" w=\":\" i=\"1\" o=\"806\">:</t> <blockquote>\n<t t=\"w\" w=\"Sons\" i=\"1\" o=\"807\">Sons</t> <t t=\"w\" w=\"of\" i=\"14\" o=\"811\">of</t> <t t=\"w\" w=\"Atreus\" i=\"4\" o=\"813\">Atreus</t><t t=\"p\" w=\",\" i=\"16\" o=\"820\">,</t> <t t=\"w\" w=\"and\" i=\"10\" o=\"821\">and</t> <t t=\"w\" w=\"other\" i=\"1\" o=\"824\">other</t> <t t=\"w\" w=\"well-greaved\" i=\"1\" o=\"829\">well-greaved</t> <t t=\"w\" w=\"Achaeans\" i=\"4\" o=\"841\">Achaeans</t><t t=\"p\" w=\",\" i=\"17\" o=\"850\">,</t> <t t=\"w\" w=\"to\" i=\"9\" o=\"851\">to</t> <t t=\"w\" w=\"you\" i=\"1\" o=\"853\">you</t> <t t=\"w\" w=\"may\" i=\"1\" o=\"856\">may</t> <t t=\"w\" w=\"the\" i=\"24\" o=\"859\">the</t> <t t=\"w\" w=\"gods\" i=\"2\" o=\"862\">gods</t> <t t=\"w\" w=\"who\" i=\"2\" o=\"866\">who</t> <t t=\"w\" w=\"have\" i=\"1\" o=\"869\">have</t> <t t=\"w\" w=\"homes\" i=\"1\" o=\"873\">homes</t> <t t=\"w\" w=\"upon\" i=\"3\" o=\"878\">upon</t> <t t=\"w\" w=\"Olympus\" i=\"1\" o=\"882\">Olympus</t> <t t=\"w\" w=\"grant\" i=\"1\" o=\"889\">grant</t> <t t=\"w\" w=\"that\" i=\"3\" o=\"894\">that</t> <t t=\"w\" w=\"you\" i=\"2\" o=\"898\">you</t> <t t=\"w\" w=\"sack\" i=\"1\" o=\"901\">sack</t> <t t=\"w\" w=\"the\" i=\"25\" o=\"905\">the</t> <t t=\"w\" w=\"city\" i=\"1\" o=\"908\">city</t> <t t=\"w\" w=\"of\" i=\"15\" o=\"912\">of</t> <t t=\"w\" w=\"Priam\" i=\"1\" o=\"914\">Priam</t><t t=\"p\" w=\",\" i=\"18\" o=\"920\">,</t> <t t=\"w\" w=\"and\" i=\"11\" o=\"921\">and</t> <t t=\"w\" w=\"return\" i=\"1\" o=\"924\">return</t> <t t=\"w\" w=\"safe\" i=\"1\" o=\"930\">safe</t> <t t=\"w\" w=\"to\" i=\"10\" o=\"934\">to</t> <t t=\"w\" w=\"your\" i=\"1\" o=\"936\">your</t> <t t=\"w\" w=\"homes\" i=\"2\" o=\"940\">homes</t><t t=\"p\" w=\";\" i=\"5\" o=\"946\">;</t> <t t=\"w\" w=\"but\" i=\"2\" o=\"947\">but</t> <t t=\"w\" w=\"my\" i=\"1\" o=\"950\">my</t> <t t=\"w\" w=\"dear\" i=\"1\" o=\"952\">dear</t> <t t=\"w\" w=\"child\" i=\"1\" o=\"956\">child</t> <t t=\"w\" w=\"release\" i=\"1\" o=\"961\">release</t> <t t=\"w\" w=\"to\" i=\"11\" o=\"968\">to</t> <t t=\"w\" w=\"me\" i=\"8\" o=\"970\">me</t><t t=\"p\" w=\",\" i=\"19\" o=\"973\">,</t> <t t=\"w\" w=\"and\" i=\"12\" o=\"974\">and</t> <t t=\"w\" w=\"accept\" i=\"1\" o=\"977\">accept</t> <t t=\"w\" w=\"the\" i=\"26\" o=\"983\">the</t> <t t=\"w\" w=\"ransom\" i=\"2\" o=\"986\">ransom</t><div class=\"milestone\">20</div>\n<t t=\"w\" w=\"out\" i=\"2\" o=\"992\">out</t> <t t=\"w\" w=\"of\" i=\"16\" o=\"995\">of</t> <t t=\"w\" w=\"reverence\" i=\"1\" o=\"997\">reverence</t> <t t=\"w\" w=\"for\" i=\"4\" o=\"1006\">for</t> <t t=\"w\" w=\"the\" i=\"27\" o=\"1009\">the</t> <t t=\"w\" w=\"son\" i=\"6\" o=\"1012\">son</t> <t t=\"w\" w=\"of\" i=\"17\" o=\"1015\">of</t> <t t=\"w\" w=\"Zeus\" i=\"3\" o=\"1017\">Zeus</t><t t=\"p\" w=\",\" i=\"20\" o=\"1022\">,</t> <t t=\"w\" w=\"Apollo\" i=\"2\" o=\"1023\">Apollo</t> <t t=\"w\" w=\"who\" i=\"3\" o=\"1029\">who</t> <t t=\"w\" w=\"strikes\" i=\"2\" o=\"1032\">strikes</t> <t t=\"w\" w=\"from\" i=\"3\" o=\"1039\">from</t> <t t=\"w\" w=\"afar\" i=\"2\" o=\"1043\">afar</t><t t=\"p\" w=\".\" i=\"3\" o=\"1048\">.</t> </blockquote> <t t=\"w\" w=\"Then\" i=\"1\" o=\"1049\">Then</t> <t t=\"w\" w=\"all\" i=\"4\" o=\"1053\">all</t> <t t=\"w\" w=\"the\" i=\"28\" o=\"1056\">the</t> <t t=\"w\" w=\"rest\" i=\"1\" o=\"1059\">rest</t> <t t=\"w\" w=\"of\" i=\"18\" o=\"1063\">of</t> <t t=\"w\" w=\"the\" i=\"29\" o=\"1065\">the</t> <t t=\"w\" w=\"Achaeans\" i=\"5\" o=\"1068\">Achaeans</t> <t t=\"w\" w=\"shouted\" i=\"1\" o=\"1076\">shouted</t> <t t=\"w\" w=\"assent\" i=\"1\" o=\"1083\">assent</t><t t=\"p\" w=\",\" i=\"21\" o=\"1090\">,</t> <t t=\"w\" w=\"to\" i=\"12\" o=\"1091\">to</t> <t t=\"w\" w=\"reverence\" i=\"2\" o=\"1093\">reverence</t> <t t=\"w\" w=\"the\" i=\"30\" o=\"1102\">the</t> <t t=\"w\" w=\"priest\" i=\"2\" o=\"1105\">priest</t> <t t=\"w\" w=\"and\" i=\"13\" o=\"1111\">and</t> <t t=\"w\" w=\"accept\" i=\"2\" o=\"1114\">accept</t> <t t=\"w\" w=\"the\" i=\"31\" o=\"1120\">the</t> <t t=\"w\" w=\"glorious\" i=\"1\" o=\"1123\">glorious</t> <t t=\"w\" w=\"ransom\" i=\"3\" o=\"1131\">ransom</t><t t=\"p\" w=\",\" i=\"22\" o=\"1138\">,</t> <t t=\"w\" w=\"yet\" i=\"1\" o=\"1139\">yet</t> <t t=\"w\" w=\"the\" i=\"32\" o=\"1142\">the</t> <t t=\"w\" w=\"thing\" i=\"1\" o=\"1145\">thing</t> <t t=\"w\" w=\"did\" i=\"1\" o=\"1150\">did</t> <t t=\"w\" w=\"not\" i=\"1\" o=\"1153\">not</t> <t t=\"w\" w=\"please\" i=\"1\" o=\"1156\">please</t> <t t=\"w\" w=\"the\" i=\"33\" o=\"1162\">the</t> <t t=\"w\" w=\"heart\" i=\"1\" o=\"1165\">heart</t> <t t=\"w\" w=\"of\" i=\"19\" o=\"1170\">of</t> <t t=\"w\" w=\"Agamemnon\" i=\"1\" o=\"1172\">Agamemnon</t><t t=\"p\" w=\",\" i=\"23\" o=\"1182\">,</t> <t t=\"w\" w=\"son\" i=\"7\" o=\"1183\">son</t> <t t=\"w\" w=\"of\" i=\"20\" o=\"1186\">of</t> <t t=\"w\" w=\"Atreus\" i=\"5\" o=\"1188\">Atreus</t><t t=\"p\" w=\",\" i=\"24\" o=\"1195\">,</t> <t t=\"w\" w=\"but\" i=\"3\" o=\"1196\">but</t> <t t=\"w\" w=\"he\" i=\"45\" o=\"1199\">he</t> <t t=\"w\" w=\"sent\" i=\"3\" o=\"1201\">sent</t> <t t=\"w\" w=\"him\" i=\"1\" o=\"1205\">him</t> <t t=\"w\" w=\"away\" i=\"1\" o=\"1208\">away</t> <t t=\"w\" w=\"harshly\" i=\"1\" o=\"1212\">harshly</t><t t=\"p\" w=\",\" i=\"25\" o=\"1220\">,</t> <t t=\"w\" w=\"and\" i=\"14\" o=\"1221\">and</t> <t t=\"w\" w=\"laid\" i=\"1\" o=\"1224\">laid</t> <t t=\"w\" w=\"upon\" i=\"4\" o=\"1228\">upon</t> <t t=\"w\" w=\"him\" i=\"2\" o=\"1232\">him</t> <t t=\"w\" w=\"a\" i=\"85\" o=\"1235\">a</t> <t t=\"w\" w=\"stern\" i=\"1\" o=\"1236\">stern</t> <t t=\"w\" w=\"command\" i=\"1\" o=\"1241\">command</t><t t=\"p\" w=\":\" i=\"2\" o=\"1249\">:</t><div class=\"milestone\">25</div> <blockquote>\n<t t=\"w\" w=\"Let\" i=\"2\" o=\"1250\">Let</t> <t t=\"w\" w=\"me\" i=\"10\" o=\"1253\">me</t> <t t=\"w\" w=\"not\" i=\"2\" o=\"1255\">not</t> <t t=\"w\" w=\"find\" i=\"1\" o=\"1258\">find</t> <t t=\"w\" w=\"you\" i=\"4\" o=\"1262\">you</t><t t=\"p\" w=\",\" i=\"26\" o=\"1266\">,</t> <t t=\"w\" w=\"old\" i=\"2\" o=\"1267\">old</t> <t t=\"w\" w=\"man\" i=\"3\" o=\"1270\">man</t><t t=\"p\" w=\",\" i=\"27\" o=\"1274\">,</t> <t t=\"w\" w=\"by\" i=\"1\" o=\"1275\">by</t> <t t=\"w\" w=\"the\" i=\"34\" o=\"1277\">the</t> <t t=\"w\" w=\"hollow\" i=\"1\" o=\"1280\">hollow</t> <t t=\"w\" w=\"ships\" i=\"2\" o=\"1286\">ships</t><t t=\"p\" w=\",\" i=\"28\" o=\"1292\">,</t> <t t=\"w\" w=\"either\" i=\"1\" o=\"1293\">either</t> <t t=\"w\" w=\"tarrying\" i=\"1\" o=\"1299\">tarrying</t> <t t=\"w\" w=\"now\" i=\"1\" o=\"1307\">now</t> <t t=\"w\" w=\"or\" i=\"8\" o=\"1310\">or</t> <t t=\"w\" w=\"coming\" i=\"1\" o=\"1312\">coming</t> <t t=\"w\" w=\"back\" i=\"1\" o=\"1318\">back</t> <t t=\"w\" w=\"later\" i=\"1\" o=\"1322\">later</t><t t=\"p\" w=\",\" i=\"29\" o=\"1328\">,</t> <t t=\"w\" w=\"lest\" i=\"1\" o=\"1329\">lest</t> <t t=\"w\" w=\"your\" i=\"2\" o=\"1333\">your</t> <t t=\"w\" w=\"staff\" i=\"2\" o=\"1337\">staff</t> <t t=\"w\" w=\"and\" i=\"16\" o=\"1342\">and</t> <t t=\"w\" w=\"the\" i=\"36\" o=\"1345\">the</t> <t t=\"w\" w=\"wreath\" i=\"2\" o=\"1348\">wreath</t> <t t=\"w\" w=\"of\" i=\"21\" o=\"1354\">of</t> <t t=\"w\" w=\"the\" i=\"37\" o=\"1356\">the</t> <t t=\"w\" w=\"god\" i=\"4\" o=\"1359\">god</t> <t t=\"w\" w=\"not\" i=\"3\" o=\"1362\">not</t> <t t=\"w\" w=\"protect\" i=\"1\" o=\"1365\">protect</t> <t t=\"w\" w=\"you\" i=\"6\" o=\"1372\">you</t><t t=\"p\" w=\".\" i=\"4\" o=\"1376\">.</t> <t t=\"w\" w=\"Her\" i=\"1\" o=\"1377\">Her</t> <t t=\"w\" w=\"I\" i=\"1\" o=\"1380\">I</t> <t t=\"w\" w=\"will\" i=\"1\" o=\"1381\">will</t> <t t=\"w\" w=\"not\" i=\"4\" o=\"1385\">not</t> <t t=\"w\" w=\"set\" i=\"1\" o=\"1388\">set</t> <t t=\"w\" w=\"free\" i=\"2\" o=\"1391\">free</t><t t=\"p\" w=\".\" i=\"5\" o=\"1396\">.</t> <t t=\"w\" w=\"Sooner\" i=\"1\" o=\"1397\">Sooner</t> <t t=\"w\" w=\"shall\" i=\"2\" o=\"1403\">shall</t> <t t=\"w\" w=\"old\" i=\"3\" o=\"1408\">old</t> <t t=\"w\" w=\"age\" i=\"1\" o=\"1411\">age</t> <t t=\"w\" w=\"come\" i=\"2\" o=\"1414\">come</t> <t t=\"w\" w=\"upon\" i=\"5\" o=\"1418\">upon</t> <t t=\"w\" w=\"her\" i=\"5\" o=\"1422\">her</t> <t t=\"w\" w=\"in\" i=\"14\" o=\"1425\">in</t> <t t=\"w\" w=\"our\" i=\"4\" o=\"1427\">our</t> <t t=\"w\" w=\"house\" i=\"1\" o=\"1430\">house</t><t t=\"p\" w=\",\" i=\"30\" o=\"1436\">,</t> <t t=\"w\" w=\"in\" i=\"15\" o=\"1437\">in</t> <t t=\"w\" w=\"Argos\" i=\"1\" o=\"1439\">Argos</t><t t=\"p\" w=\",\" i=\"31\" o=\"1445\">,</t> <t t=\"w\" w=\"far\" i=\"3\" o=\"1446\">far</t> <t t=\"w\" w=\"from\" i=\"4\" o=\"1449\">from</t> <t t=\"w\" w=\"her\" i=\"6\" o=\"1453\">her</t> <t t=\"w\" w=\"native\" i=\"1\" o=\"1456\">native</t> <t t=\"w\" w=\"land\" i=\"1\" o=\"1462\">land</t><t t=\"p\" w=\",\" i=\"32\" o=\"1467\">,</t><div class=\"milestone\">30</div>\n<t t=\"w\" w=\"as\" i=\"6\" o=\"1468\">as</t> <t t=\"w\" w=\"she\" i=\"1\" o=\"1470\">she</t> <t t=\"w\" w=\"walks\" i=\"1\" o=\"1473\">walks</t> <t t=\"w\" w=\"to\" i=\"13\" o=\"1478\">to</t> <t t=\"w\" w=\"and\" i=\"18\" o=\"1480\">and</t> <t t=\"w\" w=\"fro\" i=\"5\" o=\"1483\">fro</t> <t t=\"w\" w=\"before\" i=\"1\" o=\"1486\">before</t> <t t=\"w\" w=\"the\" i=\"38\" o=\"1492\">the</t> <t t=\"w\" w=\"loom\" i=\"1\" o=\"1495\">loom</t> <t t=\"w\" w=\"and\" i=\"19\" o=\"1499\">and</t> <t t=\"w\" w=\"serves\" i=\"1\" o=\"1502\">serves</t> <t t=\"w\" w=\"my\" i=\"2\" o=\"1508\">my</t> <t t=\"w\" w=\"bed\" i=\"1\" o=\"1510\">bed</t><t t=\"p\" w=\".\" i=\"6\" o=\"1514\">.</t> <t t=\"w\" w=\"But\" i=\"1\" o=\"1515\">But</t> <t t=\"w\" w=\"go\" i=\"7\" o=\"1518\">go</t><t t=\"p\" w=\",\" i=\"33\" o=\"1521\">,</t> <t t=\"w\" w=\"do\" i=\"2\" o=\"1522\">do</t> <t t=\"w\" w=\"not\" i=\"5\" o=\"1524\">not</t> <t t=\"w\" w=\"anger\" i=\"2\" o=\"1527\">anger</t> <t t=\"w\" w=\"me\" i=\"12\" o=\"1532\">me</t><t t=\"p\" w=\",\" i=\"34\" o=\"1535\">,</t> <t t=\"w\" w=\"that\" i=\"4\" o=\"1536\">that</t> <t t=\"w\" w=\"you\" i=\"7\" o=\"1540\">you</t> <t t=\"w\" w=\"may\" i=\"2\" o=\"1543\">may</t> <t t=\"w\" w=\"return\" i=\"2\" o=\"1546\">return</t> <t t=\"w\" w=\"the\" i=\"39\" o=\"1552\">the</t> <t t=\"w\" w=\"safer\" i=\"1\" o=\"1555\">safer</t><t t=\"p\" w=\".\" i=\"7\" o=\"1561\">.</t> </blockquote> </p></text-part></text-part></div>\n",
+    "urn": "urn:cts:greekLit:tlg0012.tlg001.perseus-eng3:1.1",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 3,
+        "t": "w",
+        "w": "The"
+      },
+      {
+        "i": 1,
+        "o": 8,
+        "t": "w",
+        "w": "wrath"
+      },
+      {
+        "i": 1,
+        "o": 12,
+        "t": "w",
+        "w": "sing"
+      },
+      {
+        "i": 1,
+        "o": 20,
+        "t": "w",
+        "w": "goddess"
+      },
+      {
+        "i": 1,
+        "o": 23,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 29,
+        "t": "w",
+        "w": "Peleus"
+      },
+      {
+        "i": 1,
+        "o": 33,
+        "t": "w",
+        "w": "son"
+      },
+      {
+        "i": 1,
+        "o": 42,
+        "t": "w",
+        "w": "Achilles"
+      },
+      {
+        "i": 1,
+        "o": 47,
+        "t": "w",
+        "w": "that"
+      },
+      {
+        "i": 1,
+        "o": 58,
+        "t": "w",
+        "w": "destructive"
+      },
+      {
+        "i": 2,
+        "o": 63,
+        "t": "w",
+        "w": "wrath"
+      },
+      {
+        "i": 1,
+        "o": 68,
+        "t": "w",
+        "w": "which"
+      },
+      {
+        "i": 1,
+        "o": 75,
+        "t": "w",
+        "w": "brought"
+      },
+      {
+        "i": 1,
+        "o": 84,
+        "t": "w",
+        "w": "countless"
+      },
+      {
+        "i": 1,
+        "o": 88,
+        "t": "w",
+        "w": "woes"
+      },
+      {
+        "i": 1,
+        "o": 92,
+        "t": "w",
+        "w": "upon"
+      },
+      {
+        "i": 1,
+        "o": 95,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 103,
+        "t": "w",
+        "w": "Achaeans"
+      },
+      {
+        "i": 1,
+        "o": 107,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 111,
+        "t": "w",
+        "w": "sent"
+      },
+      {
+        "i": 1,
+        "o": 116,
+        "t": "w",
+        "w": "forth"
+      },
+      {
+        "i": 1,
+        "o": 118,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 123,
+        "t": "w",
+        "w": "Hades"
+      },
+      {
+        "i": 1,
+        "o": 127,
+        "t": "w",
+        "w": "many"
+      },
+      {
+        "i": 1,
+        "o": 134,
+        "t": "w",
+        "w": "valiant"
+      },
+      {
+        "i": 1,
+        "o": 139,
+        "t": "w",
+        "w": "souls"
+      },
+      {
+        "i": 2,
+        "o": 141,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 147,
+        "t": "w",
+        "w": "heroes"
+      },
+      {
+        "i": 2,
+        "o": 151,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 155,
+        "t": "w",
+        "w": "made"
+      },
+      {
+        "i": 1,
+        "o": 159,
+        "t": "w",
+        "w": "them"
+      },
+      {
+        "i": 1,
+        "o": 169,
+        "t": "w",
+        "w": "themselves"
+      },
+      {
+        "i": 1,
+        "o": 174,
+        "t": "w",
+        "w": "spoil"
+      },
+      {
+        "i": 2,
+        "o": 177,
+        "t": "w",
+        "w": "for"
+      },
+      {
+        "i": 1,
+        "o": 181,
+        "t": "w",
+        "w": "dogs"
+      },
+      {
+        "i": 3,
+        "o": 184,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 189,
+        "t": "w",
+        "w": "every"
+      },
+      {
+        "i": 1,
+        "o": 193,
+        "t": "w",
+        "w": "bird"
+      },
+      {
+        "i": 1,
+        "o": 198,
+        "t": "w",
+        "w": "thus"
+      },
+      {
+        "i": 4,
+        "o": 201,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 205,
+        "t": "w",
+        "w": "plan"
+      },
+      {
+        "i": 3,
+        "o": 207,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 211,
+        "t": "w",
+        "w": "Zeus"
+      },
+      {
+        "i": 1,
+        "o": 215,
+        "t": "w",
+        "w": "came"
+      },
+      {
+        "i": 2,
+        "o": 217,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 228,
+        "t": "w",
+        "w": "fulfillment"
+      },
+      {
+        "i": 1,
+        "o": 233,
+        "t": "w",
+        "w": "from"
+      },
+      {
+        "i": 5,
+        "o": 236,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 240,
+        "t": "w",
+        "w": "time"
+      },
+      {
+        "i": 1,
+        "o": 244,
+        "t": "w",
+        "w": "when"
+      },
+      {
+        "i": 1,
+        "o": 245,
+        "t": "w",
+        "w": "1"
+      },
+      {
+        "i": 1,
+        "o": 250,
+        "t": "w",
+        "w": "first"
+      },
+      {
+        "i": 1,
+        "o": 254,
+        "t": "w",
+        "w": "they"
+      },
+      {
+        "i": 1,
+        "o": 260,
+        "t": "w",
+        "w": "parted"
+      },
+      {
+        "i": 2,
+        "o": 262,
+        "t": "w",
+        "w": "in"
+      },
+      {
+        "i": 1,
+        "o": 268,
+        "t": "w",
+        "w": "strife"
+      },
+      {
+        "i": 1,
+        "o": 274,
+        "t": "w",
+        "w": "Atreus"
+      },
+      {
+        "i": 2,
+        "o": 278,
+        "t": "w",
+        "w": "son"
+      },
+      {
+        "i": 1,
+        "o": 283,
+        "t": "w",
+        "w": "king"
+      },
+      {
+        "i": 4,
+        "o": 285,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 2,
+        "o": 288,
+        "t": "w",
+        "w": "men"
+      },
+      {
+        "i": 4,
+        "o": 292,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 301,
+        "t": "w",
+        "w": "brilliant"
+      },
+      {
+        "i": 2,
+        "o": 309,
+        "t": "w",
+        "w": "Achilles"
+      },
+      {
+        "i": 1,
+        "o": 313,
+        "t": "w",
+        "w": "Who"
+      },
+      {
+        "i": 1,
+        "o": 317,
+        "t": "w",
+        "w": "then"
+      },
+      {
+        "i": 5,
+        "o": 319,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 8,
+        "o": 322,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 326,
+        "t": "w",
+        "w": "gods"
+      },
+      {
+        "i": 1,
+        "o": 329,
+        "t": "w",
+        "w": "was"
+      },
+      {
+        "i": 1,
+        "o": 331,
+        "t": "w",
+        "w": "it"
+      },
+      {
+        "i": 2,
+        "o": 335,
+        "t": "w",
+        "w": "that"
+      },
+      {
+        "i": 2,
+        "o": 342,
+        "t": "w",
+        "w": "brought"
+      },
+      {
+        "i": 1,
+        "o": 347,
+        "t": "w",
+        "w": "these"
+      },
+      {
+        "i": 1,
+        "o": 350,
+        "t": "w",
+        "w": "two"
+      },
+      {
+        "i": 1,
+        "o": 358,
+        "t": "w",
+        "w": "together"
+      },
+      {
+        "i": 4,
+        "o": 360,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 367,
+        "t": "w",
+        "w": "contend"
+      },
+      {
+        "i": 2,
+        "o": 371,
+        "t": "w",
+        "w": "The"
+      },
+      {
+        "i": 3,
+        "o": 374,
+        "t": "w",
+        "w": "son"
+      },
+      {
+        "i": 6,
+        "o": 376,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 380,
+        "t": "w",
+        "w": "Leto"
+      },
+      {
+        "i": 5,
+        "o": 383,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 2,
+        "o": 387,
+        "t": "w",
+        "w": "Zeus"
+      },
+      {
+        "i": 3,
+        "o": 391,
+        "t": "w",
+        "w": "for"
+      },
+      {
+        "i": 15,
+        "o": 393,
+        "t": "w",
+        "w": "he"
+      },
+      {
+        "i": 4,
+        "o": 395,
+        "t": "w",
+        "w": "in"
+      },
+      {
+        "i": 1,
+        "o": 400,
+        "t": "w",
+        "w": "anger"
+      },
+      {
+        "i": 1,
+        "o": 407,
+        "t": "w",
+        "w": "against"
+      },
+      {
+        "i": 11,
+        "o": 410,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 414,
+        "t": "w",
+        "w": "king"
+      },
+      {
+        "i": 1,
+        "o": 420,
+        "t": "w",
+        "w": "roused"
+      },
+      {
+        "i": 1,
+        "o": 430,
+        "t": "w",
+        "w": "throughout"
+      },
+      {
+        "i": 12,
+        "o": 433,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 437,
+        "t": "w",
+        "w": "host"
+      },
+      {
+        "i": 12,
+        "o": 439,
+        "t": "w",
+        "w": "an"
+      },
+      {
+        "i": 1,
+        "o": 443,
+        "t": "w",
+        "w": "evil"
+      },
+      {
+        "i": 1,
+        "o": 453,
+        "t": "w",
+        "w": "pestilence"
+      },
+      {
+        "i": 6,
+        "o": 457,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 13,
+        "o": 460,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 466,
+        "t": "w",
+        "w": "people"
+      },
+      {
+        "i": 1,
+        "o": 471,
+        "t": "w",
+        "w": "began"
+      },
+      {
+        "i": 6,
+        "o": 473,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 479,
+        "t": "w",
+        "w": "perish"
+      },
+      {
+        "i": 1,
+        "o": 487,
+        "t": "w",
+        "w": "because"
+      },
+      {
+        "i": 2,
+        "o": 491,
+        "t": "w",
+        "w": "upon"
+      },
+      {
+        "i": 14,
+        "o": 494,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 500,
+        "t": "w",
+        "w": "priest"
+      },
+      {
+        "i": 1,
+        "o": 507,
+        "t": "w",
+        "w": "Chryses"
+      },
+      {
+        "i": 15,
+        "o": 510,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 4,
+        "o": 513,
+        "t": "w",
+        "w": "son"
+      },
+      {
+        "i": 7,
+        "o": 515,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 2,
+        "o": 521,
+        "t": "w",
+        "w": "Atreus"
+      },
+      {
+        "i": 1,
+        "o": 524,
+        "t": "w",
+        "w": "had"
+      },
+      {
+        "i": 1,
+        "o": 531,
+        "t": "w",
+        "w": "wrought"
+      },
+      {
+        "i": 1,
+        "o": 540,
+        "t": "w",
+        "w": "dishonour"
+      },
+      {
+        "i": 1,
+        "o": 544,
+        "t": "w",
+        "w": "For"
+      },
+      {
+        "i": 21,
+        "o": 546,
+        "t": "w",
+        "w": "he"
+      },
+      {
+        "i": 2,
+        "o": 549,
+        "t": "w",
+        "w": "had"
+      },
+      {
+        "i": 1,
+        "o": 553,
+        "t": "w",
+        "w": "come"
+      },
+      {
+        "i": 7,
+        "o": 555,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 16,
+        "o": 558,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 563,
+        "t": "w",
+        "w": "swift"
+      },
+      {
+        "i": 1,
+        "o": 568,
+        "t": "w",
+        "w": "ships"
+      },
+      {
+        "i": 8,
+        "o": 570,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 17,
+        "o": 573,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 581,
+        "t": "w",
+        "w": "Achaeans"
+      },
+      {
+        "i": 8,
+        "o": 583,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 587,
+        "t": "w",
+        "w": "free"
+      },
+      {
+        "i": 1,
+        "o": 590,
+        "t": "w",
+        "w": "his"
+      },
+      {
+        "i": 1,
+        "o": 598,
+        "t": "w",
+        "w": "daughter"
+      },
+      {
+        "i": 1,
+        "o": 606,
+        "t": "w",
+        "w": "bearing"
+      },
+      {
+        "i": 1,
+        "o": 612,
+        "t": "w",
+        "w": "ransom"
+      },
+      {
+        "i": 1,
+        "o": 616,
+        "t": "w",
+        "w": "past"
+      },
+      {
+        "i": 1,
+        "o": 624,
+        "t": "w",
+        "w": "counting"
+      },
+      {
+        "i": 7,
+        "o": 628,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 9,
+        "o": 630,
+        "t": "w",
+        "w": "in"
+      },
+      {
+        "i": 2,
+        "o": 633,
+        "t": "w",
+        "w": "his"
+      },
+      {
+        "i": 1,
+        "o": 638,
+        "t": "w",
+        "w": "hands"
+      },
+      {
+        "i": 24,
+        "o": 640,
+        "t": "w",
+        "w": "he"
+      },
+      {
+        "i": 1,
+        "o": 644,
+        "t": "w",
+        "w": "held"
+      },
+      {
+        "i": 18,
+        "o": 647,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 654,
+        "t": "w",
+        "w": "wreaths"
+      },
+      {
+        "i": 9,
+        "o": 656,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 662,
+        "t": "w",
+        "w": "Apollo"
+      },
+      {
+        "i": 1,
+        "o": 665,
+        "t": "w",
+        "w": "who"
+      },
+      {
+        "i": 1,
+        "o": 672,
+        "t": "w",
+        "w": "strikes"
+      },
+      {
+        "i": 2,
+        "o": 676,
+        "t": "w",
+        "w": "from"
+      },
+      {
+        "i": 1,
+        "o": 680,
+        "t": "w",
+        "w": "afar"
+      },
+      {
+        "i": 1,
+        "o": 682,
+        "t": "w",
+        "w": "2"
+      },
+      {
+        "i": 9,
+        "o": 684,
+        "t": "w",
+        "w": "on"
+      },
+      {
+        "i": 42,
+        "o": 685,
+        "t": "w",
+        "w": "a"
+      },
+      {
+        "i": 1,
+        "o": 690,
+        "t": "w",
+        "w": "staff"
+      },
+      {
+        "i": 10,
+        "o": 692,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 696,
+        "t": "w",
+        "w": "gold"
+      },
+      {
+        "i": 9,
+        "o": 700,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 27,
+        "o": 702,
+        "t": "w",
+        "w": "he"
+      },
+      {
+        "i": 1,
+        "o": 710,
+        "t": "w",
+        "w": "implored"
+      },
+      {
+        "i": 1,
+        "o": 713,
+        "t": "w",
+        "w": "all"
+      },
+      {
+        "i": 19,
+        "o": 716,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 3,
+        "o": 724,
+        "t": "w",
+        "w": "Achaeans"
+      },
+      {
+        "i": 1,
+        "o": 728,
+        "t": "w",
+        "w": "but"
+      },
+      {
+        "i": 1,
+        "o": 732,
+        "t": "w",
+        "w": "most"
+      },
+      {
+        "i": 11,
+        "o": 734,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 2,
+        "o": 737,
+        "t": "w",
+        "w": "all"
+      },
+      {
+        "i": 20,
+        "o": 740,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 743,
+        "t": "w",
+        "w": "two"
+      },
+      {
+        "i": 1,
+        "o": 747,
+        "t": "w",
+        "w": "sons"
+      },
+      {
+        "i": 12,
+        "o": 749,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 3,
+        "o": 755,
+        "t": "w",
+        "w": "Atreus"
+      },
+      {
+        "i": 21,
+        "o": 759,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 770,
+        "t": "w",
+        "w": "marshallers"
+      },
+      {
+        "i": 13,
+        "o": 772,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 22,
+        "o": 775,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 781,
+        "t": "w",
+        "w": "people"
+      },
+      {
+        "i": 1,
+        "o": 786,
+        "t": "w",
+        "w": "Sons"
+      },
+      {
+        "i": 14,
+        "o": 788,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 4,
+        "o": 794,
+        "t": "w",
+        "w": "Atreus"
+      },
+      {
+        "i": 10,
+        "o": 798,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 803,
+        "t": "w",
+        "w": "other"
+      },
+      {
+        "i": 1,
+        "o": 815,
+        "t": "w",
+        "w": "well-greaved"
+      },
+      {
+        "i": 4,
+        "o": 823,
+        "t": "w",
+        "w": "Achaeans"
+      },
+      {
+        "i": 9,
+        "o": 826,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 829,
+        "t": "w",
+        "w": "you"
+      },
+      {
+        "i": 1,
+        "o": 832,
+        "t": "w",
+        "w": "may"
+      },
+      {
+        "i": 24,
+        "o": 835,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 839,
+        "t": "w",
+        "w": "gods"
+      },
+      {
+        "i": 2,
+        "o": 842,
+        "t": "w",
+        "w": "who"
+      },
+      {
+        "i": 1,
+        "o": 846,
+        "t": "w",
+        "w": "have"
+      },
+      {
+        "i": 1,
+        "o": 851,
+        "t": "w",
+        "w": "homes"
+      },
+      {
+        "i": 3,
+        "o": 855,
+        "t": "w",
+        "w": "upon"
+      },
+      {
+        "i": 1,
+        "o": 862,
+        "t": "w",
+        "w": "Olympus"
+      },
+      {
+        "i": 1,
+        "o": 867,
+        "t": "w",
+        "w": "grant"
+      },
+      {
+        "i": 3,
+        "o": 871,
+        "t": "w",
+        "w": "that"
+      },
+      {
+        "i": 2,
+        "o": 874,
+        "t": "w",
+        "w": "you"
+      },
+      {
+        "i": 1,
+        "o": 878,
+        "t": "w",
+        "w": "sack"
+      },
+      {
+        "i": 25,
+        "o": 881,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 885,
+        "t": "w",
+        "w": "city"
+      },
+      {
+        "i": 15,
+        "o": 887,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 892,
+        "t": "w",
+        "w": "Priam"
+      },
+      {
+        "i": 11,
+        "o": 896,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 902,
+        "t": "w",
+        "w": "return"
+      },
+      {
+        "i": 1,
+        "o": 906,
+        "t": "w",
+        "w": "safe"
+      },
+      {
+        "i": 10,
+        "o": 908,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 1,
+        "o": 912,
+        "t": "w",
+        "w": "your"
+      },
+      {
+        "i": 2,
+        "o": 917,
+        "t": "w",
+        "w": "homes"
+      },
+      {
+        "i": 2,
+        "o": 921,
+        "t": "w",
+        "w": "but"
+      },
+      {
+        "i": 1,
+        "o": 923,
+        "t": "w",
+        "w": "my"
+      },
+      {
+        "i": 1,
+        "o": 927,
+        "t": "w",
+        "w": "dear"
+      },
+      {
+        "i": 1,
+        "o": 932,
+        "t": "w",
+        "w": "child"
+      },
+      {
+        "i": 1,
+        "o": 939,
+        "t": "w",
+        "w": "release"
+      },
+      {
+        "i": 11,
+        "o": 941,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 8,
+        "o": 943,
+        "t": "w",
+        "w": "me"
+      },
+      {
+        "i": 12,
+        "o": 947,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 953,
+        "t": "w",
+        "w": "accept"
+      },
+      {
+        "i": 26,
+        "o": 956,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 962,
+        "t": "w",
+        "w": "ransom"
+      },
+      {
+        "i": 2,
+        "o": 965,
+        "t": "w",
+        "w": "out"
+      },
+      {
+        "i": 16,
+        "o": 967,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 976,
+        "t": "w",
+        "w": "reverence"
+      },
+      {
+        "i": 4,
+        "o": 979,
+        "t": "w",
+        "w": "for"
+      },
+      {
+        "i": 27,
+        "o": 982,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 6,
+        "o": 985,
+        "t": "w",
+        "w": "son"
+      },
+      {
+        "i": 17,
+        "o": 987,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 3,
+        "o": 991,
+        "t": "w",
+        "w": "Zeus"
+      },
+      {
+        "i": 2,
+        "o": 998,
+        "t": "w",
+        "w": "Apollo"
+      },
+      {
+        "i": 3,
+        "o": 1001,
+        "t": "w",
+        "w": "who"
+      },
+      {
+        "i": 2,
+        "o": 1008,
+        "t": "w",
+        "w": "strikes"
+      },
+      {
+        "i": 3,
+        "o": 1012,
+        "t": "w",
+        "w": "from"
+      },
+      {
+        "i": 2,
+        "o": 1016,
+        "t": "w",
+        "w": "afar"
+      },
+      {
+        "i": 1,
+        "o": 1021,
+        "t": "w",
+        "w": "Then"
+      },
+      {
+        "i": 4,
+        "o": 1024,
+        "t": "w",
+        "w": "all"
+      },
+      {
+        "i": 28,
+        "o": 1027,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1031,
+        "t": "w",
+        "w": "rest"
+      },
+      {
+        "i": 18,
+        "o": 1033,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 29,
+        "o": 1036,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 5,
+        "o": 1044,
+        "t": "w",
+        "w": "Achaeans"
+      },
+      {
+        "i": 1,
+        "o": 1051,
+        "t": "w",
+        "w": "shouted"
+      },
+      {
+        "i": 1,
+        "o": 1057,
+        "t": "w",
+        "w": "assent"
+      },
+      {
+        "i": 12,
+        "o": 1060,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 2,
+        "o": 1069,
+        "t": "w",
+        "w": "reverence"
+      },
+      {
+        "i": 30,
+        "o": 1072,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 1078,
+        "t": "w",
+        "w": "priest"
+      },
+      {
+        "i": 13,
+        "o": 1081,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 2,
+        "o": 1087,
+        "t": "w",
+        "w": "accept"
+      },
+      {
+        "i": 31,
+        "o": 1090,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1098,
+        "t": "w",
+        "w": "glorious"
+      },
+      {
+        "i": 3,
+        "o": 1104,
+        "t": "w",
+        "w": "ransom"
+      },
+      {
+        "i": 1,
+        "o": 1108,
+        "t": "w",
+        "w": "yet"
+      },
+      {
+        "i": 32,
+        "o": 1111,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1116,
+        "t": "w",
+        "w": "thing"
+      },
+      {
+        "i": 1,
+        "o": 1119,
+        "t": "w",
+        "w": "did"
+      },
+      {
+        "i": 1,
+        "o": 1122,
+        "t": "w",
+        "w": "not"
+      },
+      {
+        "i": 1,
+        "o": 1128,
+        "t": "w",
+        "w": "please"
+      },
+      {
+        "i": 33,
+        "o": 1131,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1136,
+        "t": "w",
+        "w": "heart"
+      },
+      {
+        "i": 19,
+        "o": 1138,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 1,
+        "o": 1147,
+        "t": "w",
+        "w": "Agamemnon"
+      },
+      {
+        "i": 7,
+        "o": 1151,
+        "t": "w",
+        "w": "son"
+      },
+      {
+        "i": 20,
+        "o": 1153,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 5,
+        "o": 1159,
+        "t": "w",
+        "w": "Atreus"
+      },
+      {
+        "i": 3,
+        "o": 1163,
+        "t": "w",
+        "w": "but"
+      },
+      {
+        "i": 45,
+        "o": 1165,
+        "t": "w",
+        "w": "he"
+      },
+      {
+        "i": 3,
+        "o": 1169,
+        "t": "w",
+        "w": "sent"
+      },
+      {
+        "i": 1,
+        "o": 1172,
+        "t": "w",
+        "w": "him"
+      },
+      {
+        "i": 1,
+        "o": 1176,
+        "t": "w",
+        "w": "away"
+      },
+      {
+        "i": 1,
+        "o": 1183,
+        "t": "w",
+        "w": "harshly"
+      },
+      {
+        "i": 14,
+        "o": 1187,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 1191,
+        "t": "w",
+        "w": "laid"
+      },
+      {
+        "i": 4,
+        "o": 1195,
+        "t": "w",
+        "w": "upon"
+      },
+      {
+        "i": 2,
+        "o": 1198,
+        "t": "w",
+        "w": "him"
+      },
+      {
+        "i": 85,
+        "o": 1199,
+        "t": "w",
+        "w": "a"
+      },
+      {
+        "i": 1,
+        "o": 1204,
+        "t": "w",
+        "w": "stern"
+      },
+      {
+        "i": 1,
+        "o": 1211,
+        "t": "w",
+        "w": "command"
+      },
+      {
+        "i": 2,
+        "o": 1215,
+        "t": "w",
+        "w": "Let"
+      },
+      {
+        "i": 10,
+        "o": 1217,
+        "t": "w",
+        "w": "me"
+      },
+      {
+        "i": 2,
+        "o": 1220,
+        "t": "w",
+        "w": "not"
+      },
+      {
+        "i": 1,
+        "o": 1224,
+        "t": "w",
+        "w": "find"
+      },
+      {
+        "i": 4,
+        "o": 1227,
+        "t": "w",
+        "w": "you"
+      },
+      {
+        "i": 2,
+        "o": 1231,
+        "t": "w",
+        "w": "old"
+      },
+      {
+        "i": 3,
+        "o": 1234,
+        "t": "w",
+        "w": "man"
+      },
+      {
+        "i": 1,
+        "o": 1237,
+        "t": "w",
+        "w": "by"
+      },
+      {
+        "i": 34,
+        "o": 1240,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1246,
+        "t": "w",
+        "w": "hollow"
+      },
+      {
+        "i": 2,
+        "o": 1251,
+        "t": "w",
+        "w": "ships"
+      },
+      {
+        "i": 1,
+        "o": 1258,
+        "t": "w",
+        "w": "either"
+      },
+      {
+        "i": 1,
+        "o": 1266,
+        "t": "w",
+        "w": "tarrying"
+      },
+      {
+        "i": 1,
+        "o": 1269,
+        "t": "w",
+        "w": "now"
+      },
+      {
+        "i": 8,
+        "o": 1271,
+        "t": "w",
+        "w": "or"
+      },
+      {
+        "i": 1,
+        "o": 1277,
+        "t": "w",
+        "w": "coming"
+      },
+      {
+        "i": 1,
+        "o": 1281,
+        "t": "w",
+        "w": "back"
+      },
+      {
+        "i": 1,
+        "o": 1286,
+        "t": "w",
+        "w": "later"
+      },
+      {
+        "i": 1,
+        "o": 1291,
+        "t": "w",
+        "w": "lest"
+      },
+      {
+        "i": 2,
+        "o": 1295,
+        "t": "w",
+        "w": "your"
+      },
+      {
+        "i": 2,
+        "o": 1300,
+        "t": "w",
+        "w": "staff"
+      },
+      {
+        "i": 16,
+        "o": 1303,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 36,
+        "o": 1306,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 2,
+        "o": 1312,
+        "t": "w",
+        "w": "wreath"
+      },
+      {
+        "i": 21,
+        "o": 1314,
+        "t": "w",
+        "w": "of"
+      },
+      {
+        "i": 37,
+        "o": 1317,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 4,
+        "o": 1320,
+        "t": "w",
+        "w": "god"
+      },
+      {
+        "i": 3,
+        "o": 1323,
+        "t": "w",
+        "w": "not"
+      },
+      {
+        "i": 1,
+        "o": 1330,
+        "t": "w",
+        "w": "protect"
+      },
+      {
+        "i": 6,
+        "o": 1333,
+        "t": "w",
+        "w": "you"
+      },
+      {
+        "i": 1,
+        "o": 1337,
+        "t": "w",
+        "w": "Her"
+      },
+      {
+        "i": 1,
+        "o": 1338,
+        "t": "w",
+        "w": "I"
+      },
+      {
+        "i": 1,
+        "o": 1342,
+        "t": "w",
+        "w": "will"
+      },
+      {
+        "i": 4,
+        "o": 1345,
+        "t": "w",
+        "w": "not"
+      },
+      {
+        "i": 1,
+        "o": 1348,
+        "t": "w",
+        "w": "set"
+      },
+      {
+        "i": 2,
+        "o": 1352,
+        "t": "w",
+        "w": "free"
+      },
+      {
+        "i": 1,
+        "o": 1359,
+        "t": "w",
+        "w": "Sooner"
+      },
+      {
+        "i": 2,
+        "o": 1364,
+        "t": "w",
+        "w": "shall"
+      },
+      {
+        "i": 3,
+        "o": 1367,
+        "t": "w",
+        "w": "old"
+      },
+      {
+        "i": 1,
+        "o": 1370,
+        "t": "w",
+        "w": "age"
+      },
+      {
+        "i": 2,
+        "o": 1374,
+        "t": "w",
+        "w": "come"
+      },
+      {
+        "i": 5,
+        "o": 1378,
+        "t": "w",
+        "w": "upon"
+      },
+      {
+        "i": 5,
+        "o": 1381,
+        "t": "w",
+        "w": "her"
+      },
+      {
+        "i": 14,
+        "o": 1383,
+        "t": "w",
+        "w": "in"
+      },
+      {
+        "i": 4,
+        "o": 1386,
+        "t": "w",
+        "w": "our"
+      },
+      {
+        "i": 1,
+        "o": 1391,
+        "t": "w",
+        "w": "house"
+      },
+      {
+        "i": 15,
+        "o": 1394,
+        "t": "w",
+        "w": "in"
+      },
+      {
+        "i": 1,
+        "o": 1399,
+        "t": "w",
+        "w": "Argos"
+      },
+      {
+        "i": 3,
+        "o": 1403,
+        "t": "w",
+        "w": "far"
+      },
+      {
+        "i": 4,
+        "o": 1407,
+        "t": "w",
+        "w": "from"
+      },
+      {
+        "i": 6,
+        "o": 1410,
+        "t": "w",
+        "w": "her"
+      },
+      {
+        "i": 1,
+        "o": 1416,
+        "t": "w",
+        "w": "native"
+      },
+      {
+        "i": 1,
+        "o": 1420,
+        "t": "w",
+        "w": "land"
+      },
+      {
+        "i": 6,
+        "o": 1423,
+        "t": "w",
+        "w": "as"
+      },
+      {
+        "i": 1,
+        "o": 1426,
+        "t": "w",
+        "w": "she"
+      },
+      {
+        "i": 1,
+        "o": 1431,
+        "t": "w",
+        "w": "walks"
+      },
+      {
+        "i": 13,
+        "o": 1433,
+        "t": "w",
+        "w": "to"
+      },
+      {
+        "i": 18,
+        "o": 1436,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 5,
+        "o": 1439,
+        "t": "w",
+        "w": "fro"
+      },
+      {
+        "i": 1,
+        "o": 1445,
+        "t": "w",
+        "w": "before"
+      },
+      {
+        "i": 38,
+        "o": 1448,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1452,
+        "t": "w",
+        "w": "loom"
+      },
+      {
+        "i": 19,
+        "o": 1455,
+        "t": "w",
+        "w": "and"
+      },
+      {
+        "i": 1,
+        "o": 1461,
+        "t": "w",
+        "w": "serves"
+      },
+      {
+        "i": 2,
+        "o": 1463,
+        "t": "w",
+        "w": "my"
+      },
+      {
+        "i": 1,
+        "o": 1466,
+        "t": "w",
+        "w": "bed"
+      },
+      {
+        "i": 1,
+        "o": 1470,
+        "t": "w",
+        "w": "But"
+      },
+      {
+        "i": 7,
+        "o": 1472,
+        "t": "w",
+        "w": "go"
+      },
+      {
+        "i": 2,
+        "o": 1475,
+        "t": "w",
+        "w": "do"
+      },
+      {
+        "i": 5,
+        "o": 1478,
+        "t": "w",
+        "w": "not"
+      },
+      {
+        "i": 2,
+        "o": 1483,
+        "t": "w",
+        "w": "anger"
+      },
+      {
+        "i": 12,
+        "o": 1485,
+        "t": "w",
+        "w": "me"
+      },
+      {
+        "i": 4,
+        "o": 1490,
+        "t": "w",
+        "w": "that"
+      },
+      {
+        "i": 7,
+        "o": 1493,
+        "t": "w",
+        "w": "you"
+      },
+      {
+        "i": 2,
+        "o": 1496,
+        "t": "w",
+        "w": "may"
+      },
+      {
+        "i": 2,
+        "o": 1502,
+        "t": "w",
+        "w": "return"
+      },
+      {
+        "i": 39,
+        "o": 1505,
+        "t": "w",
+        "w": "the"
+      },
+      {
+        "i": 1,
+        "o": 1510,
+        "t": "w",
+        "w": "safer"
+      }
+    ]
+  },
+  "urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:1.1-1.5": {
+    "_next": "urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:1.6-1.10",
+    "_prev": null,
+    "ancestors": [
+      {
+        "reference": "1"
+      }
+    ],
+    "children": [],
+    "refs": {
+      "end": {
+        "human_reference": "Book 1 Line 5",
+        "reference": "1.5"
+      },
+      "start": {
+        "human_reference": "Book 1 Line 1",
+        "reference": "1.1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "Homer",
+          "urn": "urn:cts:greekLit:tlg0012"
+        },
+        {
+          "label": "Iliad",
+          "urn": "urn:cts:greekLit:tlg0012.tlg001"
+        }
+      ],
+      "human_lang": "Greek",
+      "kind": "edition",
+      "label": "Ἰλιάς",
+      "lang": "grc",
+      "urn": "urn:cts:greekLit:tlg0012.tlg001.perseus-grc2"
+    },
+    "text_html": "<div id=\"edition\" class=\"edition lang_grc\"><text-part class=\"Book\" reference=\"1\"><text-part class=\" leaf o\" reference=\"1.1\"><div class=\"milestone\"></div>\n<t t=\"w\" w=\"μῆνιν\" i=\"1\" o=\"0\">μῆνιν</t> <t t=\"w\" w=\"ἄειδε\" i=\"1\" o=\"5\">ἄειδε</t> <t t=\"w\" w=\"θεὰ\" i=\"1\" o=\"10\">θεὰ</t> <t t=\"w\" w=\"Πηληϊάδεω\" i=\"1\" o=\"13\">Πηληϊάδεω</t> <t t=\"w\" w=\"Ἀχιλῆος\" i=\"1\" o=\"22\">Ἀχιλῆος</t></text-part><text-part class=\" leaf o\" reference=\"1.2\"><t t=\"w\" w=\"οὐλομένην\" i=\"1\" o=\"29\">οὐλομένην</t><t t=\"p\" w=\",\" i=\"1\" o=\"39\">,</t> <t t=\"w\" w=\"ἣ\" i=\"1\" o=\"40\">ἣ</t> <t t=\"w\" w=\"μυρίʼ\" i=\"1\" o=\"41\">μυρίʼ</t> <t t=\"w\" w=\"Ἀχαιοῖς\" i=\"1\" o=\"46\">Ἀχαιοῖς</t> <t t=\"w\" w=\"ἄλγεʼ\" i=\"1\" o=\"53\">ἄλγεʼ</t> <t t=\"w\" w=\"ἔθηκε\" i=\"1\" o=\"58\">ἔθηκε</t><t t=\"p\" w=\",\" i=\"2\" o=\"64\">,</t></text-part><text-part class=\" leaf o\" reference=\"1.3\"><t t=\"w\" w=\"πολλὰς\" i=\"1\" o=\"65\">πολλὰς</t> <t t=\"w\" w=\"δʼ\" i=\"1\" o=\"71\">δʼ</t> <t t=\"w\" w=\"ἰφθίμους\" i=\"1\" o=\"73\">ἰφθίμους</t> <t t=\"w\" w=\"ψυχὰς\" i=\"1\" o=\"81\">ψυχὰς</t> <t t=\"w\" w=\"Ἄϊδι\" i=\"1\" o=\"86\">Ἄϊδι</t> <t t=\"w\" w=\"προΐαψεν\" i=\"1\" o=\"90\">προΐαψεν</t></text-part><text-part class=\" leaf o\" reference=\"1.4\"><t t=\"w\" w=\"ἡρώων\" i=\"1\" o=\"98\">ἡρώων</t><t t=\"p\" w=\",\" i=\"3\" o=\"104\">,</t> <t t=\"w\" w=\"αὐτοὺς\" i=\"1\" o=\"105\">αὐτοὺς</t> <t t=\"w\" w=\"δὲ\" i=\"1\" o=\"111\">δὲ</t> <t t=\"w\" w=\"ἑλώρια\" i=\"1\" o=\"113\">ἑλώρια</t> <t t=\"w\" w=\"τεῦχε\" i=\"1\" o=\"119\">τεῦχε</t> <t t=\"w\" w=\"κύνεσσιν\" i=\"1\" o=\"124\">κύνεσσιν</t></text-part><text-part class=\" leaf o\" reference=\"1.5\"><t t=\"w\" w=\"οἰωνοῖσί\" i=\"1\" o=\"132\">οἰωνοῖσί</t> <t t=\"w\" w=\"τε\" i=\"2\" o=\"140\">τε</t> <t t=\"w\" w=\"πᾶσι\" i=\"1\" o=\"142\">πᾶσι</t><t t=\"p\" w=\",\" i=\"4\" o=\"147\">,</t> <t t=\"w\" w=\"Διὸς\" i=\"1\" o=\"148\">Διὸς</t> <t t=\"w\" w=\"δʼ\" i=\"2\" o=\"152\">δʼ</t> <t t=\"w\" w=\"ἐτελείετο\" i=\"1\" o=\"154\">ἐτελείετο</t> <t t=\"w\" w=\"βουλή\" i=\"1\" o=\"163\">βουλή</t><t t=\"p\" w=\",\" i=\"5\" o=\"169\">,</t></text-part></text-part></div>\n",
+    "urn": "urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:1.1-1.5",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 5,
+        "t": "w",
+        "w": "μῆνιν"
+      },
+      {
+        "i": 1,
+        "o": 10,
+        "t": "w",
+        "w": "ἄειδε"
+      },
+      {
+        "i": 1,
+        "o": 13,
+        "t": "w",
+        "w": "θεὰ"
+      },
+      {
+        "i": 1,
+        "o": 22,
+        "t": "w",
+        "w": "Πηληϊάδεω"
+      },
+      {
+        "i": 1,
+        "o": 29,
+        "t": "w",
+        "w": "Ἀχιλῆος"
+      },
+      {
+        "i": 1,
+        "o": 38,
+        "t": "w",
+        "w": "οὐλομένην"
+      },
+      {
+        "i": 1,
+        "o": 40,
+        "t": "w",
+        "w": "ἣ"
+      },
+      {
+        "i": 1,
+        "o": 45,
+        "t": "w",
+        "w": "μυρίʼ"
+      },
+      {
+        "i": 1,
+        "o": 52,
+        "t": "w",
+        "w": "Ἀχαιοῖς"
+      },
+      {
+        "i": 1,
+        "o": 57,
+        "t": "w",
+        "w": "ἄλγεʼ"
+      },
+      {
+        "i": 1,
+        "o": 62,
+        "t": "w",
+        "w": "ἔθηκε"
+      },
+      {
+        "i": 1,
+        "o": 69,
+        "t": "w",
+        "w": "πολλὰς"
+      },
+      {
+        "i": 1,
+        "o": 71,
+        "t": "w",
+        "w": "δʼ"
+      },
+      {
+        "i": 1,
+        "o": 79,
+        "t": "w",
+        "w": "ἰφθίμους"
+      },
+      {
+        "i": 1,
+        "o": 84,
+        "t": "w",
+        "w": "ψυχὰς"
+      },
+      {
+        "i": 1,
+        "o": 88,
+        "t": "w",
+        "w": "Ἄϊδι"
+      },
+      {
+        "i": 1,
+        "o": 96,
+        "t": "w",
+        "w": "προΐαψεν"
+      },
+      {
+        "i": 1,
+        "o": 101,
+        "t": "w",
+        "w": "ἡρώων"
+      },
+      {
+        "i": 1,
+        "o": 108,
+        "t": "w",
+        "w": "αὐτοὺς"
+      },
+      {
+        "i": 1,
+        "o": 110,
+        "t": "w",
+        "w": "δὲ"
+      },
+      {
+        "i": 1,
+        "o": 116,
+        "t": "w",
+        "w": "ἑλώρια"
+      },
+      {
+        "i": 1,
+        "o": 121,
+        "t": "w",
+        "w": "τεῦχε"
+      },
+      {
+        "i": 1,
+        "o": 129,
+        "t": "w",
+        "w": "κύνεσσιν"
+      },
+      {
+        "i": 1,
+        "o": 137,
+        "t": "w",
+        "w": "οἰωνοῖσί"
+      },
+      {
+        "i": 2,
+        "o": 139,
+        "t": "w",
+        "w": "τε"
+      },
+      {
+        "i": 1,
+        "o": 143,
+        "t": "w",
+        "w": "πᾶσι"
+      },
+      {
+        "i": 1,
+        "o": 148,
+        "t": "w",
+        "w": "Διὸς"
+      },
+      {
+        "i": 2,
+        "o": 150,
+        "t": "w",
+        "w": "δʼ"
+      },
+      {
+        "i": 1,
+        "o": 159,
+        "t": "w",
+        "w": "ἐτελείετο"
+      },
+      {
+        "i": 1,
+        "o": 164,
+        "t": "w",
+        "w": "βουλή"
+      }
+    ]
+  },
+  "urn:cts:latinLit:phi0474.phi013.perseus-lat2:1.1": {
+    "_next": "urn:cts:latinLit:phi0474.phi013.perseus-lat2:1.2",
+    "_prev": null,
+    "ancestors": [
+      {
+        "reference": "1"
+      }
+    ],
+    "children": [],
+    "refs": {
+      "start": {
+        "human_reference": "Chapter 1 Section 1",
+        "reference": "1.1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "Cicero, Marcus Tullius",
+          "urn": "urn:cts:latinLit:phi0474"
+        },
+        {
+          "label": "In Catilinam",
+          "urn": "urn:cts:latinLit:phi0474.phi013"
+        }
+      ],
+      "human_lang": "Latin",
+      "kind": "edition",
+      "label": "In L. Catilinam",
+      "lang": "lat",
+      "urn": "urn:cts:latinLit:phi0474.phi013.perseus-lat2"
+    },
+    "text_html": "<div id=\"edition\" class=\"edition lang_lat\"><text-part class=\"speech\" reference=\"1\"><text-part class=\"section leaf o\" reference=\"1.1\"><p><div class=\"milestone\">1</div><t t=\"w\" w=\"quo\" i=\"1\" o=\"0\">quo</t> <t t=\"w\" w=\"usque\" i=\"1\" o=\"3\">usque</t> <t t=\"w\" w=\"tandem\" i=\"1\" o=\"8\">tandem</t> <t t=\"w\" w=\"abutere\" i=\"1\" o=\"14\">abutere</t><t t=\"p\" w=\",\" i=\"1\" o=\"22\">,</t> <t t=\"w\" w=\"Catilina\" i=\"1\" o=\"23\">Catilina</t><t t=\"p\" w=\",\" i=\"2\" o=\"32\">,</t> <t t=\"w\" w=\"patientia\" i=\"1\" o=\"33\">patientia</t> <t t=\"w\" w=\"nostra\" i=\"1\" o=\"42\">nostra</t><t t=\"p\" w=\"?\" i=\"1\" o=\"49\">?</t> <t t=\"w\" w=\"quam\" i=\"1\" o=\"50\">quam</t> <t t=\"w\" w=\"diu\" i=\"1\" o=\"54\">diu</t> <t t=\"w\" w=\"etiam\" i=\"1\" o=\"57\">etiam</t> <t t=\"w\" w=\"furor\" i=\"1\" o=\"62\">furor</t> <t t=\"w\" w=\"iste\" i=\"1\" o=\"67\">iste</t> <t t=\"w\" w=\"tuus\" i=\"1\" o=\"71\">tuus</t> <t t=\"w\" w=\"nos\" i=\"2\" o=\"75\">nos</t><a xmlns:v-popover=\"v-popover\" class=\"note\" v-popover:bottom=\"\n        {content: `nos om. A et Iulius Victor (Rhet. M. p. 439): post diu hab. bs `, trigger: 'click'}\n      \">[*]</a> <t t=\"w\" w=\"eludet\" i=\"1\" o=\"135\">eludet</t><t t=\"p\" w=\"?\" i=\"2\" o=\"142\">?</t> <t t=\"w\" w=\"quem\" i=\"1\" o=\"143\">quem</t> <t t=\"w\" w=\"ad\" i=\"1\" o=\"147\">ad</t> <t t=\"w\" w=\"finem\" i=\"1\" o=\"149\">finem</t> <t t=\"w\" w=\"sese\" i=\"1\" o=\"154\">sese</t> <t t=\"w\" w=\"effrenata\" i=\"1\" o=\"158\">effrenata</t> <t t=\"w\" w=\"iactabit\" i=\"1\" o=\"167\">iactabit</t> <t t=\"w\" w=\"audacia\" i=\"1\" o=\"175\">audacia</t><t t=\"p\" w=\"?\" i=\"3\" o=\"183\">?</t> <t t=\"w\" w=\"nihilne\" i=\"1\" o=\"184\">nihilne</t> <t t=\"w\" w=\"te\" i=\"3\" o=\"191\">te</t> <t t=\"w\" w=\"nocturnum\" i=\"1\" o=\"193\">nocturnum</t> <t t=\"w\" w=\"praesidium\" i=\"1\" o=\"202\">praesidium</t> <t t=\"w\" w=\"Palati\" i=\"1\" o=\"212\">Palati</t><t t=\"p\" w=\",\" i=\"3\" o=\"219\">,</t> <t t=\"w\" w=\"nihil\" i=\"2\" o=\"220\">nihil</t> <t t=\"w\" w=\"urbis\" i=\"1\" o=\"225\">urbis</t> <t t=\"w\" w=\"vigiliae\" i=\"1\" o=\"230\">vigiliae</t><t t=\"p\" w=\",\" i=\"4\" o=\"239\">,</t> <t t=\"w\" w=\"nihil\" i=\"3\" o=\"240\">nihil</t> <t t=\"w\" w=\"timor\" i=\"1\" o=\"245\">timor</t> <t t=\"w\" w=\"populi\" i=\"1\" o=\"250\">populi</t><t t=\"p\" w=\",\" i=\"5\" o=\"257\">,</t> <t t=\"w\" w=\"nihil\" i=\"4\" o=\"258\">nihil</t> <t t=\"w\" w=\"concursus\" i=\"1\" o=\"263\">concursus</t> <t t=\"w\" w=\"bonorum\" i=\"1\" o=\"272\">bonorum</t> <t t=\"w\" w=\"omnium\" i=\"1\" o=\"279\">omnium</t><t t=\"p\" w=\",\" i=\"6\" o=\"286\">,</t> <t t=\"w\" w=\"nihil\" i=\"5\" o=\"287\">nihil</t> <t t=\"w\" w=\"hic\" i=\"1\" o=\"292\">hic</t> <t t=\"w\" w=\"munitissimus\" i=\"1\" o=\"295\">munitissimus</t> <t t=\"w\" w=\"habendi\" i=\"1\" o=\"307\">habendi</t> <t t=\"w\" w=\"senatus\" i=\"1\" o=\"314\">senatus</t> <t t=\"w\" w=\"locus\" i=\"1\" o=\"321\">locus</t><t t=\"p\" w=\",\" i=\"7\" o=\"327\">,</t> <t t=\"w\" w=\"nihil\" i=\"6\" o=\"328\">nihil</t> <t t=\"w\" w=\"horum\" i=\"1\" o=\"333\">horum</t> <t t=\"w\" w=\"ora\" i=\"1\" o=\"338\">ora</t> <t t=\"w\" w=\"voltusque\" i=\"1\" o=\"341\">voltusque</t> <t t=\"w\" w=\"moverunt\" i=\"1\" o=\"350\">moverunt</t><t t=\"p\" w=\"?\" i=\"4\" o=\"359\">?</t> <t t=\"w\" w=\"patere\" i=\"1\" o=\"360\">patere</t> <t t=\"w\" w=\"tua\" i=\"1\" o=\"366\">tua</t> <t t=\"w\" w=\"consilia\" i=\"1\" o=\"369\">consilia</t> <t t=\"w\" w=\"non\" i=\"1\" o=\"377\">non</t> <t t=\"w\" w=\"sentis\" i=\"1\" o=\"380\">sentis</t><t t=\"p\" w=\",\" i=\"8\" o=\"387\">,</t> <t t=\"w\" w=\"constrictam\" i=\"1\" o=\"388\">constrictam</t> <t t=\"w\" w=\"iam\" i=\"2\" o=\"399\">iam</t> <t t=\"w\" w=\"horum\" i=\"2\" o=\"402\">horum</t> <t t=\"w\" w=\"omnium\" i=\"2\" o=\"407\">omnium</t> <t t=\"w\" w=\"scientia\" i=\"1\" o=\"413\">scientia</t> <t t=\"w\" w=\"teneri\" i=\"1\" o=\"421\">teneri</t> <t t=\"w\" w=\"coniurationem\" i=\"1\" o=\"427\">coniurationem</t> <t t=\"w\" w=\"tuam\" i=\"1\" o=\"440\">tuam</t><a xmlns:v-popover=\"v-popover\" class=\"note\" v-popover:bottom=\"\n        {content: `tuam om. CAV `, trigger: 'click'}\n      \">[*]</a> <t t=\"w\" w=\"non\" i=\"2\" o=\"455\">non</t> <t t=\"w\" w=\"vides\" i=\"1\" o=\"458\">vides</t><t t=\"p\" w=\"?\" i=\"5\" o=\"464\">?</t> <t t=\"w\" w=\"quid\" i=\"1\" o=\"465\">quid</t> <t t=\"w\" w=\"proxima\" i=\"1\" o=\"469\">proxima</t><t t=\"p\" w=\",\" i=\"9\" o=\"477\">,</t> <t t=\"w\" w=\"quid\" i=\"2\" o=\"478\">quid</t> <t t=\"w\" w=\"superiore\" i=\"1\" o=\"482\">superiore</t> <t t=\"w\" w=\"nocte\" i=\"1\" o=\"491\">nocte</t> <t t=\"w\" w=\"egeris\" i=\"1\" o=\"496\">egeris</t><t t=\"p\" w=\",\" i=\"10\" o=\"503\">,</t> <t t=\"w\" w=\"ubi\" i=\"1\" o=\"504\">ubi</t> <t t=\"w\" w=\"fueris\" i=\"1\" o=\"507\">fueris</t><t t=\"p\" w=\",\" i=\"11\" o=\"514\">,</t> <t t=\"w\" w=\"quos\" i=\"1\" o=\"515\">quos</t> <t t=\"w\" w=\"convocaveris\" i=\"1\" o=\"519\">convocaveris</t><t t=\"p\" w=\",\" i=\"12\" o=\"532\">,</t> <t t=\"w\" w=\"quid\" i=\"3\" o=\"533\">quid</t> <t t=\"w\" w=\"consili\" i=\"2\" o=\"537\">consili</t> <t t=\"w\" w=\"ceperis\" i=\"1\" o=\"544\">ceperis</t> <t t=\"w\" w=\"quem\" i=\"2\" o=\"551\">quem</t> <t t=\"w\" w=\"nostrum\" i=\"1\" o=\"555\">nostrum</t> <t t=\"w\" w=\"ignorare\" i=\"1\" o=\"562\">ignorare</t> <t t=\"w\" w=\"arbitraris\" i=\"1\" o=\"570\">arbitraris</t><t t=\"p\" w=\"?\" i=\"6\" o=\"581\">?</t> </p></text-part></text-part></div>\n",
+    "urn": "urn:cts:latinLit:phi0474.phi013.perseus-lat2:1.1",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 3,
+        "t": "w",
+        "w": "quo"
+      },
+      {
+        "i": 1,
+        "o": 8,
+        "t": "w",
+        "w": "usque"
+      },
+      {
+        "i": 1,
+        "o": 14,
+        "t": "w",
+        "w": "tandem"
+      },
+      {
+        "i": 1,
+        "o": 21,
+        "t": "w",
+        "w": "abutere"
+      },
+      {
+        "i": 1,
+        "o": 30,
+        "t": "w",
+        "w": "Catilina"
+      },
+      {
+        "i": 1,
+        "o": 40,
+        "t": "w",
+        "w": "patientia"
+      },
+      {
+        "i": 1,
+        "o": 46,
+        "t": "w",
+        "w": "nostra"
+      },
+      {
+        "i": 1,
+        "o": 51,
+        "t": "w",
+        "w": "quam"
+      },
+      {
+        "i": 1,
+        "o": 54,
+        "t": "w",
+        "w": "diu"
+      },
+      {
+        "i": 1,
+        "o": 59,
+        "t": "w",
+        "w": "etiam"
+      },
+      {
+        "i": 1,
+        "o": 64,
+        "t": "w",
+        "w": "furor"
+      },
+      {
+        "i": 1,
+        "o": 68,
+        "t": "w",
+        "w": "iste"
+      },
+      {
+        "i": 1,
+        "o": 72,
+        "t": "w",
+        "w": "tuus"
+      },
+      {
+        "i": 2,
+        "o": 75,
+        "t": "w",
+        "w": "nos"
+      },
+      {
+        "i": 3,
+        "o": 78,
+        "t": "w",
+        "w": "nos"
+      },
+      {
+        "i": 1,
+        "o": 80,
+        "t": "w",
+        "w": "om"
+      },
+      {
+        "i": 1,
+        "o": 82,
+        "t": "w",
+        "w": "A"
+      },
+      {
+        "i": 2,
+        "o": 84,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 90,
+        "t": "w",
+        "w": "Iulius"
+      },
+      {
+        "i": 1,
+        "o": 96,
+        "t": "w",
+        "w": "Victor"
+      },
+      {
+        "i": 1,
+        "o": 101,
+        "t": "w",
+        "w": "Rhet"
+      },
+      {
+        "i": 1,
+        "o": 103,
+        "t": "w",
+        "w": "M"
+      },
+      {
+        "i": 2,
+        "o": 105,
+        "t": "w",
+        "w": "p"
+      },
+      {
+        "i": 1,
+        "o": 109,
+        "t": "w",
+        "w": "439"
+      },
+      {
+        "i": 1,
+        "o": 115,
+        "t": "w",
+        "w": "post"
+      },
+      {
+        "i": 2,
+        "o": 118,
+        "t": "w",
+        "w": "diu"
+      },
+      {
+        "i": 1,
+        "o": 121,
+        "t": "w",
+        "w": "hab"
+      },
+      {
+        "i": 1,
+        "o": 124,
+        "t": "w",
+        "w": "bs"
+      },
+      {
+        "i": 1,
+        "o": 130,
+        "t": "w",
+        "w": "eludet"
+      },
+      {
+        "i": 1,
+        "o": 135,
+        "t": "w",
+        "w": "quem"
+      },
+      {
+        "i": 1,
+        "o": 137,
+        "t": "w",
+        "w": "ad"
+      },
+      {
+        "i": 1,
+        "o": 142,
+        "t": "w",
+        "w": "finem"
+      },
+      {
+        "i": 1,
+        "o": 146,
+        "t": "w",
+        "w": "sese"
+      },
+      {
+        "i": 1,
+        "o": 155,
+        "t": "w",
+        "w": "effrenata"
+      },
+      {
+        "i": 1,
+        "o": 163,
+        "t": "w",
+        "w": "iactabit"
+      },
+      {
+        "i": 1,
+        "o": 170,
+        "t": "w",
+        "w": "audacia"
+      },
+      {
+        "i": 1,
+        "o": 178,
+        "t": "w",
+        "w": "nihilne"
+      },
+      {
+        "i": 3,
+        "o": 180,
+        "t": "w",
+        "w": "te"
+      },
+      {
+        "i": 1,
+        "o": 189,
+        "t": "w",
+        "w": "nocturnum"
+      },
+      {
+        "i": 1,
+        "o": 199,
+        "t": "w",
+        "w": "praesidium"
+      },
+      {
+        "i": 1,
+        "o": 205,
+        "t": "w",
+        "w": "Palati"
+      },
+      {
+        "i": 2,
+        "o": 211,
+        "t": "w",
+        "w": "nihil"
+      },
+      {
+        "i": 1,
+        "o": 216,
+        "t": "w",
+        "w": "urbis"
+      },
+      {
+        "i": 1,
+        "o": 224,
+        "t": "w",
+        "w": "vigiliae"
+      },
+      {
+        "i": 3,
+        "o": 230,
+        "t": "w",
+        "w": "nihil"
+      },
+      {
+        "i": 1,
+        "o": 235,
+        "t": "w",
+        "w": "timor"
+      },
+      {
+        "i": 1,
+        "o": 241,
+        "t": "w",
+        "w": "populi"
+      },
+      {
+        "i": 4,
+        "o": 247,
+        "t": "w",
+        "w": "nihil"
+      },
+      {
+        "i": 1,
+        "o": 256,
+        "t": "w",
+        "w": "concursus"
+      },
+      {
+        "i": 1,
+        "o": 263,
+        "t": "w",
+        "w": "bonorum"
+      },
+      {
+        "i": 1,
+        "o": 269,
+        "t": "w",
+        "w": "omnium"
+      },
+      {
+        "i": 5,
+        "o": 275,
+        "t": "w",
+        "w": "nihil"
+      },
+      {
+        "i": 1,
+        "o": 278,
+        "t": "w",
+        "w": "hic"
+      },
+      {
+        "i": 1,
+        "o": 290,
+        "t": "w",
+        "w": "munitissimus"
+      },
+      {
+        "i": 1,
+        "o": 297,
+        "t": "w",
+        "w": "habendi"
+      },
+      {
+        "i": 1,
+        "o": 304,
+        "t": "w",
+        "w": "senatus"
+      },
+      {
+        "i": 1,
+        "o": 309,
+        "t": "w",
+        "w": "locus"
+      },
+      {
+        "i": 6,
+        "o": 315,
+        "t": "w",
+        "w": "nihil"
+      },
+      {
+        "i": 1,
+        "o": 320,
+        "t": "w",
+        "w": "horum"
+      },
+      {
+        "i": 1,
+        "o": 323,
+        "t": "w",
+        "w": "ora"
+      },
+      {
+        "i": 1,
+        "o": 332,
+        "t": "w",
+        "w": "voltusque"
+      },
+      {
+        "i": 1,
+        "o": 340,
+        "t": "w",
+        "w": "moverunt"
+      },
+      {
+        "i": 1,
+        "o": 347,
+        "t": "w",
+        "w": "patere"
+      },
+      {
+        "i": 1,
+        "o": 350,
+        "t": "w",
+        "w": "tua"
+      },
+      {
+        "i": 1,
+        "o": 358,
+        "t": "w",
+        "w": "consilia"
+      },
+      {
+        "i": 1,
+        "o": 361,
+        "t": "w",
+        "w": "non"
+      },
+      {
+        "i": 1,
+        "o": 367,
+        "t": "w",
+        "w": "sentis"
+      },
+      {
+        "i": 1,
+        "o": 379,
+        "t": "w",
+        "w": "constrictam"
+      },
+      {
+        "i": 2,
+        "o": 382,
+        "t": "w",
+        "w": "iam"
+      },
+      {
+        "i": 2,
+        "o": 387,
+        "t": "w",
+        "w": "horum"
+      },
+      {
+        "i": 2,
+        "o": 393,
+        "t": "w",
+        "w": "omnium"
+      },
+      {
+        "i": 1,
+        "o": 401,
+        "t": "w",
+        "w": "scientia"
+      },
+      {
+        "i": 1,
+        "o": 407,
+        "t": "w",
+        "w": "teneri"
+      },
+      {
+        "i": 1,
+        "o": 420,
+        "t": "w",
+        "w": "coniurationem"
+      },
+      {
+        "i": 1,
+        "o": 424,
+        "t": "w",
+        "w": "tuam"
+      },
+      {
+        "i": 2,
+        "o": 428,
+        "t": "w",
+        "w": "tuam"
+      },
+      {
+        "i": 4,
+        "o": 430,
+        "t": "w",
+        "w": "om"
+      },
+      {
+        "i": 1,
+        "o": 434,
+        "t": "w",
+        "w": "CAV"
+      },
+      {
+        "i": 2,
+        "o": 437,
+        "t": "w",
+        "w": "non"
+      },
+      {
+        "i": 1,
+        "o": 442,
+        "t": "w",
+        "w": "vides"
+      },
+      {
+        "i": 1,
+        "o": 447,
+        "t": "w",
+        "w": "quid"
+      },
+      {
+        "i": 1,
+        "o": 454,
+        "t": "w",
+        "w": "proxima"
+      },
+      {
+        "i": 2,
+        "o": 459,
+        "t": "w",
+        "w": "quid"
+      },
+      {
+        "i": 1,
+        "o": 468,
+        "t": "w",
+        "w": "superiore"
+      },
+      {
+        "i": 1,
+        "o": 473,
+        "t": "w",
+        "w": "nocte"
+      },
+      {
+        "i": 1,
+        "o": 479,
+        "t": "w",
+        "w": "egeris"
+      },
+      {
+        "i": 1,
+        "o": 483,
+        "t": "w",
+        "w": "ubi"
+      },
+      {
+        "i": 1,
+        "o": 489,
+        "t": "w",
+        "w": "fueris"
+      },
+      {
+        "i": 1,
+        "o": 494,
+        "t": "w",
+        "w": "quos"
+      },
+      {
+        "i": 1,
+        "o": 506,
+        "t": "w",
+        "w": "convocaveris"
+      },
+      {
+        "i": 3,
+        "o": 511,
+        "t": "w",
+        "w": "quid"
+      },
+      {
+        "i": 2,
+        "o": 518,
+        "t": "w",
+        "w": "consili"
+      },
+      {
+        "i": 1,
+        "o": 525,
+        "t": "w",
+        "w": "ceperis"
+      },
+      {
+        "i": 2,
+        "o": 529,
+        "t": "w",
+        "w": "quem"
+      },
+      {
+        "i": 1,
+        "o": 536,
+        "t": "w",
+        "w": "nostrum"
+      },
+      {
+        "i": 1,
+        "o": 544,
+        "t": "w",
+        "w": "ignorare"
+      },
+      {
+        "i": 1,
+        "o": 554,
+        "t": "w",
+        "w": "arbitraris"
+      }
+    ]
+  },
+  "urn:cts:latinLit:phi0690.phi003.perseus-lat2:1.1-1.5": {
+    "_next": "urn:cts:latinLit:phi0690.phi003.perseus-lat2:1.6-1.10",
+    "_prev": null,
+    "ancestors": [
+      {
+        "reference": "1"
+      }
+    ],
+    "children": [],
+    "refs": {
+      "end": {
+        "human_reference": "Book 1 Line 5",
+        "reference": "1.5"
+      },
+      "start": {
+        "human_reference": "Book 1 Line 1",
+        "reference": "1.1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "P. Vergilius Maro (Virgil)",
+          "urn": "urn:cts:latinLit:phi0690"
+        },
+        {
+          "label": "Aeneid",
+          "urn": "urn:cts:latinLit:phi0690.phi003"
+        }
+      ],
+      "human_lang": "Latin",
+      "kind": "edition",
+      "label": "Aeneid",
+      "lang": "lat",
+      "urn": "urn:cts:latinLit:phi0690.phi003.perseus-lat2"
+    },
+    "text_html": "<div id=\"edition\" class=\"edition lang_lat\"><text-part class=\"book\" reference=\"1\"><text-part class=\" leaf o\" reference=\"1.1\"><t t=\"w\" w=\"Arma\" i=\"1\" o=\"0\">Arma</t> <t t=\"w\" w=\"virumque\" i=\"1\" o=\"4\">virumque</t> <t t=\"w\" w=\"cano\" i=\"1\" o=\"12\">cano</t><t t=\"p\" w=\",\" i=\"1\" o=\"17\">,</t> <t t=\"w\" w=\"Troiae\" i=\"1\" o=\"18\">Troiae</t> <t t=\"w\" w=\"qui\" i=\"1\" o=\"24\">qui</t> <t t=\"w\" w=\"primus\" i=\"1\" o=\"27\">primus</t> <t t=\"w\" w=\"ab\" i=\"1\" o=\"33\">ab</t> <t t=\"w\" w=\"oris\" i=\"1\" o=\"35\">oris</t></text-part><text-part class=\" leaf o\" reference=\"1.2\"><t t=\"w\" w=\"Italiam\" i=\"1\" o=\"39\">Italiam</t><t t=\"p\" w=\",\" i=\"2\" o=\"47\">,</t> <t t=\"w\" w=\"fato\" i=\"1\" o=\"48\">fato</t> <t t=\"w\" w=\"profugus\" i=\"1\" o=\"52\">profugus</t><t t=\"p\" w=\",\" i=\"3\" o=\"61\">,</t> <t t=\"w\" w=\"Laviniaque\" i=\"1\" o=\"62\">Laviniaque</t> <t t=\"w\" w=\"venit\" i=\"1\" o=\"72\">venit</t></text-part><text-part class=\" leaf o\" reference=\"1.3\"><t t=\"w\" w=\"litora\" i=\"1\" o=\"77\">litora</t><t t=\"p\" w=\",\" i=\"4\" o=\"84\">,</t> <t t=\"w\" w=\"multum\" i=\"1\" o=\"85\">multum</t> <t t=\"w\" w=\"ille\" i=\"1\" o=\"91\">ille</t> <t t=\"w\" w=\"et\" i=\"1\" o=\"95\">et</t> <t t=\"w\" w=\"terris\" i=\"1\" o=\"97\">terris</t> <t t=\"w\" w=\"iactatus\" i=\"1\" o=\"103\">iactatus</t> <t t=\"w\" w=\"et\" i=\"2\" o=\"111\">et</t> <t t=\"w\" w=\"alto\" i=\"1\" o=\"113\">alto</t></text-part><text-part class=\" leaf o\" reference=\"1.4\"><t t=\"w\" w=\"vi\" i=\"3\" o=\"117\">vi</t> <t t=\"w\" w=\"superum\" i=\"1\" o=\"119\">superum</t> <t t=\"w\" w=\"saevae\" i=\"1\" o=\"126\">saevae</t> <t t=\"w\" w=\"memorem\" i=\"1\" o=\"132\">memorem</t> <t t=\"w\" w=\"Iunonis\" i=\"1\" o=\"139\">Iunonis</t> <t t=\"w\" w=\"ob\" i=\"1\" o=\"146\">ob</t> <t t=\"w\" w=\"iram\" i=\"1\" o=\"148\">iram</t><t t=\"p\" w=\";\" i=\"1\" o=\"153\">;</t></text-part><text-part class=\" leaf o\" reference=\"1.5\"><t t=\"w\" w=\"multa\" i=\"1\" o=\"154\">multa</t> <t t=\"w\" w=\"quoque\" i=\"1\" o=\"159\">quoque</t> <t t=\"w\" w=\"et\" i=\"3\" o=\"165\">et</t> <t t=\"w\" w=\"bello\" i=\"1\" o=\"167\">bello</t> <t t=\"w\" w=\"passus\" i=\"1\" o=\"172\">passus</t><t t=\"p\" w=\",\" i=\"5\" o=\"179\">,</t> <t t=\"w\" w=\"dum\" i=\"1\" o=\"180\">dum</t> <t t=\"w\" w=\"conderet\" i=\"1\" o=\"183\">conderet</t> <t t=\"w\" w=\"urbem\" i=\"1\" o=\"191\">urbem</t><t t=\"p\" w=\",\" i=\"6\" o=\"197\">,</t></text-part></text-part></div>\n",
+    "urn": "urn:cts:latinLit:phi0690.phi003.perseus-lat2:1.1-1.5",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 4,
+        "t": "w",
+        "w": "Arma"
+      },
+      {
+        "i": 1,
+        "o": 12,
+        "t": "w",
+        "w": "virumque"
+      },
+      {
+        "i": 1,
+        "o": 16,
+        "t": "w",
+        "w": "cano"
+      },
+      {
+        "i": 1,
+        "o": 23,
+        "t": "w",
+        "w": "Troiae"
+      },
+      {
+        "i": 1,
+        "o": 26,
+        "t": "w",
+        "w": "qui"
+      },
+      {
+        "i": 1,
+        "o": 32,
+        "t": "w",
+        "w": "primus"
+      },
+      {
+        "i": 1,
+        "o": 34,
+        "t": "w",
+        "w": "ab"
+      },
+      {
+        "i": 1,
+        "o": 38,
+        "t": "w",
+        "w": "oris"
+      },
+      {
+        "i": 1,
+        "o": 45,
+        "t": "w",
+        "w": "Italiam"
+      },
+      {
+        "i": 1,
+        "o": 50,
+        "t": "w",
+        "w": "fato"
+      },
+      {
+        "i": 1,
+        "o": 58,
+        "t": "w",
+        "w": "profugus"
+      },
+      {
+        "i": 1,
+        "o": 69,
+        "t": "w",
+        "w": "Laviniaque"
+      },
+      {
+        "i": 1,
+        "o": 74,
+        "t": "w",
+        "w": "venit"
+      },
+      {
+        "i": 1,
+        "o": 80,
+        "t": "w",
+        "w": "litora"
+      },
+      {
+        "i": 1,
+        "o": 87,
+        "t": "w",
+        "w": "multum"
+      },
+      {
+        "i": 1,
+        "o": 91,
+        "t": "w",
+        "w": "ille"
+      },
+      {
+        "i": 1,
+        "o": 93,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 99,
+        "t": "w",
+        "w": "terris"
+      },
+      {
+        "i": 1,
+        "o": 107,
+        "t": "w",
+        "w": "iactatus"
+      },
+      {
+        "i": 2,
+        "o": 109,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 113,
+        "t": "w",
+        "w": "alto"
+      },
+      {
+        "i": 3,
+        "o": 115,
+        "t": "w",
+        "w": "vi"
+      },
+      {
+        "i": 1,
+        "o": 122,
+        "t": "w",
+        "w": "superum"
+      },
+      {
+        "i": 1,
+        "o": 128,
+        "t": "w",
+        "w": "saevae"
+      },
+      {
+        "i": 1,
+        "o": 135,
+        "t": "w",
+        "w": "memorem"
+      },
+      {
+        "i": 1,
+        "o": 142,
+        "t": "w",
+        "w": "Iunonis"
+      },
+      {
+        "i": 1,
+        "o": 144,
+        "t": "w",
+        "w": "ob"
+      },
+      {
+        "i": 1,
+        "o": 148,
+        "t": "w",
+        "w": "iram"
+      },
+      {
+        "i": 1,
+        "o": 154,
+        "t": "w",
+        "w": "multa"
+      },
+      {
+        "i": 1,
+        "o": 160,
+        "t": "w",
+        "w": "quoque"
+      },
+      {
+        "i": 3,
+        "o": 162,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 167,
+        "t": "w",
+        "w": "bello"
+      },
+      {
+        "i": 1,
+        "o": 173,
+        "t": "w",
+        "w": "passus"
+      },
+      {
+        "i": 1,
+        "o": 177,
+        "t": "w",
+        "w": "dum"
+      },
+      {
+        "i": 1,
+        "o": 185,
+        "t": "w",
+        "w": "conderet"
+      },
+      {
+        "i": 1,
+        "o": 190,
+        "t": "w",
+        "w": "urbem"
+      }
+    ]
+  },
+  "urn:cts:latinLit:phi0959.phi006.perseus-lat2:1.1-1.5": {
+    "_next": "urn:cts:latinLit:phi0959.phi006.perseus-lat2:1.6-1.10",
+    "_prev": null,
+    "ancestors": [
+      {
+        "reference": "1"
+      }
+    ],
+    "children": [],
+    "refs": {
+      "end": {
+        "human_reference": "Book 1 Line 5",
+        "reference": "1.5"
+      },
+      "start": {
+        "human_reference": "Book 1 Line 1",
+        "reference": "1.1"
+      }
+    },
+    "text": {
+      "ancestors": [
+        {
+          "label": "Ovid",
+          "urn": "urn:cts:latinLit:phi0959"
+        },
+        {
+          "label": "Metamorphoses",
+          "urn": "urn:cts:latinLit:phi0959.phi006"
+        }
+      ],
+      "human_lang": "Latin",
+      "kind": "edition",
+      "label": "Metamorphoses",
+      "lang": "lat",
+      "urn": "urn:cts:latinLit:phi0959.phi006.perseus-lat2"
+    },
+    "text_html": "<div id=\"edition\" class=\"edition lang_lat\"><text-part class=\"book\" reference=\"1\"><text-part class=\" leaf o\" reference=\"1.1\"><t t=\"w\" w=\"In\" i=\"1\" o=\"0\">In</t> <t t=\"w\" w=\"nova\" i=\"1\" o=\"2\">nova</t> <t t=\"w\" w=\"fert\" i=\"1\" o=\"6\">fert</t> <t t=\"w\" w=\"animus\" i=\"1\" o=\"10\">animus</t> <t t=\"w\" w=\"mutatas\" i=\"1\" o=\"16\">mutatas</t> <t t=\"w\" w=\"dicere\" i=\"1\" o=\"23\">dicere</t> <t t=\"w\" w=\"formas\" i=\"1\" o=\"29\">formas</t></text-part><text-part class=\" leaf o\" reference=\"1.2\"><t t=\"w\" w=\"corpora\" i=\"1\" o=\"35\">corpora</t><t t=\"p\" w=\";\" i=\"1\" o=\"43\">;</t> <t t=\"w\" w=\"di\" i=\"2\" o=\"44\">di</t><t t=\"p\" w=\",\" i=\"1\" o=\"47\">,</t> <t t=\"w\" w=\"coeptis\" i=\"1\" o=\"48\">coeptis</t> <t t=\"p\" w=\"(\" i=\"1\" o=\"56\">(</t><t t=\"w\" w=\"nam\" i=\"1\" o=\"57\">nam</t> <t t=\"w\" w=\"vos\" i=\"1\" o=\"60\">vos</t> <t t=\"w\" w=\"mutastis\" i=\"1\" o=\"63\">mutastis</t> <t t=\"w\" w=\"et\" i=\"1\" o=\"71\">et</t> <t t=\"w\" w=\"illas\" i=\"1\" o=\"73\">illas</t><t t=\"p\" w=\")\" i=\"1\" o=\"79\">)</t></text-part><text-part class=\" leaf o\" reference=\"1.3\"><t t=\"w\" w=\"adspirate\" i=\"1\" o=\"80\">adspirate</t> <t t=\"w\" w=\"meis\" i=\"1\" o=\"89\">meis</t> <t t=\"w\" w=\"primaque\" i=\"1\" o=\"93\">primaque</t> <t t=\"w\" w=\"ab\" i=\"1\" o=\"101\">ab</t> <t t=\"w\" w=\"origine\" i=\"1\" o=\"103\">origine</t> <t t=\"w\" w=\"mundi\" i=\"1\" o=\"110\">mundi</t></text-part><text-part class=\" leaf o\" reference=\"1.4\"><t t=\"w\" w=\"ad\" i=\"2\" o=\"115\">ad</t> <t t=\"w\" w=\"mea\" i=\"1\" o=\"117\">mea</t> <t t=\"w\" w=\"perpetuum\" i=\"1\" o=\"120\">perpetuum</t> <t t=\"w\" w=\"deducite\" i=\"1\" o=\"129\">deducite</t> <t t=\"w\" w=\"tempora\" i=\"1\" o=\"137\">tempora</t> <t t=\"w\" w=\"carmen\" i=\"1\" o=\"144\">carmen</t><t t=\"p\" w=\".\" i=\"1\" o=\"151\">.</t></text-part><div class=\"milestone\">5</div>\n<div class=\"milestone\">Mundi origo.</div>\n<div class=\"milestone\"></div>\n<text-part class=\" leaf o\" reference=\"1.5\"><t t=\"w\" w=\"Ante\" i=\"1\" o=\"152\">Ante</t> <t t=\"w\" w=\"mare\" i=\"1\" o=\"156\">mare</t> <t t=\"w\" w=\"et\" i=\"3\" o=\"160\">et</t> <t t=\"w\" w=\"terras\" i=\"1\" o=\"162\">terras</t> <t t=\"w\" w=\"et\" i=\"4\" o=\"168\">et</t> <t t=\"w\" w=\"quod\" i=\"1\" o=\"170\">quod</t> <t t=\"w\" w=\"tegit\" i=\"1\" o=\"174\">tegit</t> <t t=\"w\" w=\"omnia\" i=\"1\" o=\"179\">omnia</t> <t t=\"w\" w=\"caelum\" i=\"1\" o=\"184\">caelum</t></text-part></text-part></div>\n",
+    "urn": "urn:cts:latinLit:phi0959.phi006.perseus-lat2:1.1-1.5",
+    "word_tokens": [
+      {
+        "i": 1,
+        "o": 2,
+        "t": "w",
+        "w": "In"
+      },
+      {
+        "i": 1,
+        "o": 6,
+        "t": "w",
+        "w": "nova"
+      },
+      {
+        "i": 1,
+        "o": 10,
+        "t": "w",
+        "w": "fert"
+      },
+      {
+        "i": 1,
+        "o": 16,
+        "t": "w",
+        "w": "animus"
+      },
+      {
+        "i": 1,
+        "o": 23,
+        "t": "w",
+        "w": "mutatas"
+      },
+      {
+        "i": 1,
+        "o": 29,
+        "t": "w",
+        "w": "dicere"
+      },
+      {
+        "i": 1,
+        "o": 35,
+        "t": "w",
+        "w": "formas"
+      },
+      {
+        "i": 1,
+        "o": 42,
+        "t": "w",
+        "w": "corpora"
+      },
+      {
+        "i": 2,
+        "o": 45,
+        "t": "w",
+        "w": "di"
+      },
+      {
+        "i": 1,
+        "o": 53,
+        "t": "w",
+        "w": "coeptis"
+      },
+      {
+        "i": 1,
+        "o": 57,
+        "t": "w",
+        "w": "nam"
+      },
+      {
+        "i": 1,
+        "o": 60,
+        "t": "w",
+        "w": "vos"
+      },
+      {
+        "i": 1,
+        "o": 68,
+        "t": "w",
+        "w": "mutastis"
+      },
+      {
+        "i": 1,
+        "o": 70,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 75,
+        "t": "w",
+        "w": "illas"
+      },
+      {
+        "i": 1,
+        "o": 85,
+        "t": "w",
+        "w": "adspirate"
+      },
+      {
+        "i": 1,
+        "o": 89,
+        "t": "w",
+        "w": "meis"
+      },
+      {
+        "i": 1,
+        "o": 97,
+        "t": "w",
+        "w": "primaque"
+      },
+      {
+        "i": 1,
+        "o": 99,
+        "t": "w",
+        "w": "ab"
+      },
+      {
+        "i": 1,
+        "o": 106,
+        "t": "w",
+        "w": "origine"
+      },
+      {
+        "i": 1,
+        "o": 111,
+        "t": "w",
+        "w": "mundi"
+      },
+      {
+        "i": 2,
+        "o": 113,
+        "t": "w",
+        "w": "ad"
+      },
+      {
+        "i": 1,
+        "o": 116,
+        "t": "w",
+        "w": "mea"
+      },
+      {
+        "i": 1,
+        "o": 125,
+        "t": "w",
+        "w": "perpetuum"
+      },
+      {
+        "i": 1,
+        "o": 133,
+        "t": "w",
+        "w": "deducite"
+      },
+      {
+        "i": 1,
+        "o": 140,
+        "t": "w",
+        "w": "tempora"
+      },
+      {
+        "i": 1,
+        "o": 146,
+        "t": "w",
+        "w": "carmen"
+      },
+      {
+        "i": 1,
+        "o": 151,
+        "t": "w",
+        "w": "Ante"
+      },
+      {
+        "i": 1,
+        "o": 155,
+        "t": "w",
+        "w": "mare"
+      },
+      {
+        "i": 3,
+        "o": 157,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 163,
+        "t": "w",
+        "w": "terras"
+      },
+      {
+        "i": 4,
+        "o": 165,
+        "t": "w",
+        "w": "et"
+      },
+      {
+        "i": 1,
+        "o": 169,
+        "t": "w",
+        "w": "quod"
+      },
+      {
+        "i": 1,
+        "o": 174,
+        "t": "w",
+        "w": "tegit"
+      },
+      {
+        "i": 1,
+        "o": 179,
+        "t": "w",
+        "w": "omnia"
+      },
+      {
+        "i": 1,
+        "o": 185,
+        "t": "w",
+        "w": "caelum"
+      }
+    ]
+  }
+}
