@@ -215,9 +215,27 @@ Browser uploads of files over a gigabyte tend to be less reliable than `gh`.
 
 ## Fetching a package from the release
 
-Every asset is at
+The short way is the script, from the root of this repo:
+
+```
+bash scripts/fetch-audio.sh --list          # the 15 short names
+bash scripts/fetch-audio.sh hesiod hymns    # just these
+bash scripts/fetch-audio.sh all             # 4.4 GB down, the same again on disk
+docker exec -u scaife scaife-viewer python manage.py ingest_audio
+```
+
+It skips packages that are already staged, and unpacks into a hidden
+`.partial` folder that is renamed only when complete, so an interrupted
+run leaves nothing half-staged. `SCAIFE_AUDIO_SOURCES` changes the
+destination and `SCAIFE_AUDIO_RELEASE` the tag (default `audio-v1`).
+Tested on macOS with bash 3.2 on 2026-10-01: one package fetched into a
+scratch folder (tree identical to the source zip), the re-run skip, an
+unknown name, a folder with no manifest and a missing release tag. The
+checksum-mismatch and interrupted-run paths, and Linux, are untested.
+
+The script does the following by hand. Every asset is at
 `https://github.com/<REPO>/releases/download/<TAG>/<filename>`, with no
-login needed. From the root of this repo:
+login needed:
 
 ```
 REPO=threedlite/scaife-local
@@ -259,7 +277,5 @@ report are described under "Audio" in `README.md`.
 - Merge `feature/audio` into `main`. The release notes send readers to
   `AUDIO-RELEASE.md` and `audio-manifests/`, which the default branch does
   not have until then.
-- Optional: an opt-in step in `scripts/fetch-data.sh` (for example
-  `SCAIFE_AUDIO_PACKAGES="hesiod hymns"`) that runs the fetch for each
-  named package. It should stay opt-in: the default bring-up is about 3 GB
-  and the full audio set would more than double it.
+- Thirteen of the 15 packages have never been through a real ingest (only
+  Hesiod and Bion have).

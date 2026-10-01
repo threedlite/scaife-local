@@ -9,6 +9,7 @@ or `atlas.perseus.tufts.edu`.
 - `deps/` — cloned code dependencies (`.gitignore`d; auto-fetched)
 - `sv-data/` — host-side working tree bind-mounted into the container (CTS staging + sentinels + ATLAS DB)
 - `scripts/fetch-data.sh` — one-time fetch of everything in `deps/` and `data-sources/`
+- `scripts/fetch-audio.sh` — optional: fetch line-by-line audio packages from the `audio-v1` release (see "Audio")
 - `bootstrap.sh` — end-to-end Docker Compose bring-up (calls `fetch-data.sh` on first run)
 - `deploy/docker-compose.override.local.yml` (inside the main app) — local overrides
 
@@ -913,26 +914,24 @@ the three `perseus-grc2` editions line for line (measured 2026-09-30).
 The zips are too large for the repo itself, so all 15 are attached to the
 GitHub release
 [`audio-v1`](https://github.com/threedlite/scaife-local/releases/tag/audio-v1)
-(4.35 GB in total; no login needed). To fetch and stage one, from the root
-of this repo:
+(4.35 GB in total; no login needed). `scripts/fetch-audio.sh` downloads
+the ones you name, checks each against the release's `SHA256SUMS`, unpacks
+it under `data-sources/audio/` (or `$SCAIFE_AUDIO_SOURCES`) and puts the
+matching manifest beside it:
 
 ```
-PKG=hesiod_chamberlain_tts_female_lettered
-BASE=https://github.com/threedlite/scaife-local/releases/download/audio-v1
-
-curl -fL -O "$BASE/$PKG.zip" -O "$BASE/SHA256SUMS"
-grep " $PKG.zip" SHA256SUMS | shasum -a 256 -c -     # expect "<PKG>.zip: OK"
-
-mkdir -p "data-sources/audio/$PKG"
-unzip -q "$PKG.zip" -d "data-sources/audio/$PKG"
-cp "audio-manifests/$PKG.package.yaml" "data-sources/audio/$PKG/package.yaml"
-rm "$PKG.zip" SHA256SUMS
+bash scripts/fetch-audio.sh --list          # the 15 short names
+bash scripts/fetch-audio.sh hesiod hymns    # just these
+bash scripts/fetch-audio.sh all             # 4.4 GB down, the same again on disk
 ```
 
-Set `PKG` to any file name in `audio-manifests/` (without
-`.package.yaml`) for the other packages. These steps were run on
-2026-10-01 for Hesiod and Bion; `AUDIO-RELEASE.md` records what was
-measured and how the release was made.
+It is opt-in (`bootstrap.sh` never calls it), needs `curl` and `unzip`,
+and skips anything already staged, so it is safe to re-run. Run it before
+the first `bootstrap.sh` and the first boot ingests the packages; on a
+running stack, follow it with the ingest command below. Tested on macOS
+(bash 3.2) on 2026-10-01 by fetching one package; Linux and Windows are
+untested. `AUDIO-RELEASE.md` gives the same steps by hand and records how
+the release was made.
 
 ### Ingest
 

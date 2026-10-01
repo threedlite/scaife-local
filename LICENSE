@@ -66,6 +66,7 @@ Newly authored SOFTWARE files covered by the MIT grant above:
   - .gitattributes
   - bootstrap.sh
   - scripts/fetch-data.sh
+  - scripts/fetch-audio.sh
   - scripts/run-tests.sh
   - scripts/lint.sh
   - scripts/sbom-refresh.sh
