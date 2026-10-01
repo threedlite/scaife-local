@@ -25,7 +25,7 @@ class MigrationStateTests(TestCase):
         """A Django upgrade can change how fields deconstruct, leaving model
         state and migrations out of sync. Scoped to the apps this repo owns,
         since upstream apps carry their own drift."""
-        for app_label in ["localdict", "localcomm"]:
+        for app_label in ["localaudio", "localdict", "localcomm"]:
             with self.subTest(app=app_label):
                 out = StringIO()
                 try:

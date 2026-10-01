@@ -82,6 +82,15 @@ if [ ! -f "${SENTINEL_DIR}/.commentaries_ingested" ] && [ -d /host-commentaries 
     python manage.py ingest_commentaries && touch "${SENTINEL_DIR}/.commentaries_ingested"
 fi
 
+# Line-level audio packages (sv_pdl/localaudio): the sample package tracked
+# in the repo (/host-audio-samples) plus whatever the user staged under
+# ${SCAIFE_AUDIO_SOURCES} (/host-audio). Both mounts exist only under the
+# local override; with no package.yaml under either the command is a no-op
+# and the sentinel is still written.
+if [ ! -f "${SENTINEL_DIR}/.audio_ingested" ] && { [ -d /host-audio ] || [ -d /host-audio-samples ]; }; then
+    python manage.py ingest_audio && touch "${SENTINEL_DIR}/.audio_ingested"
+fi
+
 if [ ! -f "${SENTINEL_DIR}/.search_indexed" ]; then
     curl -X PUT "http://${SV_OPENSEARCH_HOST}:${SV_OPENSEARCH_PORT}/_template/scaife-viewer?pretty" -H 'Content-Type: application/json' -d "$(cat deploy/scaife-viewer-opensearch-template.json)"
     # Index the FULL corpus by default (SV_INDEXER_LIMIT=0 means "no

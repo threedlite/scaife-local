@@ -109,6 +109,7 @@
           <widget-perseus-dictionary />
           <widget-perseus-commentary />
           <widget-display-settings />
+          <widget-audio />
           <widget-token-list />
           <widget-new-alexandria-commentary />
         </template>
@@ -143,6 +144,7 @@ import WidgetMorpheus from './widgets/WidgetMorpheus.vue';
 import WidgetWordList from './widgets/WidgetWordList.vue';
 import WidgetTokenList from './widgets/WidgetTokenList.vue';
 import WidgetNewAlexandriaCommentary from './widgets/WidgetNewAlexandriaCommentary.vue';
+import WidgetAudio from './widgets/WidgetAudio.vue';
 
 const widgets = {
   WidgetDisplaySettings,
@@ -161,6 +163,7 @@ const widgets = {
   WidgetMorpheus,
   WidgetWordList,
   WidgetTokenList,
+  WidgetAudio,
   'widget-new-alexandria-commentary': WidgetNewAlexandriaCommentary,
 };
 

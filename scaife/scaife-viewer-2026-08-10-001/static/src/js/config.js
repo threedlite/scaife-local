@@ -5,7 +5,7 @@ import { MODULE_NS as SHIM_MODULE_NS } from '@scaife-viewer/store';
 import createStoreShim from './v2/store';
 
 
-import { library, reader } from './vuex';
+import { audio, library, reader } from './vuex';
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -14,6 +14,7 @@ const scaifeStoreShim = createStoreShim();
 export default function createStore() {
   return {
     modules: {
+      audio,
       library,
       reader,
       [scaifeWidgets.namespace]: scaifeWidgets.store,
@@ -25,6 +26,7 @@ export default function createStore() {
           'reader.sidebarLeftOpened',
           'reader.sidebarRightOpened',
           'reader.textMode',
+          'audio.continuous',
         ],
         storage: window.localStorage,
       }),

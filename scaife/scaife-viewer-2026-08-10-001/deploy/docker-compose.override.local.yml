@@ -97,3 +97,10 @@ services:
       - ${SCAIFE_REPO_ROOT}/deps/lexica:/host-lexica:ro
       # Open-Commentaries markdown sources (MIT) for commentary ingest.
       - ${SCAIFE_REPO_ROOT}/deps:/host-commentaries:ro
+      # Line-level audio packages (CC BY-SA 4.0), one directory per package
+      # with a package.yaml. bootstrap.sh defaults this to
+      # ${SCAIFE_DATA_SOURCES}/audio; an empty or absent directory is fine.
+      - ${SCAIFE_AUDIO_SOURCES}:/host-audio:ro
+      # Sample audio package tracked in this repo (Homeric Hymn 27 to
+      # Artemis, 22 clips) so a fresh clone can demo the feature.
+      - ${SCAIFE_REPO_ROOT}/audio-samples:/host-audio-samples:ro

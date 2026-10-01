@@ -258,6 +258,7 @@ INSTALLED_APPS = [
     "sv_pdl",
     "sv_pdl.atlas",
     "sv_pdl.changelog",
+    "sv_pdl.localaudio",
     "sv_pdl.localcomm",
     "sv_pdl.localdict",
     "sv_pdl.reading",

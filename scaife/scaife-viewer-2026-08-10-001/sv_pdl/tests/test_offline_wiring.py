@@ -11,6 +11,8 @@ from django.conf import settings
 from django.test import SimpleTestCase
 from django.urls import resolve
 
+from sv_pdl.localaudio.views import audio_clip as local_audio_clip
+from sv_pdl.localaudio.views import audio_json as local_audio_json
 from sv_pdl.localcomm.views import commentaries_json as local_commentaries_json
 from sv_pdl.localdict.views import dictionaries_json as local_dictionaries_json
 from sv_pdl.localdict.views import dictionary_entries as local_dictionary_entries
@@ -35,6 +37,18 @@ class UrlWiringTests(SimpleTestCase):
         )
         self.assertIs(match.func, local_commentaries_json)
 
+    def test_audio_routes_use_local_views(self):
+        match = resolve(
+            "/library/audio/urn:cts:greekLit:tlg0020.tlg001.perseus-grc2:1-30/json/"
+        )
+        self.assertIs(match.func, local_audio_json)
+        self.assertIs(
+            resolve(
+                "/library/audio/clip/hesiod/urn:cts:greekLit:tlg0020.tlg001.perseus-grc2/929a/"
+            ).func,
+            local_audio_clip,
+        )
+
     def test_morpheus_route_uses_local_view(self):
         self.assertIs(resolve("/morpheus/").func, morpheus_local)
 
@@ -47,6 +61,7 @@ class UrlWiringTests(SimpleTestCase):
 
 class InstalledAppsTests(SimpleTestCase):
     def test_local_apps_installed(self):
+        self.assertIn("sv_pdl.localaudio", settings.INSTALLED_APPS)
         self.assertIn("sv_pdl.localcomm", settings.INSTALLED_APPS)
         self.assertIn("sv_pdl.localdict", settings.INSTALLED_APPS)
 

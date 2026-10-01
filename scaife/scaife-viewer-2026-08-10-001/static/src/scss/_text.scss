@@ -140,6 +140,25 @@ div.text {
   }
   .textpart {
     display: flex;
+    // Per-line play/stop control (sv_pdl/localaudio). A sibling of the
+    // line-number link, never inside it; dim until the passage is hovered,
+    // like the number, except while its line is playing.
+    & > .audio-toggle {
+      flex: 0 0 auto;
+      width: 18px;
+      padding-top: 4px;
+      font-size: 11px;
+      text-align: center;
+      color: transparent;
+      cursor: pointer;
+      user-select: none;
+      &.playing {
+        color: $gray-700;
+      }
+      &:hover {
+        color: $black;
+      }
+    }
     & > .a {
       &:hover {
         text-decoration: none;
@@ -180,6 +199,9 @@ div.text {
     .textpart {
       > .a {
         color: $gray-600;
+      }
+      > .audio-toggle {
+        color: $gray-500;
       }
     }
   }

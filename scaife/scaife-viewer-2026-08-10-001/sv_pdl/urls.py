@@ -19,6 +19,8 @@ from scaife_viewer.core.views import (
     search,
 )
 
+from .localaudio.views import audio_clip as local_audio_clip
+from .localaudio.views import audio_json as local_audio_json
 from .localcomm.views import commentaries_json as local_commentaries_json
 from .localdict.views import dictionaries_json as local_dictionaries_json
 from .localdict.views import dictionary_entries as local_dictionary_entries
@@ -67,6 +69,14 @@ api_patterns = (
             LibraryPassageView.as_view(format="xml"),
             name="library_passage_xml",
         ),
+        # Line-level audio (sv_pdl/localaudio). Declared before the generic
+        # library/<urn>/ routes so "audio" is never parsed as a URN.
+        path(
+            "library/audio/clip/<slug:slug>/<str:urn>/<str:ref>/",
+            local_audio_clip,
+            name="audio_clip",
+        ),
+        path("library/audio/<str:urn>/json/", local_audio_json, name="audio"),
         path("library/commentaries/<str:urn>/json/", local_commentaries_json, name="commentaries"),
         path("library/dictionaries/json/", local_dictionaries_json, name="dictionaries"),
         path(

@@ -21,6 +21,9 @@
     color: $gray-600 !important;
     background: transparent !important;
   }
+  .textpart > .audio-toggle {
+    display: none;
+  }
   div.text ol > li {
     &:hover {
       list-style: none;

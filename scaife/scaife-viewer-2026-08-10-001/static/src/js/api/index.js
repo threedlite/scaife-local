@@ -51,6 +51,7 @@ export default {
 
     cb({ results });
   }),
+  getAudio: (urn, cb) => HTTP.get(`library/audio/${urn}/json/`).then(r => cb(r.data)),
   getPerseusCommentaryEntries: (urn, params, cb) => HTTP.get(`library/commentaries/${urn}/json/`, { params }).then(r => cb({ ...r.data })),
   searchPerseusDictionary: (dictionarySlug, params, cb) => HTTP.get(`library/dictionaries/${dictionarySlug}/entries/`, {
     params,

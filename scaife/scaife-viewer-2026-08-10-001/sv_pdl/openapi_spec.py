@@ -23,6 +23,7 @@ SPEC = {
         {"name": "morphology", "description": "Form -> lemma parsing (Perseids Morpheus)"},
         {"name": "dictionaries", "description": "LSJ / Middle Liddell / Lewis & Short"},
         {"name": "commentaries", "description": "Open Commentaries on classical texts"},
+        {"name": "audio", "description": "Line-level audio clips (local packages)"},
         {"name": "library", "description": "CTS text catalog + passage retrieval"},
         {"name": "search", "description": "OpenSearch-backed full-text search"},
     ],
@@ -132,6 +133,63 @@ SPEC = {
                             "schema": {"$ref": "#/components/schemas/CommentaryList"}
                         }},
                     }
+                },
+            }
+        },
+
+        # -------- audio --------
+        "/library/audio/{urn}/json/": {
+            "get": {
+                "tags": ["audio"],
+                "summary": "List audio clips for the lines of a passage",
+                "description": (
+                    "Edition-specific: the version URN must match the "
+                    "package's. Returns every clip whose reference lies "
+                    "in the passage range, in reference order, plus the "
+                    "package's licence and attribution. A text with no "
+                    "package gives package: null and an empty list."
+                ),
+                "parameters": [
+                    {"name": "urn", "in": "path", "required": True,
+                     "schema": {"type": "string"},
+                     "example": "urn:cts:greekLit:tlg0020.tlg001.perseus-grc2:1-30"},
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Clips for the passage",
+                        "content": {"application/json": {
+                            "schema": {"$ref": "#/components/schemas/AudioClipList"}
+                        }},
+                    },
+                    "404": {"description": "Not a CTS passage URN"},
+                },
+            }
+        },
+        "/library/audio/clip/{slug}/{urn}/{ref}/": {
+            "get": {
+                "tags": ["audio"],
+                "summary": "Fetch one clip (audio/mp4); supports byte ranges",
+                "description": (
+                    "Addressed by package slug, version URN and reference, "
+                    "so the URL is stable across re-ingests."
+                ),
+                "parameters": [
+                    {"name": "slug", "in": "path", "required": True,
+                     "schema": {"type": "string"},
+                     "example": "hesiod-chamberlain-tts-female-lettered"},
+                    {"name": "urn", "in": "path", "required": True,
+                     "schema": {"type": "string"},
+                     "example": "urn:cts:greekLit:tlg0020.tlg001.perseus-grc2"},
+                    {"name": "ref", "in": "path", "required": True,
+                     "schema": {"type": "string"}, "example": "929a"},
+                    {"name": "Range", "in": "header", "required": False,
+                     "schema": {"type": "string"}, "example": "bytes=0-"},
+                ],
+                "responses": {
+                    "200": {"description": "Whole clip"},
+                    "206": {"description": "Partial content for a single byte range"},
+                    "416": {"description": "Range not satisfiable"},
+                    "404": {"description": "Unknown clip or file missing"},
                 },
             }
         },
@@ -306,6 +364,29 @@ SPEC = {
                 },
             },
 
+            "AudioClipList": {
+                "type": "object",
+                "properties": {
+                    "package": {
+                        "type": "object", "nullable": True,
+                        "properties": {
+                            "slug": {"type": "string"},
+                            "label": {"type": "string"},
+                            "license": {"type": "string"},
+                            "attribution": {"type": "string"},
+                            "source": {"type": "string"},
+                        },
+                    },
+                    "clips": {"type": "array", "items": {
+                        "type": "object",
+                        "properties": {
+                            "ref": {"type": "string", "example": "929a"},
+                            "url": {"type": "string",
+                                    "example": "/library/audio/clip/hesiod-chamberlain-tts-female-lettered/urn:cts:greekLit:tlg0020.tlg001.perseus-grc2/929a/"},
+                        },
+                    }},
+                },
+            },
             "CommentaryList": {
                 "type": "object",
                 "properties": {

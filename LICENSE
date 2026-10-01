@@ -76,6 +76,13 @@ Newly authored SOFTWARE files covered by the MIT grant above:
   - scaife/scaife-viewer-2026-08-10-001/data/content-manifests/local.yaml
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/localdict/**   (whole app)
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/localcomm/**   (whole app)
+  - scaife/scaife-viewer-2026-08-10-001/sv_pdl/localaudio/**  (whole app)
+  - scaife/scaife-viewer-2026-08-10-001/static/src/js/vuex/audio/**
+  - scaife/scaife-viewer-2026-08-10-001/static/src/js/reader/widgets/WidgetAudio.vue
+  - scaife/scaife-viewer-2026-08-10-001/test/WidgetAudio.spec.js
+  (audio-samples/ is data, not software: a CC BY-SA 4.0 audio package from
+  threedlite/hesiod with its attribution notice in package.yaml. It is not
+  covered by this grant; see README "Licenses".)
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/tests/**       (whole test suite)
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/openapi_spec.py
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/swagger.html
@@ -96,7 +103,8 @@ retired at the 2026-08-10 resync):
 Small modifications (still Perseus-derived; the MIT grant covers only the
 lines actually added or changed by Dan Meany, not the surrounding code):
   - sv_pdl/settings.py                    (added STATICFILES_DIRS entry,
-                                           localdict + localcomm apps)
+                                           localdict + localcomm +
+                                           localaudio apps)
   - sv_pdl/urls.py                        (URL routes for new views)
   - sv_pdl/views.py                       (morpheus_local, openapi_json,
                                            swagger_ui, licenses views;

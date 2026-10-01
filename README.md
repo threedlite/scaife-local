@@ -469,6 +469,7 @@ pulls from Docker Hub at runtime.
 | **Morphology** (form → lemma) | `/morpheus/?word=…&lang=…` | `morpheus` container | ✓ |
 | **Dictionaries** (LSJ, Middle Liddell, Lewis & Short) | `/library/dictionaries/…` | Postgres via `sv_pdl/localdict` app | ✓ |
 | **Commentaries** (Nagy et al. on Homer/Pausanias/Pindar) | `/library/commentaries/…/json/` | Postgres via `sv_pdl/localcomm` app | ✓ |
+| **Audio** (line-by-line readings; Hesiod staged, see "Audio") | `/library/audio/…/json/`, `/library/audio/clip/<pkg>/<urn>/<ref>/` | Postgres via `sv_pdl/localaudio` app + mp4 files on the `/host-audio` mount | ✓ |
 
 ### Search index coverage
 
@@ -591,6 +592,7 @@ in under six minutes, indexing everything is the simpler option.
 | Lewis & Short entries | 103,232 |
 | Middle Liddell entries | 36,491 |
 | Commentary entries | 7,656 across 14 named commentaries |
+| Audio clips | 22 bundled (Homeric Hymn 27 sample) + 2,352 when the Hesiod package is staged (see "Audio") |
 | Searchable passages | **779,099** (full corpus, the default) |
 
 ## Changes made to the upstream app for offline operation
@@ -692,7 +694,8 @@ if [ ! -f ${SENTINEL_DIR}/.dictionaries_ingested ] && [ -d /host-lexica ]; then
 fi
 ```
 
-...and the same for `.commentaries_ingested` / `/host-commentaries`. The
+...and the same for `.commentaries_ingested` / `/host-commentaries`, and
+for `.audio_ingested` / `/host-audio` (see "Audio"). The
 `-d` guard matters: those bind mounts exist only under the local override,
 so the steps skip cleanly when the same entrypoint runs under the upstream
 or CI compose files. Both commands are idempotent (`get_or_create` on the
@@ -851,6 +854,150 @@ The home page shows no brand line at all; `homepage.html` overrides the
 `site_brand` block with an empty one. That is upstream behaviour and is
 unchanged.
 
+## Audio
+
+The reader can play a recording of each line. One small package ships in
+the repo so a fresh clone can demo it: **Homeric Hymn 27 to Artemis**, 22
+clips, 1.5 MB, under `audio-samples/homeric-hymn-27-artemis/`, taken
+unchanged from the hymns package of the sibling `hesiod` project. Open
+<http://localhost:8000/reader/urn:cts:greekLit:tlg0013.tlg027.perseus-grc2:1-22/>
+and the play icons appear beside every line. The full packages (Hesiod
+alone is 155 MB; all fifteen about 4 GB) are too large for this repo, so
+you stage them on the host and the first boot (or a re-ingest) indexes
+them. The UI follows the Classics Viewer mobile app: a small play icon to the left of
+the line number on every line that has a clip, tap to play, tap again to
+stop, and a "Continuous audio" checkbox in the right-hand **Audio** widget
+that plays the following lines until the end of the page. The widget also
+shows the package's licence and attribution notice. There is no seek bar or
+speed control, by design. `AUDIO-PROPOSAL.md` records the measurements
+behind the design.
+
+### Staging a package
+
+The bundled sample is mounted read-only at `/host-audio-samples` straight
+from the repo and needs no staging. Everything else lives under
+`data-sources/audio/` (override with
+`SCAIFE_AUDIO_SOURCES=/path bash bootstrap.sh`; the directory is created
+if absent and bind-mounted read-only at `/host-audio`). One directory per
+package, holding a `package.yaml` and the clip tree:
+
+```
+data-sources/audio/
+  hesiod_chamberlain_tts_female_lettered/
+    package.yaml
+    Hesiod/Theogony/book_1/line_1.mp4
+    Hesiod/Theogony/book_1/line_929a.mp4
+    …
+```
+
+The manifest maps each `Author/Work` folder to the CTS version URN it was
+read from, because the mp4 tree carries no identifiers of its own. It also
+says whether the text is cited `book.line` (`cited_by_book: true`) or by
+line alone, and carries the package's licence and attribution notice
+verbatim. The staged manifest for Hesiod is the template; Appendix A of
+`AUDIO-PROPOSAL.md` gives the manifest for every other package the same
+project produced (Homeric Hymns, Odyssey, Apollonius, Theocritus, Nonnus and
+others; about 4 GB in all), all of which map onto texts in this corpus.
+
+The Hesiod package is the `hesiod_chamberlain_tts_female_lettered.zip`
+release of the sibling `hesiod` project (CC BY-SA 4.0): a synthesized
+reading in reconstructed pronunciation, AAC in MP4, mono 44.1 kHz, about
+5 s and 67 KB per line, 2,352 clips matching the 2,352 `<l>` elements of
+the three `perseus-grc2` editions line for line (measured 2026-09-30). The
+zip is not in any git remote, so it is copied in by hand:
+
+```
+mkdir -p data-sources/audio/hesiod_chamberlain_tts_female_lettered
+unzip -q hesiod_chamberlain_tts_female_lettered.zip \
+      -d data-sources/audio/hesiod_chamberlain_tts_female_lettered
+# then place package.yaml alongside (see the staged copy for the format)
+```
+
+### Ingest
+
+`deploy/entrypoint.sh` runs `python manage.py ingest_audio` once, gated by
+`sv-data/atlas/sentinels/.audio_ingested`, when `/host-audio` is mounted.
+With no `package.yaml` under the mount it is a no-op. It writes one row per
+clip (path, version URN, reference) and copies nothing; the files are
+served straight from the mount. After staging a package on an existing
+install, run it by hand or delete the sentinel and re-run `bootstrap.sh`:
+
+```
+docker exec -u scaife scaife-viewer python manage.py ingest_audio
+```
+
+It ends with a coverage report per version URN, parsed from the mounted
+TEI directly (TEI lines / clips / missing / extra). Expected for the
+bundled sample and for Hesiod:
+
+```
+      urn:cts:greekLit:tlg0013.tlg027.perseus-grc2: 22 / 22 / 0 / 0
+      urn:cts:greekLit:tlg0020.tlg001.perseus-grc2: 1042 / 1042 / 0 / 0
+      urn:cts:greekLit:tlg0020.tlg002.perseus-grc2: 831 / 831 / 0 / 0
+      urn:cts:greekLit:tlg0020.tlg003.perseus-grc2: 479 / 479 / 0 / 0
+```
+
+Add `--resolver-check` for a fifth column, lines the viewer's own TOC
+cannot address. For the Shield that is 66: its TEI cites lines with a
+direct-child XPath while 66 lines sit inside `<sp>` elements, so they are
+readable inside a page but not linkable individually. Audio is unaffected
+(the lookup is a page range). The fix is a one-line upstream data change,
+written up in `AUDIO-PROPOSAL.md` section 11.1.
+
+### Serving
+
+`GET /library/audio/<passage urn>/json/` returns the clips whose reference
+falls in the passage range, edition-specific, plus the package's licence
+and attribution. `GET /library/audio/clip/<package slug>/<version urn>/<ref>/`
+streams one clip as `audio/mp4` and honours single byte ranges (206),
+which browsers request for every media load and Safari requires. Clips are
+addressed by that natural key rather than a database id, so the URLs are
+the same on every install and survive a re-ingest. Only paths recorded by
+the ingest are ever opened. Requests count against the same 200/min rate
+limit as everything else; a page in continuous mode makes about one
+request per line. The JSON response sits in the site cache for up to 15
+minutes; because the URLs are stable, a re-ingest only delays the
+appearance of *new* clips by that long.
+
+Verified in headless Chrome on the host: the clips decode and play. Firefox
+and Safari are untested.
+
+### 15. Local audio app
+
+Line-by-line audio, keyed by CTS version URN + reference, served from a
+read-only host mount. Not an upstream feature; nothing upstream is
+replaced. See "Audio" above for staging and behaviour.
+
+- `sv_pdl/localaudio/` (new app)
+  - `models.py` — `AudioPackage` (slug, label, licence, verbatim attribution,
+    root directory) and `AudioClip` (version URN, reference, zero-padded
+    sort key from `localcomm.refs.ref_key`, relative path).
+  - `urns.py` — passage-URN split that keeps the edition, and the TEI path
+    behind a version URN on the local CTS mount.
+  - `views.py` — `audio_json` (clips for a passage range) and `audio_clip`
+    (addressed by package slug + version URN + reference; streams one file
+    with single-range 206 support; never opens a path from the request).
+  - `management/commands/ingest_audio.py` — reads `package.yaml` + mp4
+    tree from `/host-audio`, idempotent, prints a TEI coverage report.
+  - `migrations/0001_initial.py`.
+- `sv_pdl/settings.py`, `sv_pdl/urls.py`, `sv_pdl/openapi_spec.py` — app,
+  two routes, spec entries.
+- `deploy/entrypoint.sh` — sentinel-gated `ingest_audio` step;
+  `deploy/docker-compose.override.local.yml` — the `/host-audio:ro` mount;
+  `bootstrap.sh` — `SCAIFE_AUDIO_SOURCES` (default `data-sources/audio`);
+  `audio-samples/` — the tracked Hymn 27 sample package, mounted at
+  `/host-audio-samples` and ingested alongside the staged ones.
+- Frontend: `static/src/js/vuex/audio/` (store module),
+  `reader/widgets/WidgetAudio.vue` (the `<audio>` element, continuous
+  toggle, status, attribution), `reader/TextPart.vue` (per-line play/stop
+  icon in the line-number gutter), `api/index.js` (`getAudio`),
+  `constants.js`, `components/icons.js` (`play`, `stop`), `config.js`
+  (`audio.continuous` persisted), `Reader.vue`, `_text.scss`, `_print.scss`.
+- Tests: `sv_pdl/tests/test_localaudio_views.py`,
+  `test_localaudio_ingest.py`, additions to `test_offline_wiring.py` and
+  `test_upgrade_canaries.py`; `test/WidgetAudio.spec.js` (jest, runs in the
+  image build).
+
 ## Re-ingesting data
 
 Corpora are mounted read-only, so nothing to re-run for text updates.
@@ -861,6 +1008,7 @@ force a rebuild of those tables:
 ```
 docker exec -u scaife scaife-viewer python manage.py ingest_dictionaries --reset
 docker exec -u scaife scaife-viewer python manage.py ingest_commentaries --reset
+docker exec -u scaife scaife-viewer python manage.py ingest_audio --reset
 ```
 
 Use `-u scaife` so the command runs as the same user the app itself runs
@@ -1022,8 +1170,9 @@ My own contributions are split across **two** grants by kind, both in
 `LICENSE`:
 
 - **MIT — software.** `bootstrap.sh`, `scripts/*.sh`, `Dockerfile-local`,
-  `entrypoint-locked.sh`, the two new Django apps under `sv_pdl/localdict/`
-  and `sv_pdl/localcomm/`, the test suite under `sv_pdl/tests/`, the OpenAPI
+  `entrypoint-locked.sh`, the three new Django apps under `sv_pdl/localdict/`,
+  `sv_pdl/localcomm/` and `sv_pdl/localaudio/`, the audio Vuex module and
+  widget, the test suite under `sv_pdl/tests/`, the OpenAPI
   schema, the `licenses.html` / `swagger.html` templates, the compose
   override, and small edits to `sv_pdl/settings.py`, `sv_pdl/urls.py`,
   `sv_pdl/views.py`, `sv_pdl/context_processors.py`, `deploy/entrypoint.sh`,
@@ -1107,6 +1256,7 @@ is under **Creative Commons Attribution-ShareAlike 4.0 International
 | `PerseusDL/canonical-greekLit` | CC BY-SA 4.0 | Ancient Greek texts (Homer, Plato, tragedians, etc.) |
 | `PerseusDL/canonical-latinLit` | CC BY-SA 4.0 | Latin texts (Vergil, Cicero, Ovid, etc.) |
 | `PerseusDL/canonical-pdlrefwk` | CC BY-SA 4.0 | Reference works / dictionaries: Liddell–Scott–Jones, Lewis & Short, Autenrieth, Smith's dictionaries (VIAF-keyed) |
+| `threedlite/hesiod` — `audio-samples/homeric-hymn-27-artemis/` (tracked, 1.5 MB) and any package staged by hand under `data-sources/audio/` | CC BY-SA 4.0 | Synthesized line-by-line readings; the attribution notice (Chamberlain CC BY 4.0 recordings, Perseus texts, Perseus treebank) is kept verbatim in each `package.yaml` and shown in the reader |
 
 CC BY-SA 4.0 obligations if you redistribute or serve these:
 - **Attribution**: credit Perseus Digital Library and preserve copyright notices.

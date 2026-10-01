@@ -12,6 +12,8 @@ export default {
     if (state.error) {
       commit(constants.SET_ERROR, { error: '' });
     }
+    // Silence any clip from the previous page before the new one loads.
+    dispatch(`audio/${constants.AUDIO_STOP}`, null, { root: true });
     const ps = [];
     if (state.versions === null) {
       ps.push(
@@ -72,6 +74,9 @@ export default {
             commit(constants.SET_LEFT_PASSAGE_TEXT, {
               text: passage.text_html,
             });
+            // Audio is keyed to the passage the server actually resolved
+            // (it may have been healed to a different range).
+            dispatch(`audio/${constants.AUDIO_LOAD}`, { urn: passage.urn }, { root: true });
             delete passage.text_html;
             commit(constants.SET_LEFT_PASSAGE, { urn });
             if (leftUrn.reference !== urn.reference) {

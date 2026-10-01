@@ -36,6 +36,14 @@ DATA_SOURCES="${SCAIFE_DATA_SOURCES:-$REPO_ROOT/data-sources}"
 export SCAIFE_REPO_ROOT="$REPO_ROOT"
 export SCAIFE_DATA_SOURCES="$DATA_SOURCES"
 
+# Optional line-level audio packages (see README "Audio"). Any directory
+# works; it is bind-mounted read-only at /host-audio. It is created if
+# absent so the compose mount always has a source, and an empty directory
+# simply means no audio.
+AUDIO_SOURCES="${SCAIFE_AUDIO_SOURCES:-$DATA_SOURCES/audio}"
+mkdir -p "$AUDIO_SOURCES"
+export SCAIFE_AUDIO_SOURCES="$AUDIO_SOURCES"
+
 # --- preflight ---
 if ! command -v docker >/dev/null 2>&1; then
   cat <<EOF >&2
