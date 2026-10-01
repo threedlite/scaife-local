@@ -894,10 +894,13 @@ The manifest maps each `Author/Work` folder to the CTS version URN it was
 read from, because the mp4 tree carries no identifiers of its own. It also
 says whether the text is cited `book.line` (`cited_by_book: true`) or by
 line alone, and carries the package's licence and attribution notice
-verbatim. The staged manifest for Hesiod is the template; Appendix A of
-`AUDIO-PROPOSAL.md` gives the manifest for every other package the same
+verbatim. The manifests for Hesiod and for every other package the same
 project produced (Homeric Hymns, Odyssey, Apollonius, Theocritus, Nonnus and
-others; about 4 GB in all), all of which map onto texts in this corpus.
+others; 15 packages, about 4 GB in all) are tracked in `audio-manifests/`
+as `<package>.package.yaml`; all of them map onto texts in this corpus.
+They were checked against each zip's file listing and the TEI on
+2026-09-30 (the counts are those of `AUDIO-PROPOSAL.md` Appendix A.2), but
+only the Hesiod package has actually been ingested and played.
 
 The Hesiod package is the `hesiod_chamberlain_tts_female_lettered.zip`
 release of the sibling `hesiod` project (CC BY-SA 4.0): a synthesized
@@ -910,8 +913,12 @@ zip is not in any git remote, so it is copied in by hand:
 mkdir -p data-sources/audio/hesiod_chamberlain_tts_female_lettered
 unzip -q hesiod_chamberlain_tts_female_lettered.zip \
       -d data-sources/audio/hesiod_chamberlain_tts_female_lettered
-# then place package.yaml alongside (see the staged copy for the format)
+cp audio-manifests/hesiod_chamberlain_tts_female_lettered.package.yaml \
+   data-sources/audio/hesiod_chamberlain_tts_female_lettered/package.yaml
 ```
+
+`AUDIO-RELEASE.md` describes how the zips could be published as a GitHub
+release so that this step becomes a download; no release exists yet.
 
 ### Ingest
 
@@ -986,7 +993,9 @@ replaced. See "Audio" above for staging and behaviour.
   `deploy/docker-compose.override.local.yml` — the `/host-audio:ro` mount;
   `bootstrap.sh` — `SCAIFE_AUDIO_SOURCES` (default `data-sources/audio`);
   `audio-samples/` — the tracked Hymn 27 sample package, mounted at
-  `/host-audio-samples` and ingested alongside the staged ones.
+  `/host-audio-samples` and ingested alongside the staged ones;
+  `audio-manifests/` — the tracked `package.yaml` for each of the 15 full
+  packages, copied beside a package when it is staged.
 - Frontend: `static/src/js/vuex/audio/` (store module),
   `reader/widgets/WidgetAudio.vue` (the `<audio>` element, continuous
   toggle, status, attribution), `reader/TextPart.vue` (per-line play/stop

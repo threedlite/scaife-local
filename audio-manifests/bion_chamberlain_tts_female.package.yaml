@@ -1,0 +1,89 @@
+# Manifest for the audio package in this directory. Read by
+# `python manage.py ingest_audio` (sv_pdl/localaudio). The mp4 tree carries
+# no identifiers of its own, so this file maps each Author/Work folder to
+# the CTS version URN it was read from. See AUDIO-PROPOSAL.md, Appendix A.
+slug: bion-chamberlain-tts-female
+label: "Bion of Phlossa, synthesized reading (Chamberlain TTS, female voice)"
+license: CC BY-SA 4.0
+source: https://github.com/threedlite/hesiod
+# The two poems are cited by line only; the constant book_1 segment is ignored.
+# The Fragmenta are cited fragment.line and override the default.
+cited_by_book: false
+works:
+  "Bion of Phlossa/Epitaphius Adonis":                   urn:cts:greekLit:tlg0036.tlg001.perseus-grc2
+  "Bion of Phlossa/Epithalamium Achillis et Deidameiae": urn:cts:greekLit:tlg0036.tlg002.perseus-grc2
+  "Bion of Phlossa/Fragmenta":                           {urn: urn:cts:greekLit:tlg0036.tlg003.perseus-grc2, cited_by_book: true}
+# Verbatim from ~/git/hesiod/LICENSE (everything above the legal code).
+# CC BY-SA 4.0 requires this notice to travel with the audio.
+attribution: |
+  Hesiod TTS — license and attribution
+  =====================================
+
+  This project (the synthesized Hesiod audio, the audio package, the trained model
+  weights, the derived tables, and the code and documents in this repository) is
+  released under the Creative Commons Attribution-ShareAlike 4.0 International
+  license (CC BY-SA 4.0). The full legal code follows the attribution notice below.
+
+  Attribution notice
+  ------------------
+
+  This work is derived from the following sources. Anyone redistributing this
+  work or adapting it must keep this notice and give the same credit.
+
+  1. Audio and scansion of the Iliad
+     David Chamberlain, "A Reading of Homer (work in progress)", hypotactic.com,
+     © 2016, 2017 David Chamberlain. Licensed CC BY 4.0
+     (https://creativecommons.org/licenses/by/4.0/).
+     Recordings: https://hypotactic.com/homer/audio/{book}/line_{n}.mp4
+     Reading pages with scansion: https://hypotactic.com/homer/iliad{N}.html
+     Revised scanned pages: https://hypotactic.com/homer/scanned/iliad{N}scanned.html
+     CSV export: https://hypotactic.com/wp-content/uploads/2017/05/IliadAllCSV.zip
+     Project page: https://hypotactic.com/my-reading-of-homer-work-in-progress/
+     The text-to-speech model was trained on these recordings, so the synthesized
+     Hesiod audio is in his voice and follows his pronunciation and prosody. The
+     vowel-length lexicon and the scanner's validation are built on his scansion.
+
+  2. Greek texts
+     Perseus Digital Library, Canonical Greek Literature (canonical-greekLit):
+     Homer, Iliad (urn:cts:greekLit:tlg0012.tlg001.perseus-grc2);
+     Hesiod, Theogony (tlg0020.tlg001.perseus-grc2), Works and Days
+     (tlg0020.tlg002.perseus-grc2), Shield of Heracles (tlg0020.tlg003.perseus-grc2);
+     Homeric Hymns 1–33 (tlg0013.tlg001–tlg033.perseus-grc2).
+     Homer, Odyssey (tlg0012.tlg002) and Epigrams (tlg0012.tlg003); Apollonius Rhodius,
+     Argonautica (tlg0001.tlg001); Theocritus, Idylls (tlg0005.tlg001); Moschus (tlg0035.tlg001–005);
+     Bion (tlg0036.tlg001–003); Callimachus, Hymns (tlg0533.tlg015–018, tlg020); Aratus,
+     Phaenomena (tlg0653.tlg001); Oppian, Halieutica (tlg0023.tlg001); Oppian of Apamea,
+     Cynegetica (tlg0024.tlg001); Quintus Smyrnaeus, Posthomerica (tlg2046.tlg001); Nonnus,
+     Dionysiaca (tlg2045.tlg001); Tryphiodorus (tlg0647.tlg001); Colluthus (tlg4081.tlg001);
+     all perseus-grc2 except Callimachus (perseus-grc3).
+     https://github.com/PerseusDL/canonical-greekLit. Licensed CC BY-SA 4.0.
+     The synthesized audio (Hesiod, the Homeric Hymns and the other hexameter poets) is a reading of these texts.
+
+  3. Morphological treebanks
+     Perseus Ancient Greek Dependency Treebank 2.0 (treebank_data):
+     tlg0012.tlg001, tlg0020.tlg001, tlg0020.tlg002, tlg0020.tlg003.
+     https://github.com/PerseusDL/treebank_data. Licensed CC BY-SA 3.0.
+     Used to extend the vowel-length lexicon by lemma and morphology.
+
+  4. Pronunciation
+     The phonemization follows W. Sidney Allen, Vox Graeca: A Guide to the
+     Pronunciation of Classical Greek, 3rd ed., Cambridge University Press, 1987
+     (a scholarly source; no text reproduced).
+
+  5. Software
+     Montreal Forced Aligner (MIT), PyTorch (BSD), Vocos vocoder with the
+     pretrained charactr/vocos-mel-24khz weights (MIT), Praat/parselmouth (GPL-3,
+     used as a tool, not distributed here).
+
+  6. The released audio packages (*_chamberlain_tts_female.zip) are a signal-
+     processing transformation of the synthesized audio (WORLD vocoder,
+     Masanori Morise, modified BSD; pyworld, MIT): pitch and formants are
+     altered so that the voice is not Chamberlain's; the reading and prosody are
+     his. The unconverted synthesis is not distributed.
+
+  Not used in any output: the Hesiod vocabulary readers at hypotactic.com/hesiod/
+  (CC BY-NC-SA 4.0), consulted for reference only.
+
+  Why ShareAlike: the Hesiod audio is a reading of Perseus texts licensed
+  CC BY-SA, and Chamberlain's CC BY material is compatible with a BY-SA release.
+  CC BY-SA 4.0 is the most permissive license that satisfies both.

@@ -83,6 +83,10 @@ Newly authored SOFTWARE files covered by the MIT grant above:
   (audio-samples/ is data, not software: a CC BY-SA 4.0 audio package from
   threedlite/hesiod with its attribution notice in package.yaml. It is not
   covered by this grant; see README "Licenses".)
+  - audio-manifests/**   (package.yaml manifests for the audio packages:
+    the folder-to-CTS-URN mapping and other fields. The `attribution:`
+    block in each is reproduced verbatim from threedlite/hesiod's LICENSE
+    and is NOT relicensed by this grant.)
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/tests/**       (whole test suite)
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/openapi_spec.py
   - scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/swagger.html
@@ -170,6 +174,8 @@ Documents covered by the CC BY 4.0 grant above:
   - SBOM-2026-08-13.md          (and any later dated SBOM revisions)
   - UPGRADE-IMPACT.md
   - DJANGO-UPGRADE.md
+  - AUDIO-PROPOSAL.md
+  - AUDIO-RELEASE.md
   - scaife/scaife-viewer-2026-08-10-001/.github/workflows/README.md
   - the prose content of
     scaife/scaife-viewer-2026-08-10-001/sv_pdl/templates/licenses.html
@@ -220,6 +226,21 @@ Upstream components (not owned or relicensed by Dan Meany)
     (homer/pausanias/pindar.opencommentaries.org)       MIT
                                                         © 2025–2026 New Alexandria Foundation
 
+  Line-level audio packages — threedlite/hesiod
+    (synthesized readings: the sample tracked under
+    audio-samples/, and any package staged under
+    data-sources/audio/)                                CC BY-SA 4.0
+
+    derived from David Chamberlain, "A Reading of
+    Homer (work in progress)", hypotactic.com — the
+    text-to-speech model was trained on his recordings
+    of the Iliad; the reading and prosody are his       CC BY 4.0
+                                                        © 2016, 2017 David Chamberlain
+
+    The full attribution notice (Chamberlain, the Perseus texts and
+    treebanks, and the tools used) is kept verbatim in each package's
+    package.yaml and must accompany any redistribution of the audio.
+
   Swagger UI static assets                              Apache 2.0
 
   Django, Vue 2, Apollo Client, axios, Bootstrap 4,
@@ -228,6 +249,7 @@ Upstream components (not owned or relicensed by Dan Meany)
 
 For the authoritative license of each upstream project, consult the
 LICENSE / license.md file inside the corresponding directory under
-`deps/`, `data-sources/`, or the app's installed Python site-packages.
+`deps/`, `data-sources/`, or the app's installed Python site-packages
+(for an audio package, the `attribution` block of its package.yaml).
 The /licenses/ page in the running app renders the same summary as a
 browsable HTML table.
