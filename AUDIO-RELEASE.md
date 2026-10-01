@@ -5,12 +5,20 @@ to commit: 15 zips, 4.35 GB, the largest 1.46 GB. This file explains how to
 publish them as **release assets** on GitHub instead, and how a user of this
 repo then fetches them.
 
-**Status: nothing has been published.** As of 2026-09-30 neither
-`threedlite/scaife-local` nor `threedlite/hesiod` has a release (checked
-through the public API). The local steps below (staging, checksums) were run
-on this machine; the `gh release …` and download commands were checked
-against `gh` 2.87.3's help only and are **untested** until the first release
-exists.
+**Status: published.** Release `audio-v1` went live on 2026-10-01 (UTC) at
+<https://github.com/threedlite/scaife-local/releases/tag/audio-v1>, created
+with the commands below (`gh` 2.87.3). What was measured:
+
+- 17 assets, 4,353,375,924 bytes. Every asset's size and the SHA-256 that
+  GitHub reports match the local files.
+- The upload took about 2 minutes on this machine's connection (first
+  asset created 01:38:46Z, last finished 01:40:51Z).
+- The fetch steps were run without a GitHub login for two packages: Hesiod
+  (156 MB in 6 s, checksum OK, unzipped tree identical to the copy staged
+  by hand) and Bion (checksum OK, staged, ingested with 0 missing and 0
+  extra, and a clip served by the viewer was byte-identical to the file in
+  the zip). The other 13 zips have not been downloaded back.
+- `gh release download` and the web-UI route are untested.
 
 ## What a release is, and why it fits
 
@@ -109,8 +117,8 @@ upload commands each be a single line.
 The folder holds symlinks (pointers to the original files) rather than
 copies, which avoids duplicating 4.35 GB on disk. `shasum` and `gh` follow
 the links and read the real files, so what gets uploaded is the actual zip
-under its own name. Tested here: 15 links, checksums in 8 s; the upload
-through a symlink is untested.
+under its own name. Tested here: 15 links, checksums in 8 s, and the
+`audio-v1` upload was made through these links.
 
 ```
 STAGE=~/audio-release-stage
@@ -159,26 +167,23 @@ fetch and ingest a package.
 ### 3. Create a draft, upload, check, publish
 
 Needs the GitHub CLI logged in as someone with write access to the repo
-(`gh auth login`; this machine is currently logged out).
+(`gh auth login`, or `pbpaste | gh auth login --with-token` with a personal
+access token that has the `repo` scope). Each command is a single line, so
+it can be pasted one at a time.
 
 ```
 REPO=threedlite/scaife-local
 TAG=audio-v1
 
 # Draft first: nothing is public and the tag does not exist yet.
-gh release create "$TAG" --repo "$REPO" --draft \
-  --target main \
-  --title "Audio packages v1" \
-  --notes-file "$STAGE/NOTES.md"
+gh release create "$TAG" --repo "$REPO" --draft --target main --title "Audio packages v1" --notes-file "$STAGE/NOTES.md"
 
 # 4.35 GB; expect this to take a while. Safe to re-run after a dropped
 # connection: --clobber replaces any half-uploaded asset of the same name.
-gh release upload "$TAG" --repo "$REPO" --clobber \
-  "$STAGE"/*.zip "$STAGE/SHA256SUMS" "$STAGE/AUDIO-LICENSE"
+gh release upload "$TAG" --repo "$REPO" --clobber "$STAGE"/*.zip "$STAGE/SHA256SUMS" "$STAGE/AUDIO-LICENSE"
 
 # Compare names and sizes with the table above before publishing.
-gh release view "$TAG" --repo "$REPO" --json assets \
-  --jq '.assets[] | [.name, .size] | @tsv'
+gh release view "$TAG" --repo "$REPO" --json assets --jq '.assets[] | [.name, .size] | @tsv'
 
 # Publish. This is the step that creates the tag and makes the URLs live.
 gh release edit "$TAG" --repo "$REPO" --draft=false
@@ -190,12 +195,12 @@ Notes:
   GitHub**; the tag is created there, server-side, when the draft is
   published. No local `git tag` or `git push` is involved.
 - The tag should point at a commit of this repo that can play the audio.
-  When this was written the audio support was on `feature/audio`
-  (`fb9013b`) and not yet on `main` (`8ed5d0a`). Either merge first and
-  keep `--target main`, or pass the full SHA of the audio commit
-  (`--target fb9013b59fdaa98cf06a119457711af6246559b8`). The assets
-  download the same either way; the target only decides which commit the
-  tag and the "Source code" links refer to.
+  Either merge first and keep `--target main`, or pass the full SHA of a
+  pushed commit. `audio-v1` was created the second way, with
+  `--target 683ed18ea92cd23c16def7bdbec1b9d1f9866d88` (the head of
+  `feature/audio`), because the audio support was not yet on `main`. The
+  assets download the same either way; the target only decides which
+  commit the tag and the "Source code" links refer to.
 - Use a tag that names the data, not the code (`audio-v1`, `audio-v2`, …),
   so it cannot collide with a code version tag later.
 - GitHub adds "Source code (zip)" and "(tar.gz)" links for the tagged
@@ -210,9 +215,9 @@ Browser uploads of files over a gigabyte tend to be less reliable than `gh`.
 
 ## Fetching a package from the release
 
-Once published, every asset is at
-`https://github.com/<REPO>/releases/download/<TAG>/<filename>`. From the
-root of this repo:
+Every asset is at
+`https://github.com/<REPO>/releases/download/<TAG>/<filename>`, with no
+login needed. From the root of this repo:
 
 ```
 REPO=threedlite/scaife-local
@@ -249,15 +254,11 @@ report are described under "Audio" in `README.md`.
 - `gh release delete "$TAG" --repo "$REPO"` removes the release and its
   assets but leaves the tag; add `--cleanup-tag` to remove both.
 
-## After the first release is published
+## Still open
 
-Not done yet; listed so they are not forgotten:
-
-- `README.md`, "Staging a package": it currently says the zip "is not in
-  any git remote, so it is copied in by hand". Replace that with the fetch
-  commands above, once they have been run against the real release.
-- `README.md` and this file: replace "untested" with what was measured
-  (upload time, a verified download).
+- Merge `feature/audio` into `main`. The release notes send readers to
+  `AUDIO-RELEASE.md` and `audio-manifests/`, which the default branch does
+  not have until then.
 - Optional: an opt-in step in `scripts/fetch-data.sh` (for example
   `SCAIFE_AUDIO_PACKAGES="hesiod hymns"`) that runs the fetch for each
   named package. It should stay opt-in: the default bring-up is about 3 GB

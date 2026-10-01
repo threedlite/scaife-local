@@ -863,8 +863,8 @@ unchanged from the hymns package of the sibling `hesiod` project. Open
 <http://localhost:8000/reader/urn:cts:greekLit:tlg0013.tlg027.perseus-grc2:1-22/>
 and the play icons appear beside every line. The full packages (Hesiod
 alone is 155 MB; all fifteen about 4 GB) are too large for this repo, so
-you stage them on the host and the first boot (or a re-ingest) indexes
-them. The UI follows the Classics Viewer mobile app: a small play icon to the left of
+you download them from the `audio-v1` GitHub release, stage them on the
+host, and the first boot (or a re-ingest) indexes them. The UI follows the Classics Viewer mobile app: a small play icon to the left of
 the line number on every line that has a clip, tap to play, tap again to
 stop, and a "Continuous audio" checkbox in the right-hand **Audio** widget
 that plays the following lines until the end of the page. The widget also
@@ -899,26 +899,40 @@ project produced (Homeric Hymns, Odyssey, Apollonius, Theocritus, Nonnus and
 others; 15 packages, about 4 GB in all) are tracked in `audio-manifests/`
 as `<package>.package.yaml`; all of them map onto texts in this corpus.
 They were checked against each zip's file listing and the TEI on
-2026-09-30 (the counts are those of `AUDIO-PROPOSAL.md` Appendix A.2), but
-only the Hesiod package has actually been ingested and played.
+2026-09-30 (the counts are those of `AUDIO-PROPOSAL.md` Appendix A.2).
+Only two packages have actually been ingested: Hesiod, played in the
+reader, and Bion, whose clips were fetched from the viewer but not played
+in a browser. The other 13 are untested beyond that check.
 
 The Hesiod package is the `hesiod_chamberlain_tts_female_lettered.zip`
 release of the sibling `hesiod` project (CC BY-SA 4.0): a synthesized
 reading in reconstructed pronunciation, AAC in MP4, mono 44.1 kHz, about
 5 s and 67 KB per line, 2,352 clips matching the 2,352 `<l>` elements of
-the three `perseus-grc2` editions line for line (measured 2026-09-30). The
-zip is not in any git remote, so it is copied in by hand:
+the three `perseus-grc2` editions line for line (measured 2026-09-30).
+
+The zips are too large for the repo itself, so all 15 are attached to the
+GitHub release
+[`audio-v1`](https://github.com/threedlite/scaife-local/releases/tag/audio-v1)
+(4.35 GB in total; no login needed). To fetch and stage one, from the root
+of this repo:
 
 ```
-mkdir -p data-sources/audio/hesiod_chamberlain_tts_female_lettered
-unzip -q hesiod_chamberlain_tts_female_lettered.zip \
-      -d data-sources/audio/hesiod_chamberlain_tts_female_lettered
-cp audio-manifests/hesiod_chamberlain_tts_female_lettered.package.yaml \
-   data-sources/audio/hesiod_chamberlain_tts_female_lettered/package.yaml
+PKG=hesiod_chamberlain_tts_female_lettered
+BASE=https://github.com/threedlite/scaife-local/releases/download/audio-v1
+
+curl -fL -O "$BASE/$PKG.zip" -O "$BASE/SHA256SUMS"
+grep " $PKG.zip" SHA256SUMS | shasum -a 256 -c -     # expect "<PKG>.zip: OK"
+
+mkdir -p "data-sources/audio/$PKG"
+unzip -q "$PKG.zip" -d "data-sources/audio/$PKG"
+cp "audio-manifests/$PKG.package.yaml" "data-sources/audio/$PKG/package.yaml"
+rm "$PKG.zip" SHA256SUMS
 ```
 
-`AUDIO-RELEASE.md` describes how the zips could be published as a GitHub
-release so that this step becomes a download; no release exists yet.
+Set `PKG` to any file name in `audio-manifests/` (without
+`.package.yaml`) for the other packages. These steps were run on
+2026-10-01 for Hesiod and Bion; `AUDIO-RELEASE.md` records what was
+measured and how the release was made.
 
 ### Ingest
 
